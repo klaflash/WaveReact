@@ -6,26 +6,7 @@ import LocationPage from './LocationPage';
 function App() {
   const [currentLocation, setCurrentLocation] = useState('');
   const [inRange, setInRange] = useState({ test: false, Hub: false });
-  // const [currentLocation, setCurrentLocation] = useState(getCurrentLocationFromUrl());
-  // const [inRange, setInRange] = useState(getInRangeFromUrl());
-
-  // function getCurrentLocationFromUrl() {
-  //   const match = window.location.pathname.match(/^\/location\/([^/]+)/);
-  //   return match ? match[1] : '';
-  // }
-
-  // function getInRangeFromUrl() {
-  //   const match = window.location.search.match(/inRange=([^&]+)/);
-  //   console.log('match:', match);
-  //   return match ? JSON.parse(decodeURIComponent(match[1])) : {};
-  // }
-
-  // function getInRangeFromUrl() {
-  //   const match = window.location.search.match(/inRange=([^&]+)/);
-  //   return match ? JSON.parse(decodeURIComponent(match[1])) : {};
-  // }
-
-  //console.log('currentLocation:', currentLocation);
+  
   const locations = [
     { name: 'test', latitude: 26.775044, longitude: -80.032890 },
     { name: 'Hub', latitude: 40.422203, longitude: -86.906227 }

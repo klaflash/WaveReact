@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 function MainPage(props) {
   const [isMobile, setIsMobile] = useState(false);
-  //const [inRange, setInRange] = useState({ test: false, Hub: false });
   const threshold = 0.07;
   const locations = useMemo(() => [
     { name: 'test', latitude: 26.775044, longitude: -80.032890 },
@@ -12,13 +11,12 @@ function MainPage(props) {
 
   const handleLocationClick = useCallback((locationName) => {
     props.setCurrentLocation(locationName);
-    //window.location.href = `/location/:${locationName}`;
   }, [props]);
 
   useEffect(() => {
     const isMobileDevice = /Mobi/.test(navigator.userAgent);
     setIsMobile(isMobileDevice);
-  }, [props, locations, handleLocationClick]);
+  }, [props, locations, handleLocationClick, props.inRange]);
 
   useEffect(() => {
     const degToRad = (deg) => {
@@ -44,8 +42,6 @@ function MainPage(props) {
           newInRange[location.name] = false;
         }
       }
-      console.log(newInRange)
-      //props.setInRange((prevInRange) => ({ ...prevInRange, ...newInRange }));
       props.setInRange(newInRange);
     };
 
@@ -60,12 +56,7 @@ function MainPage(props) {
 
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options);
 
-  }, [locations]);
-
-  useEffect(() => {
-  console.log(props.inRange);
-  }, [props.inRange]);
-
+  }, [locations, props.setInRange, threshold]);
 
   return (
     <div>
