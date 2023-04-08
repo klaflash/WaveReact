@@ -18,22 +18,6 @@ function MainPage(props) {
   useEffect(() => {
     const isMobileDevice = /Mobi/.test(navigator.userAgent);
     setIsMobile(isMobileDevice);
-
-    // for (let location of locations) {
-    //   const node = document.getElementById(`${location.name}`);
-    //   if (!node) {
-    //     const newNode = document.createElement('button');
-    //     newNode.textContent = `${location.name}`;
-    //     newNode.setAttribute('id', `${location.name}`);
-    //     newNode.setAttribute('class', 'location');
-    //     document.getElementById('locations').appendChild(newNode);
-    //     newNode.addEventListener('click', () => {
-    //       //props.setCurrentLocation(location.name);
-    //       handleLocationClick(location.name)
-    //       //window.location.href = `./location.html?location=${encodeURIComponent(location.name)}`;
-    //     });
-    //   }
-    // }
   }, [props, locations, handleLocationClick]);
 
   useEffect(() => {
@@ -60,7 +44,8 @@ function MainPage(props) {
           newInRange[location.name] = false;
         }
       }
-
+      console.log(newInRange)
+      //props.setInRange((prevInRange) => ({ ...prevInRange, ...newInRange }));
       props.setInRange(newInRange);
     };
 
@@ -77,6 +62,10 @@ function MainPage(props) {
 
   }, [locations]);
 
+  useEffect(() => {
+  console.log(props.inRange);
+  }, [props.inRange]);
+
 
   return (
     <div>
@@ -87,7 +76,7 @@ function MainPage(props) {
           <ul>
             {locations.map((location) => (
               <li key={location.name}>
-                <Link to={`/location/${location.name}?inRange=${props.inRange}`} onClick={() => handleLocationClick(location.name)}>
+                <Link to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange))}`} onClick={() => handleLocationClick(location.name)}>
                   {location.name}
                 </Link>
               </li>
