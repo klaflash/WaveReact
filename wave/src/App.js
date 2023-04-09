@@ -15,7 +15,9 @@ function App() {
 
   if (!localStorage.getItem('codeHasRun')) {
     // Run the code here
-    localStorage.setItem('newRatingId', '-1')
+    //localStorage.setItem('newRatingId', '-1')
+    localStorage.setItem('newRatingId', JSON.stringify({}))
+    //localStorage.setItem('newRatingId', null)
     // Set the flag in localStorage to indicate that the code has been run
     localStorage.setItem('codeHasRun', true);
   }

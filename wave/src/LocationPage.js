@@ -10,23 +10,38 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-//localStorage.setItem('newRatingId', '-1')
+//localStorage.setItem('newRatingId', JSON.stringify([{}]))
 let loading = false;
 
-const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score) => {
+const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, location) => {
 
   if (loading) {
     return
   }
   
-  let newRatingId = localStorage.getItem('newRatingId')
+  let newRatingIdObj = JSON.parse(localStorage.getItem('newRatingId'))
+
+  let newRatingId
+
+  if (Object.keys(newRatingIdObj).length == 0 || newRatingIdObj[`${location}`] == null) {
+    newRatingIdObj[`${location}`] = -1;
+    newRatingId = -1;
+  } else {
+    newRatingId = newRatingIdObj[`${location}`]
+  }
+
+  localStorage.setItem('newRatingId', JSON.stringify(newRatingIdObj))
+
+  
+
+  console.log('existing newRatingObj', newRatingIdObj)
   console.log('existing new rating', newRatingId)
   if (newRatingId < 0) {
     loading = true;
     // Insert a new rating
     const { data: newRating, error: insertError } = await supabase
     .from('Ratings')
-    .insert({ m_rating, l_rating, e_rating, score })
+    .insert({ m_rating, l_rating, e_rating, score, location })
     .single()
     .select();
 
@@ -37,14 +52,16 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score) => {
 
     console.log('Inserted new rating:', newRating.id);
     //newRatingId = newRating.id;
-    localStorage.setItem('newRatingId', newRating.id)
+    newRatingIdObj[`${location}`] = newRating.id;
+    //let obj = [{ location : `${newRating.id}`}]
+    localStorage.setItem('newRatingId', JSON.stringify(newRatingIdObj))
     loading = false;
    
   } else {
     // Update an existing rating
     const { data: updatedRating, error } = await supabase
       .from('Ratings')
-      .update({ m_rating, l_rating, e_rating, score })
+      .update({ m_rating, l_rating, e_rating, score, location })
       .eq('id', newRatingId)
       .single();
 
@@ -76,17 +93,17 @@ function LocationPage(props) {
 
   function handleMusicRatingChange(event) {
     setMusicRating(event.target.value);
-    insertOrUpdateRating(event.target.value, lineRating, energyRating, score(musicRating, lineRating, energyRating))
+    insertOrUpdateRating(event.target.value, lineRating, energyRating, score(musicRating, lineRating, energyRating), props.currentLocation)
   }
 
   function handleLineRatingChange(event) {
     setLineRating(event.target.value);
-    insertOrUpdateRating(musicRating, event.target.value, energyRating, score(musicRating, lineRating, energyRating))
+    insertOrUpdateRating(musicRating, event.target.value, energyRating, score(musicRating, lineRating, energyRating), props.currentLocation)
   }
 
   function handleEnergyRatingChange(event) {
     setEnergyRating(event.target.value);
-    insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, energyRating))
+    insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, energyRating), props.currentLocation)
   }
 
   function score(a, b, c) {
@@ -94,7 +111,7 @@ function LocationPage(props) {
   }
 
   return (
-    <div>
+    <div id="main-location-container">
       <h1>{props.currentLocation}</h1>
       <div id="place"></div>
       {!isLocationInRange && (

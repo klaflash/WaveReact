@@ -6,7 +6,8 @@ function MainPage(props) {
   const threshold = 0.09;
   const locations = useMemo(() => [
     { name: 'test', latitude: 26.775044, longitude: -80.032890 },
-    { name: 'Hub', latitude: 40.422203, longitude: -86.906227 }
+    { name: 'Hub', latitude: 40.422203, longitude: -86.906227 },
+    { name: 'Rise', latitude: 40.422677, longitude: -86.906967 }
   ], []);
 
   const handleLocationClick = useCallback((locationName) => {
