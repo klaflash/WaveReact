@@ -93,17 +93,17 @@ function LocationPage(props) {
 
   function handleMusicRatingChange(event) {
     setMusicRating(event.target.value);
-    insertOrUpdateRating(event.target.value, lineRating, energyRating, score(musicRating, lineRating, energyRating), props.currentLocation)
+    insertOrUpdateRating(event.target.value, lineRating, energyRating, score(event.target.value, lineRating, energyRating), props.currentLocation)
   }
 
   function handleLineRatingChange(event) {
     setLineRating(event.target.value);
-    insertOrUpdateRating(musicRating, event.target.value, energyRating, score(musicRating, lineRating, energyRating), props.currentLocation)
+    insertOrUpdateRating(musicRating, event.target.value, energyRating, score(musicRating, event.target.value, energyRating), props.currentLocation)
   }
 
   function handleEnergyRatingChange(event) {
     setEnergyRating(event.target.value);
-    insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, energyRating), props.currentLocation)
+    insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, event.target.value), props.currentLocation)
   }
 
   function score(a, b, c) {
