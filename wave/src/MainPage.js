@@ -60,7 +60,7 @@ function MainPage(props) {
 
   return (
     <div>
-      {!isMobile ?
+      {/* {!isMobile ? */}
         <div id="content">
           <div id="welcome">Welcome to wave</div>
           <div id="locations">Current locations</div>
@@ -74,8 +74,8 @@ function MainPage(props) {
             ))}
           </ul>
         </div> :
-        <div id="not-mobile">Sorry, wave is currently only supported on mobile devices</div>
-      }
+        {/* <div id="not-mobile">Sorry, wave is currently only supported on mobile devices</div> */}
+      {/* } */}
     </div>
   );
 }

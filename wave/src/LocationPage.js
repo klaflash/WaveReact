@@ -33,7 +33,9 @@ function LocationPage(props) {
     <div>
       <h1>{props.currentLocation}</h1>
       <div id="place"></div>
-      <div id="range-message"></div>
+      {!isLocationInRange && (
+        <div id="range-message">Sorry you must be closer to rate this location.</div>
+      )}
       {isLocationInRange && (
         <div id="rating">
           Rating
