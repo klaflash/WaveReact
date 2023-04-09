@@ -1,5 +1,62 @@
 import React, { useState, useEffect } from 'react';
 
+import { createClient } from '@supabase/supabase-js'
+
+//const supabaseUrl = process.env.REACT_APP_PROJECT_URL
+//const supabaseKey = process.env.REACT_APP_API_KEY
+
+const supabaseUrl = "https://cgynrutxxwafteiunwho.supabase.co" 
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNneW5ydXR4eHdhZnRlaXVud2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODEwMDg5MTgsImV4cCI6MTk5NjU4NDkxOH0.kIwLWQB-Z9QFVn7SZgJM5fAfEmWN7dKNkJKYj62kFjw"
+
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+//localStorage.setItem('newRatingId', '-1')
+let loading = false;
+
+const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score) => {
+
+  if (loading) {
+    return
+  }
+  
+  let newRatingId = localStorage.getItem('newRatingId')
+  console.log('existing new rating', newRatingId)
+  if (newRatingId < 0) {
+    loading = true;
+    // Insert a new rating
+    const { data: newRating, error: insertError } = await supabase
+    .from('Ratings')
+    .insert({ m_rating, l_rating, e_rating, score })
+    .single()
+    .select();
+
+    if (insertError) {
+        console.log('Error inserting into Ratings table:', insertError.message);
+        return;
+    }
+
+    console.log('Inserted new rating:', newRating.id);
+    //newRatingId = newRating.id;
+    localStorage.setItem('newRatingId', newRating.id)
+    loading = false;
+   
+  } else {
+    // Update an existing rating
+    const { data: updatedRating, error } = await supabase
+      .from('Ratings')
+      .update({ m_rating, l_rating, e_rating, score })
+      .eq('id', newRatingId)
+      .single();
+
+    if (error) {
+      console.log('Error updating Ratings table:', error.message);
+      return;
+    }
+
+    console.log('Updated rating:', updatedRating);
+  }
+};
+
 function LocationPage(props) {
   const inRange = props.inRange;
   const [isLocationInRange, setIsLocationInRange] = useState(inRange[props.currentLocation] || false);
@@ -19,14 +76,21 @@ function LocationPage(props) {
 
   function handleMusicRatingChange(event) {
     setMusicRating(event.target.value);
+    insertOrUpdateRating(event.target.value, lineRating, energyRating, score(musicRating, lineRating, energyRating))
   }
 
   function handleLineRatingChange(event) {
     setLineRating(event.target.value);
+    insertOrUpdateRating(musicRating, event.target.value, energyRating, score(musicRating, lineRating, energyRating))
   }
 
   function handleEnergyRatingChange(event) {
     setEnergyRating(event.target.value);
+    insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, energyRating))
+  }
+
+  function score(a, b, c) {
+    return Math.round(((parseInt(a) + parseInt(b) + parseInt(c)) / 3) * 10) / 10
   }
 
   return (

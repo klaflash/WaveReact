@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function MainPage(props) {
   const [isMobile, setIsMobile] = useState(false);
-  const threshold = 0.07;
+  const threshold = 0.09;
   const locations = useMemo(() => [
     { name: 'test', latitude: 26.775044, longitude: -80.032890 },
     { name: 'Hub', latitude: 40.422203, longitude: -86.906227 }
