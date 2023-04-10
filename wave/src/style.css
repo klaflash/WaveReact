@@ -2,6 +2,7 @@
     margin: 0;
     border: 0;
     box-sizing: border-box;
+    font-family: Roboto, sans-serif;
 }
 
 body {
@@ -190,7 +191,3 @@ input[type="range"] {
    .slider input[type=”range”]::-webkit-slider-thumb:hover {
     background:#7E6D57;
    }
-  
-  
-
-

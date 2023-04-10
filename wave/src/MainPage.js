@@ -1,5 +1,41 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { createClient } from '@supabase/supabase-js'
+
+//const supabaseUrl = process.env.REACT_APP_PROJECT_URL
+//const supabaseKey = process.env.REACT_APP_API_KEY
+
+const supabaseUrl = "https://cgynrutxxwafteiunwho.supabase.co" 
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNneW5ydXR4eHdhZnRlaXVud2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODEwMDg5MTgsImV4cCI6MTk5NjU4NDkxOH0.kIwLWQB-Z9QFVn7SZgJM5fAfEmWN7dKNkJKYj62kFjw"
+
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+const updateAverages = async () => {
+  const { data: ratings, error } = await supabase.from('Ratings').select('*');
+
+  if (error) {
+    console.error('Error fetching ratings:', error.message);
+    return {};
+  }
+
+  const averages = {};
+
+  ratings.forEach((rating) => {
+    if (averages[rating.location]) {
+      averages[rating.location].totalScore += rating.score;
+      averages[rating.location].count += 1;
+    } else {
+      averages[rating.location] = { totalScore: rating.score, count: 1 };
+    }
+  });
+
+  Object.keys(averages).forEach((location) => {
+    averages[location] = averages[location].totalScore / averages[location].count;
+  });
+
+  return averages;
+};
+
 
 function MainPage(props) {
   const [isMobile, setIsMobile] = useState(false);
@@ -59,6 +95,67 @@ function MainPage(props) {
 
   }, [locations, props.setInRange, threshold]);
 
+  const [averages, setAverages] = useState({});
+
+  useEffect(() => {
+    const getAverages = async () => {
+      const firstAverages = await updateAverages();
+      const secondAverages = await updateAverages();
+      setAverages(secondAverages);
+    };
+    getAverages();
+  
+    const intervalId = setInterval(async () => {
+      const newAverages = await updateAverages();
+      setAverages(newAverages);
+    }, 10000);
+  
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+  
+
+  console.log(averages)
+
+  async function updateAverages() {
+    const { data: ratings, error } = await supabase
+      .from('Ratings')
+      .select('*');
+  
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000); // Get the timestamp 2 hours ago
+    const filteredRatings = ratings.filter((rating) => {
+      const createdAtTimestamp = new Date(rating.created_at).getTime(); // Get the timestamp of the rating's creation time
+      return createdAtTimestamp > twoHoursAgo.getTime(); // Check if the timestamp is after 2 hours ago
+    });
+
+    //console.log(filteredRatings)
+  
+    const averages = {};
+  
+    for (const rating of filteredRatings) {
+      if (!averages[rating.location]) {
+        averages[rating.location] = {
+          totalScore: 0,
+          count: 0,
+          averageScore: 0,
+        };
+      }
+  
+      averages[rating.location].totalScore += rating.score
+      averages[rating.location].count++;
+      averages[rating.location].averageScore = Math.round(
+        averages[rating.location].totalScore / averages[rating.location].count * 10) / 10;
+    }
+  
+    return averages;
+  }
+
   return (
     <div>
       {/* {!isMobile ? */}
@@ -71,10 +168,13 @@ function MainPage(props) {
                 <Link to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange))}`} onClick={() => handleLocationClick(location.name)}>
                   {location.name}
                 </Link>
+                {Object.keys(averages).length !== 0 && (
+                  <span>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</span>
+                )}
               </li>
             ))}
           </ul>
-        </div> :
+        </div>
         {/* <div id="not-mobile">Sorry, wave is currently only supported on mobile devices</div> */}
       {/* } */}
     </div>
