@@ -96,6 +96,7 @@ function MainPage(props) {
   }, [locations, props.setInRange, threshold]);
 
   const [averages, setAverages] = useState({});
+  const [mostRecent, setMostRecent] = useState({});
 
   useEffect(() => {
     const getAverages = async () => {
@@ -117,6 +118,7 @@ function MainPage(props) {
   
 
   console.log(averages)
+  console.log(mostRecent)
 
   async function updateAverages() {
     const { data: ratings, error } = await supabase
@@ -137,8 +139,10 @@ function MainPage(props) {
     //console.log(filteredRatings)
   
     const averages = {};
+    const mostRecent = {};
   
     for (const rating of filteredRatings) {
+      //set averages
       if (!averages[rating.location]) {
         averages[rating.location] = {
           totalScore: 0,
@@ -151,7 +155,19 @@ function MainPage(props) {
       averages[rating.location].count++;
       averages[rating.location].averageScore = Math.round(
         averages[rating.location].totalScore / averages[rating.location].count * 10) / 10;
+
+      //set mostRecent
+      const locationName = rating.location;
+
+      if (!mostRecent[locationName] || rating.created_at > mostRecent[locationName].created_at) {
+        const timeDiff = (new Date() - new Date(rating.created_at)) / (1000 * 60);
+        mostRecent[locationName] = Math.round(timeDiff)
+      }
     }
+
+    //console.log(mostRecent)
+
+    setMostRecent(mostRecent)
   
     return averages;
   }
@@ -170,6 +186,12 @@ function MainPage(props) {
                 </Link>
                 {Object.keys(averages).length !== 0 && (
                   <span>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</span>
+                )}
+                {Object.keys(mostRecent).length !== 0 && (
+                  <span>{mostRecent[location.name]}</span>
+                )}
+                {mostRecent[location.name] && (
+                  <span>minutes ago</span>
                 )}
               </li>
             ))}
