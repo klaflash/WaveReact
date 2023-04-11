@@ -102,13 +102,15 @@ function MainPage(props) {
     const getAverages = async () => {
       const firstAverages = await updateAverages();
       const secondAverages = await updateAverages();
-      setAverages(secondAverages);
+      setAverages(secondAverages[0]);
+      setMostRecent(secondAverages[1])
     };
     getAverages();
   
     const intervalId = setInterval(async () => {
       const newAverages = await updateAverages();
-      setAverages(newAverages);
+      setAverages(newAverages[0]);
+      setMostRecent(newAverages[1])
     }, 10000);
   
     return () => {
@@ -159,17 +161,21 @@ function MainPage(props) {
       //set mostRecent
       const locationName = rating.location;
 
-      if (!mostRecent[locationName] || rating.created_at > mostRecent[locationName].created_at) {
-        const timeDiff = (new Date() - new Date(rating.created_at)) / (1000 * 60);
+      //console.log(rating.created_at)
+
+
+      const timeDiff = (new Date() - new Date(rating.created_at)) / (1000 * 60);
+      if (!mostRecent[locationName] || Math.round(timeDiff) < mostRecent[locationName]) {
+        //const timeDiff = (new Date() - new Date(rating.created_at)) / (1000 * 60);
         mostRecent[locationName] = Math.round(timeDiff)
       }
     }
 
-    //console.log(mostRecent)
+    console.log(mostRecent)
 
-    setMostRecent(mostRecent)
+    const results = [averages, mostRecent]
   
-    return averages;
+    return results;
   }
 
   return (
@@ -187,11 +193,8 @@ function MainPage(props) {
                 {Object.keys(averages).length !== 0 && (
                   <span>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</span>
                 )}
-                {Object.keys(mostRecent).length !== 0 && (
-                  <span>{mostRecent[location.name]}</span>
-                )}
-                {mostRecent[location.name] && (
-                  <span>minutes ago</span>
+                {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] >= 0 && (
+                  <span>{mostRecent[location.name]} min</span>
                 )}
               </li>
             ))}
