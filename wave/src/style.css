@@ -25,10 +25,45 @@ body {
 
 } */
 
+#header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+#logo {
+  font-size: 35px;
+  font-weight: bold;
+}
+
 ul {
+    padding: 0;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.button-link {
+  display: flex;
+  gap: 1rem;
+  padding: 12px 24px;
+  border: 1px solid #ccc;
+  background-color: #eee;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 100%;
+  height: 15vh;
+}
+
+.button-link:hover {
+  background-color: #ddd;
 }
 
 li {
@@ -36,11 +71,44 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    margin-left: 2rem;
-    margin-right: 2rem;
     border-radius: 10px;
+}
+
+.card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 50%;
+}
+
+.bar-name {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.bar-addy {
+  width: max-content;
+  font-size: 18px;
+  border-top: 2px solid grey;
+  padding-left: 2px;
+  padding-right: 6px;
+  padding-top: 3px;
+}
+
+.timestamp {
+  margin-top: auto;
+  font-size: 12px;
+  color: rgb(172, 171, 171);
+  padding-bottom: 3px;
+}
+
+.card-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  font-size: 45px;
+  font-weight: bold;
 }
 
 input[type="range"] {

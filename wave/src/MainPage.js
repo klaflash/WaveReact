@@ -41,9 +41,9 @@ function MainPage(props) {
   const [isMobile, setIsMobile] = useState(false);
   const threshold = 0.09;
   const locations = useMemo(() => [
-    { name: 'test', latitude: 26.775044, longitude: -80.032890 },
-    { name: 'Hub', latitude: 40.422203, longitude: -86.906227 },
-    { name: 'Rise', latitude: 40.422677, longitude: -86.906967 }
+    { name: 'test', latitude: 26.775044, longitude: -80.032890, addy: 'Fake st' },
+    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St' },
+    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St' }
   ], []);
 
   const handleLocationClick = useCallback((locationName) => {
@@ -182,20 +182,25 @@ function MainPage(props) {
     <div>
       {/* {!isMobile ? */}
         <div id="content">
-          <div id="welcome">Welcome to wave</div>
-          <div id="locations">Current locations</div>
+          <div id="header">
+            <div id='logo'>Wave</div>
+          </div>
           <ul>
             {locations.map((location) => (
               <li key={location.name}>
-                <Link to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange))}`} onClick={() => handleLocationClick(location.name)}>
-                  {location.name}
+                <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange))}`} onClick={() => handleLocationClick(location.name)}>
+                  <div className='card-left'>
+                    <div className='bar-name'>{location.name}</div>
+                    <div className='bar-addy'>{location.addy}</div>
+                    {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] >= 0 && (
+                      <div className='timestamp'>Rated {mostRecent[location.name]} minutes ago</div>
+                    )}
+                  </div>
+                  {Object.keys(averages).length !== 0 && (
+                    <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
+                  )}
                 </Link>
-                {Object.keys(averages).length !== 0 && (
-                  <span>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</span>
-                )}
-                {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] >= 0 && (
-                  <span>{mostRecent[location.name]} min</span>
-                )}
+                
               </li>
             ))}
           </ul>
