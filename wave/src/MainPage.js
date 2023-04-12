@@ -41,9 +41,9 @@ function MainPage(props) {
   const [isMobile, setIsMobile] = useState(false);
   const threshold = 0.09;
   const locations = useMemo(() => [
-    { name: 'test', latitude: 26.775044, longitude: -80.032890, addy: 'Fake st' },
-    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St' },
-    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St' }
+    { name: 'test', latitude: 26.775044, longitude: -80.032890, addy: 'Fake st'},
+    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St'},
+    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St'}
   ], []);
 
   const handleLocationClick = useCallback((locationName) => {
@@ -73,6 +73,7 @@ function MainPage(props) {
       for (let location of locations) {
         const dist = distance(degToRad(lat), degToRad(lng), degToRad(location.latitude), degToRad(location.longitude));
         console.log(dist);
+        location['dist'] = dist;
         if (dist < threshold) {
           newInRange[location.name] = true;
         } else {
@@ -80,6 +81,9 @@ function MainPage(props) {
         }
       }
       props.setInRange(newInRange);
+      
+      const sortedLocations = locations.sort((a, b) => a.dist - b.dist);
+      props.setLocations(sortedLocations)
     };
 
     const errorCallback = (error) => {
@@ -93,7 +97,7 @@ function MainPage(props) {
 
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options);
 
-  }, [locations, props.setInRange, threshold]);
+  }, [locations, props.setInRange, props.setLocations, threshold]);
 
   const [averages, setAverages] = useState({});
   const [mostRecent, setMostRecent] = useState({});
