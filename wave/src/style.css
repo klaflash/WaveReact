@@ -112,8 +112,8 @@ li {
 }
 
 #graph-parent {
-  width: 80vw;
-  height: 500px;
+  width: 100vw;
+  height: 30vh;
 }
 
 input[type="range"] {
