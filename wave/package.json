@@ -4,6 +4,8 @@
   "homepage": "https://klaflash.github.io/WaveReact",
   "private": false,
   "dependencies": {
+    "@nivo/bar": "^0.80.0",
+    "@nivo/core": "^0.80.0",
     "@supabase/auth-ui-react": "^0.3.5",
     "@supabase/supabase-js": "^2.15.0",
     "@testing-library/jest-dom": "^5.16.5",

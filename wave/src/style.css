@@ -111,6 +111,11 @@ li {
   font-weight: bold;
 }
 
+#graph-parent {
+  width: 80vw;
+  height: 500px;
+}
+
 input[type="range"] {
     width: 300px;
     background: transparent;
