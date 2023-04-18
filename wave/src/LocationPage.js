@@ -34,8 +34,6 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, locatio
 
   localStorage.setItem('newRatingId', JSON.stringify(newRatingIdObj))
 
-  
-
   console.log('existing newRatingObj', newRatingIdObj)
   console.log('existing new rating', newRatingId)
   if (newRatingId < 0) {
@@ -67,7 +65,7 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, locatio
       .eq('id', newRatingId)
       .single() // Example filter
 
-    console.log (rating)
+    //console.log (rating)
 
     const data = rating.data
 
@@ -75,8 +73,8 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, locatio
     const threshold = now.getTime() - 60000; // Calculate threshold timestamp (60 seconds ago)
     const createdAtTimestamp = Date.parse(data.created_at)
 
-    console.log(threshold)
-    console.log(createdAtTimestamp)
+    //console.log(threshold)
+    //console.log(createdAtTimestamp)
 
     if (createdAtTimestamp >= threshold) {
       //created within last minute, update inital values
@@ -118,10 +116,8 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, locatio
 
     }
 
-    
   }
 };
-
 
 
 const MyResponsiveBar = ({ data /* see data tab */ }) => (
@@ -259,10 +255,37 @@ function LocationPage(props) {
       console.error(error);
       return;
     }
+
+    const updatedData = [];
+
+    for (let i = 0; i < data.length; i++) {
+      const rating = data[i];
+
+      updatedData.push(rating);
+      
+      if (rating.updated_at !== null) {
+        const updatedRating = {
+          created_at: rating.updated_at,
+          m_rating: rating.u_m_rating || rating.m_rating,
+          l_rating: rating.u_l_rating || rating.l_rating,
+          e_rating: rating.u_e_rating || rating.e_rating,
+          score: rating.u_score || rating.score,
+          location: rating.location
+        };
+        
+        updatedData.push(updatedRating);
+      }
+    }
+
+    console.log("updated data")
+    console.log(updatedData)
   
     const now = new Date();
     const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
-    const filteredData = data.filter((row) => row.location === location && new Date(row.created_at) >= twoHoursAgo);
+    const filteredData = updatedData.filter((row) => row.location === location && new Date(row.created_at) >= twoHoursAgo);
+
+    console.log("filtered")
+    console.log(filteredData)
   
     const newData = [];
     for (let i = 0; i < 24; i++) {

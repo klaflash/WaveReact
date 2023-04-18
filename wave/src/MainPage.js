@@ -41,7 +41,7 @@ function MainPage(props) {
   const [isMobile, setIsMobile] = useState(false);
   const threshold = 0.09;
   const locations = useMemo(() => [
-    { name: 'test', latitude: 26.775044, longitude: -80.032890, addy: 'Fake st'},
+    { name: 'Test', latitude: 26.775044, longitude: -80.032890, addy: 'Fake st'},
     { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St'},
     { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St'}
   ], []);
@@ -136,8 +136,32 @@ function MainPage(props) {
       return;
     }
 
+    const updatedRatings = ratings.map(rating => {
+      if (rating.updated_at !== null) {
+        return {
+          created_at: rating.updated_at,
+          m_rating: rating.u_m_rating || rating.m_rating,
+          l_rating: rating.u_l_rating || rating.l_rating,
+          e_rating: rating.u_e_rating || rating.e_rating,
+          score: rating.u_score || rating.score,
+          location: rating.location
+        };
+      } else {
+        return {
+          created_at: rating.created_at,
+          m_rating: rating.m_rating,
+          l_rating: rating.l_rating,
+          e_rating: rating.e_rating,
+          score: rating.score,
+          location: rating.location
+        };
+      }
+    });
+
+    console.log(updatedRatings);
+
     const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000); // Get the timestamp 2 hours ago
-    const filteredRatings = ratings.filter((rating) => {
+    const filteredRatings = updatedRatings.filter((rating) => {
       const createdAtTimestamp = new Date(rating.created_at).getTime(); // Get the timestamp of the rating's creation time
       return createdAtTimestamp > twoHoursAgo.getTime(); // Check if the timestamp is after 2 hours ago
     });
@@ -166,7 +190,6 @@ function MainPage(props) {
       const locationName = rating.location;
 
       //console.log(rating.created_at)
-
 
       const timeDiff = (new Date() - new Date(rating.created_at)) / (1000 * 60);
       if (!mostRecent[locationName] || Math.round(timeDiff) < mostRecent[locationName]) {
