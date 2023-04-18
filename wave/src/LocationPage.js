@@ -355,16 +355,16 @@ function LocationPage(props) {
     <div id="main-location-container">
       <h1>{props.currentLocation}</h1>
       <div id="place"></div>
+      <div id='graph-parent'>
+            {console.log(graphData)}
+          <MyResponsiveBar data={graphData} />
+      </div>
       {!isLocationInRange && (
         <div id="range-message">Sorry you must be closer to rate this location.</div>
       )}
       {isLocationInRange && (
         <div id="rating">
           Rating
-          <div id='graph-parent'>
-            {console.log(graphData)}
-          <MyResponsiveBar data={graphData} />
-          </div>
           <div className='slider'>
             <label className='sliderLabel' htmlFor="music-rating">Music</label>
             <input id="music-rating" type="range" min="0" max="10" value={musicRating} onChange={handleMusicRatingChange} />
