@@ -25,7 +25,7 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, locatio
 
   let newRatingId
 
-  if (Object.keys(newRatingIdObj).length == 0 || newRatingIdObj[`${location}`] == null) {
+  if (Object.keys(newRatingIdObj).length === 0 || newRatingIdObj[`${location}`] == null) {
     newRatingIdObj[`${location}`] = -1;
     newRatingId = -1;
   } else {
@@ -61,18 +61,64 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, locatio
    
   } else {
     // Update an existing rating
-    const { data: updatedRating, error } = await supabase
+    const rating = await supabase
       .from('Ratings')
-      .update({ m_rating, l_rating, e_rating, score, location })
+      .select('created_at')
       .eq('id', newRatingId)
-      .single();
+      .single() // Example filter
 
-    if (error) {
-      console.log('Error updating Ratings table:', error.message);
-      return;
+    console.log (rating)
+
+    const data = rating.data
+
+    const now = new Date(); // Get current timestamp
+    const threshold = now.getTime() - 60000; // Calculate threshold timestamp (60 seconds ago)
+    const createdAtTimestamp = Date.parse(data.created_at)
+
+    console.log(threshold)
+    console.log(createdAtTimestamp)
+
+    if (createdAtTimestamp >= threshold) {
+      //created within last minute, update inital values
+      console.log("One minute update period")
+      const { data: updatedRating, error } = await supabase
+        .from('Ratings')
+        .update({ m_rating, l_rating, e_rating, score, location })
+        .eq('id', newRatingId)
+        .single();
+
+      if (error) {
+        console.log('Error updating Ratings table:', error.message);
+        return;
+      }
+
+      console.log('Updated rating:', updatedRating);
+    } else {
+      //created more than a minute ago. Add update values and timestamp.
+      console.log("created more than a minute ago")
+      const u_m_rating = m_rating;
+      const u_l_rating = l_rating;
+      const u_e_rating = e_rating;
+      const u_score = score;
+      const current = new Date();
+      const updated_at = current.toISOString();
+
+      const { data: updatedRating, error } = await supabase
+        .from('Ratings')
+        .update({ updated_at, u_m_rating, u_l_rating, u_e_rating, u_score, location })
+        .eq('id', newRatingId)
+        .single();
+
+      if (error) {
+        console.log('Error updating Ratings table:', error.message);
+        return;
+      }
+
+      console.log('Updated rating:', updatedRating);
+
     }
 
-    console.log('Updated rating:', updatedRating);
+    
   }
 };
 
