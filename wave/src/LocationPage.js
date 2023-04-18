@@ -359,10 +359,10 @@ function LocationPage(props) {
             {console.log(graphData)}
           <MyResponsiveBar data={graphData} />
       </div>
-      <label class="switch">
-        <input type="checkbox"/>
-        <span class="toggle round"></span>
-      </label>
+      <div class="switch-button">
+        <input class="switch-button-checkbox" type="checkbox"></input>
+        <label class="switch-button-label" for=""><span class="switch-button-label-span">Category</span></label>
+      </div>
       {!isLocationInRange && (
         <div id="range-message">Sorry you must be closer to rate this location.</div>
       )}
