@@ -41,7 +41,7 @@ function MainPage(props) {
   const [isMobile, setIsMobile] = useState(false);
   const threshold = 0.09;
   const locations = useMemo(() => [
-    { name: 'Test', latitude: 26.775044, longitude: -80.032890, addy: 'Fake st'},
+    { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St'},
     { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St'},
     { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St'}
   ], []);
