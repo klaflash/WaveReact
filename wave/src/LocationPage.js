@@ -128,7 +128,7 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
           'line',
           'energy',
           'score',
-          'increse',
+          'increase',
           'decrease'
       ]}
       indexBy="time"
@@ -256,6 +256,7 @@ function LocationPage(props) {
   useEffect(() => {
     // Store the value of isChecked in local storage when it changes
     localStorage.setItem('isChecked', JSON.stringify(isChecked));
+    updateGraphData(props.currentLocation)
   }, [isChecked]);
 
   const handleCheckboxChange = (event) => {
@@ -280,9 +281,19 @@ function LocationPage(props) {
     for (let i = 0; i < data.length; i++) {
       const rating = data[i];
 
-      updatedData.push(rating);
+      
       
       if (rating.updated_at !== null) {
+        const originalRating = {
+          created_at: rating.created_at,
+          m_rating: rating.m_rating,
+          l_rating: rating.l_rating,
+          e_rating: rating.e_rating,
+          score: rating.score,
+          updated_score: rating.u_score,
+          location: rating.location
+        };
+        
         const updatedRating = {
           created_at: rating.updated_at,
           m_rating: rating.u_m_rating || rating.m_rating,
@@ -291,8 +302,11 @@ function LocationPage(props) {
           score: rating.u_score || rating.score,
           location: rating.location
         };
-        
+
+        updatedData.push(originalRating);
         updatedData.push(updatedRating);
+      } else {
+        updatedData.push(rating);
       }
     }
 
@@ -311,7 +325,10 @@ function LocationPage(props) {
       const timeStart = new Date(twoHoursAgo.getTime() + i * 5 * 60 * 1000);
       const timeEnd = new Date(twoHoursAgo.getTime() + (i + 1) * 5 * 60 * 1000);
       const dataInRange = filteredData.filter((row) => new Date(row.created_at) >= timeStart && new Date(row.created_at) < timeEnd);
-  
+      
+      //console.log("Data in range")
+      //console.log(dataInRange)
+
       let musicSum = 0;
       let lineSum = 0;
       let energySum = 0;
@@ -320,15 +337,57 @@ function LocationPage(props) {
         lineSum += dataInRange[j].l_rating;
         energySum += dataInRange[j].e_rating;
       }
-  
-      const dataPoint = {
-        id: i.toString(),
-        music: dataInRange.length > 0 ? Math.round(musicSum / dataInRange.length) : null,
-        line: dataInRange.length > 0 ? Math.round(lineSum / dataInRange.length) : null,
-        energy: dataInRange.length > 0 ? Math.round(energySum / dataInRange.length) : null,
-        time: timeStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-      };
-      newData.push(dataPoint);
+
+      //console.log("Is checked value in updategraphdata")
+      //console.log(isChecked)
+
+      if (!isChecked) {
+        //Category view
+    
+        const dataPoint = {
+          id: i.toString(),
+          music: dataInRange.length > 0 ? Math.round(musicSum / dataInRange.length) : null,
+          line: dataInRange.length > 0 ? Math.round(lineSum / dataInRange.length) : null,
+          energy: dataInRange.length > 0 ? Math.round(energySum / dataInRange.length) : null,
+          time: timeStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        };
+        newData.push(dataPoint);
+      } else {
+        //Update view
+
+        console.log(dataInRange)
+
+        let updated_score = null;
+        for (let j = 0; j < dataInRange.length; j++) {
+          if (dataInRange[j].updated_score) {
+            updated_score += dataInRange[j].updated_score * 3;
+          }
+        }
+
+        let increase = null;
+        let decrease = null;
+        let score = dataInRange.length > 0 ? Math.round(musicSum + lineSum + energySum / dataInRange.length) : null;
+
+        if (updated_score !== null) {
+          if (updated_score > musicSum + lineSum + energySum) {
+            increase = updated_score - (musicSum + lineSum + energySum)
+          } else if (updated_score < musicSum + lineSum + energySum) {
+            decrease = (musicSum + lineSum + energySum) - updated_score
+            score -= decrease;
+          }
+        }
+
+        const dataPoint = {
+          id: i.toString(),
+          score: score,
+          increase: increase,
+          decrease: decrease,
+          time: timeStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        };
+
+        newData.push(dataPoint);
+      }
+      
     }
   
     setGraphData(newData);
