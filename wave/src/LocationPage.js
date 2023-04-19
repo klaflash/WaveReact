@@ -126,14 +126,17 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
       keys={[
           'music',
           'line',
-          'energy'
+          'energy',
+          'score',
+          'increse',
+          'decrease'
       ]}
       indexBy="time"
       margin={{ top: 50, right: 100, bottom: 50, left: 40 }}
       maxValue={30}
       valueScale={{ type: 'linear' }}
       indexScale={{ type: 'band', round: true }}
-      colors={{ scheme: 'paired' }}
+      colors={['rgb(41, 202, 242)', 'rgb(41, 152, 242)', 'rgb(41, 88, 242)', '#222222', '#4aee89', '#ee4a4a']}
       defs={[
           {
               id: 'dots',
@@ -244,6 +247,22 @@ function LocationPage(props) {
   const [energyRating, setEnergyRating] = useState(parseInt(localStorage.getItem(`${props.currentLocation}_energy_rating`)) || 5);
 
   const [graphData, setGraphData] = useState([]);
+  const [isChecked, setIsChecked] = useState(() => {
+    // Initialize the state with the value from local storage, or false if there is no value
+    const storedValue = localStorage.getItem('isChecked');
+    return storedValue !== null ? JSON.parse(storedValue) : false;
+  });
+
+  useEffect(() => {
+    // Store the value of isChecked in local storage when it changes
+    localStorage.setItem('isChecked', JSON.stringify(isChecked));
+  }, [isChecked]);
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  }
+
+  console.log(isChecked)
 
   const updateGraphData = async (location) => {
     const { data, error } = await supabase
@@ -359,9 +378,9 @@ function LocationPage(props) {
             {console.log(graphData)}
           <MyResponsiveBar data={graphData} />
       </div>
-      <div class="switch-button">
-        <input class="switch-button-checkbox" type="checkbox"></input>
-        <label class="switch-button-label" for=""><span class="switch-button-label-span">Category</span></label>
+      <div className="switch-button">
+        <input className="switch-button-checkbox" type="checkbox" checked={isChecked} onChange={handleCheckboxChange} ></input>
+        <label className="switch-button-label" htmlFor=""><span className="switch-button-label-span">Category</span></label>
       </div>
       {!isLocationInRange && (
         <div id="range-message">Sorry you must be closer to rate this location.</div>
