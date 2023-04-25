@@ -378,24 +378,42 @@ function LocationPage(props) {
         console.log(dataInRange)
 
         let updated_score = null;
+        let orginal_score = null;
         for (let j = 0; j < dataInRange.length; j++) {
           if (dataInRange[j].updated_score) {
             updated_score += dataInRange[j].updated_score * 3;
+            orginal_score = dataInRange[j].score
           }
         }
+
+        if (orginal_score) {
+          orginal_score *= 3
+        }
+
+        console.log("VALS")
+        console.log(musicSum)
+        console.log(lineSum)
+        console.log(energySum)
+        console.log(dataInRange.length)
 
         let increase = null;
         let decrease = null;
-        let score = dataInRange.length > 0 ? Math.round(musicSum + lineSum + energySum / dataInRange.length) : null;
-
+        let score = dataInRange.length > 0 ? Math.round((musicSum + lineSum + energySum) / dataInRange.length) : null;
+        
+        console.log(updated_score)
+        console.log(orginal_score)
         if (updated_score !== null) {
-          if (updated_score > musicSum + lineSum + energySum) {
-            increase = updated_score - (musicSum + lineSum + energySum)
-          } else if (updated_score < musicSum + lineSum + energySum) {
-            decrease = (musicSum + lineSum + energySum) - updated_score
+          if (updated_score > orginal_score) {
+            increase = (((musicSum + lineSum + energySum) - orginal_score + updated_score) / dataInRange.length) - score
+          } else if (updated_score < orginal_score) {
+            decrease = score - (((musicSum + lineSum + energySum) - orginal_score + updated_score) / dataInRange.length)
             score -= decrease;
           }
         }
+
+        console.log(increase)
+        console.log(decrease)
+      
 
         const dataPoint = {
           id: i.toString(),
