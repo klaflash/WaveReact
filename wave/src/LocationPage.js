@@ -296,10 +296,10 @@ function LocationPage(props) {
         
         const updatedRating = {
           created_at: rating.updated_at,
-          m_rating: rating.u_m_rating || rating.m_rating,
-          l_rating: rating.u_l_rating || rating.l_rating,
-          e_rating: rating.u_e_rating || rating.e_rating,
-          score: rating.u_score || rating.score,
+          m_rating: rating.u_m_rating !== null ? rating.u_m_rating : rating.m_rating,
+          l_rating: rating.u_l_rating !== null ? rating.u_l_rating : rating.l_rating,
+          e_rating: rating.u_e_rating !== null ? rating.u_e_rating : rating.e_rating,
+          score: rating.u_score !== null ? rating.u_score : rating.score,
           location: rating.location
         };
 
