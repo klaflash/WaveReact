@@ -215,7 +215,7 @@ function MainPage(props) {
           <ul>
             {locations.map((location) => (
               <li key={location.name}>
-                <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange))}`} onClick={() => handleLocationClick(location.name)}>
+                <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)}>
                   <div className='card-left'>
                     <div className='bar-name'>{location.name}</div>
                     <div className='bar-addy'>{location.addy}</div>

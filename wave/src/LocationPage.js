@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useParams } from "react-router-dom";
 
 import { createClient } from '@supabase/supabase-js'
 import { ResponsiveBar } from '@nivo/bar'
@@ -240,11 +241,24 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
 )
 
 function LocationPage(props) {
-  const inRange = props.inRange;
-  const [isLocationInRange, setIsLocationInRange] = useState(inRange[props.currentLocation] || false);
-  const [musicRating, setMusicRating] = useState(parseInt(localStorage.getItem(`${props.currentLocation}_music_rating`)) || 5);
-  const [lineRating, setLineRating] = useState(parseInt(localStorage.getItem(`${props.currentLocation}_line_rating`)) || 5);
-  const [energyRating, setEnergyRating] = useState(parseInt(localStorage.getItem(`${props.currentLocation}_energy_rating`)) || 5);
+
+  const locationz = useLocation();
+  const searchParams = new URLSearchParams(locationz.search);
+  const inRange = searchParams.get("inRange");
+  const { locationName } = useParams();
+  const currentLocation = locationName
+
+  //const inRange = props.inRange;
+  console.log("IN RANGE")
+  console.log(inRange)
+  //const [isLocationInRange, setIsLocationInRange] = useState(inRange[props.currentLocation] || false);
+  const [isLocationInRange, setIsLocationInRange] = useState(inRange);
+  const [musicRating, setMusicRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_music_rating`)) || 5);
+  const [lineRating, setLineRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_line_rating`)) || 5);
+  const [energyRating, setEnergyRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_energy_rating`)) || 5);
+
+  console.log("Location in range")
+  console.log(isLocationInRange)
 
   const [graphData, setGraphData] = useState([]);
   const [isChecked, setIsChecked] = useState(() => {
@@ -254,9 +268,15 @@ function LocationPage(props) {
   });
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(locationz.search);
+    const inRange = searchParams.get("inRange");
+    setIsLocationInRange(inRange)
+  }, []);
+
+  useEffect(() => {
     // Store the value of isChecked in local storage when it changes
     localStorage.setItem('isChecked', JSON.stringify(isChecked));
-    updateGraphData(props.currentLocation)
+    updateGraphData(currentLocation)
   }, [isChecked]);
 
   const handleCheckboxChange = (event) => {
@@ -393,36 +413,33 @@ function LocationPage(props) {
     setGraphData(newData);
   };
 
-  React.useEffect(() => {
-    setIsLocationInRange(inRange[props.currentLocation] || false);
-  }, [inRange, props.currentLocation]);
 
   useEffect(() => {
-    updateGraphData(props.currentLocation)
+    updateGraphData(currentLocation)
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(`${props.currentLocation}_music_rating`, musicRating);
-    localStorage.setItem(`${props.currentLocation}_line_rating`, lineRating);
-    localStorage.setItem(`${props.currentLocation}_energy_rating`, energyRating);
-  }, [musicRating, lineRating, energyRating, props.currentLocation]);
+    localStorage.setItem(`${currentLocation}_music_rating`, musicRating);
+    localStorage.setItem(`${currentLocation}_line_rating`, lineRating);
+    localStorage.setItem(`${currentLocation}_energy_rating`, energyRating);
+  }, [musicRating, lineRating, energyRating, currentLocation]);
 
   function handleMusicRatingChange(event) {
     setMusicRating(event.target.value);
-    insertOrUpdateRating(event.target.value, lineRating, energyRating, score(event.target.value, lineRating, energyRating), props.currentLocation)
-    updateGraphData(props.currentLocation)
+    insertOrUpdateRating(event.target.value, lineRating, energyRating, score(event.target.value, lineRating, energyRating), currentLocation)
+    updateGraphData(currentLocation)
   }
 
   function handleLineRatingChange(event) {
     setLineRating(event.target.value);
-    insertOrUpdateRating(musicRating, event.target.value, energyRating, score(musicRating, event.target.value, energyRating), props.currentLocation)
-    updateGraphData(props.currentLocation)
+    insertOrUpdateRating(musicRating, event.target.value, energyRating, score(musicRating, event.target.value, energyRating), currentLocation)
+    updateGraphData(currentLocation)
   }
 
   function handleEnergyRatingChange(event) {
     setEnergyRating(event.target.value);
-    insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, event.target.value), props.currentLocation)
-    updateGraphData(props.currentLocation)
+    insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, event.target.value), currentLocation)
+    updateGraphData(currentLocation)
   }
 
   function score(a, b, c) {
@@ -434,17 +451,18 @@ function LocationPage(props) {
       <h1>{props.currentLocation}</h1>
       <div id="place"></div>
       <div id='graph-parent'>
-            {console.log(graphData)}
+            {console.log(graphData, isLocationInRange)}
           <MyResponsiveBar data={graphData} />
       </div>
       <div className="switch-button">
         <input className="switch-button-checkbox" type="checkbox" checked={isChecked} onChange={handleCheckboxChange} ></input>
         <label className="switch-button-label" htmlFor=""><span className="switch-button-label-span">Category</span></label>
       </div>
-      {!isLocationInRange && (
+      {console.log("WHY", isLocationInRange)}
+      {isLocationInRange === "false" && (
         <div id="range-message">Sorry you must be closer to rate this location.</div>
       )}
-      {isLocationInRange && (
+      {isLocationInRange === "true" && (
         <div id="rating">
           Rating
           <div className='slider'>

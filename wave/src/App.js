@@ -9,8 +9,9 @@ function App() {
   const [inRange, setInRange] = useState({ test: false, Hub: false });
 
   const [locations, setLocations] = useState([
-    { name: 'test', latitude: 26.775044, longitude: -80.032890 },
-    { name: 'Hub', latitude: 40.422203, longitude: -86.906227 }
+    { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St'},
+    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St'},
+    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St'}
   ]);
 
   if (!localStorage.getItem('codeHasRun')) {
@@ -25,7 +26,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainPage setCurrentLocation={setCurrentLocation} setLocations={setLocations} setInRange={setInRange}/>} />
+        <Route path="/" element={<MainPage setCurrentLocation={setCurrentLocation} setLocations={setLocations} setInRange={setInRange} inRange={inRange}/>} />
         <Route path="/location/:locationName" element={<LocationPage currentLocation={currentLocation} inRange={inRange} />} />
       </Routes>
     </Router>
