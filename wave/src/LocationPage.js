@@ -464,19 +464,133 @@ function LocationPage(props) {
     return Math.round(((parseInt(a) + parseInt(b) + parseInt(c)) / 3) * 10) / 10
   }
 
+  const [averages, setAverages] = useState({});
+
+  useEffect(() => {
+    const getAverages = async () => {
+      const firstAverages = await updateAverages();
+      const secondAverages = await updateAverages();
+      setAverages(secondAverages);
+    };
+    getAverages();
+  
+    const intervalId = setInterval(async () => {
+      const newAverages = await updateAverages();
+      setAverages(newAverages);
+    }, 10000);
+  
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  async function updateAverages() {
+    const { data: ratings, error } = await supabase
+      .from('Ratings')
+      .select('*');
+  
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const updatedRatings = ratings.map(rating => {
+      if (rating.updated_at !== null) {
+        return {
+          created_at: rating.updated_at,
+          m_rating: rating.u_m_rating || rating.m_rating,
+          l_rating: rating.u_l_rating || rating.l_rating,
+          e_rating: rating.u_e_rating || rating.e_rating,
+          score: rating.u_score || rating.score,
+          location: rating.location
+        };
+      } else {
+        return {
+          created_at: rating.created_at,
+          m_rating: rating.m_rating,
+          l_rating: rating.l_rating,
+          e_rating: rating.e_rating,
+          score: rating.score,
+          location: rating.location
+        };
+      }
+    });
+
+    console.log(updatedRatings);
+
+    const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000); // Get the timestamp 2 hours ago
+    const filteredRatings = updatedRatings.filter((rating) => {
+      const createdAtTimestamp = new Date(rating.created_at).getTime(); // Get the timestamp of the rating's creation time
+      return createdAtTimestamp > twoHoursAgo.getTime(); // Check if the timestamp is after 2 hours ago
+    });
+
+    console.log("FILTERED RATINGSS")
+    console.log(filteredRatings)
+  
+    const averages = {};
+  
+    for (const rating of filteredRatings) {
+      //set averages
+      if (!averages[rating.location]) {
+        averages[rating.location] = {
+          totalScore: 0,
+          count: 0,
+          averageScore: 0,
+          averageM: 0,
+          averageE: 0,
+          averageL: 0
+        };
+      }
+  
+      averages[rating.location].totalScore += rating.score
+      averages[rating.location].averageM += rating.m_rating
+      averages[rating.location].averageE += rating.e_rating
+      averages[rating.location].averageL += rating.l_rating
+      averages[rating.location].count++;
+
+      averages[rating.location].averageScore = Math.round(
+        averages[rating.location].totalScore / averages[rating.location].count * 10) / 10;
+
+      averages[rating.location].averageM = Math.round(
+        averages[rating.location].averageM / averages[rating.location].count * 10) / 10;
+
+      averages[rating.location].averageE = Math.round(
+        averages[rating.location].averageE / averages[rating.location].count * 10) / 10;
+
+      averages[rating.location].averageL = Math.round(
+        averages[rating.location].averageL / averages[rating.location].count * 10) / 10;
+    }
+
+
+    const results = averages
+  
+    return results;
+  }
+
   return (
     <div id="main-location-container">
       <h1>{props.currentLocation}</h1>
+      {Object.keys(averages).length !== 0 && (
+        <div>
+          <div>Score</div>
+          <div className='idkyet'>{averages && averages[props.currentLocation] ? averages[props.currentLocation]['averageScore'] : ''}</div>
+          <div>Music</div>
+          <div className='idkyet'>{averages && averages[props.currentLocation] ? averages[props.currentLocation]['averageM'] : ''}</div>
+          <div>Energy</div>
+          <div className='idkyet'>{averages && averages[props.currentLocation] ? averages[props.currentLocation]['averageE'] : ''}</div>
+          <div>Line</div>
+          <div className='idkyet'>{averages && averages[props.currentLocation] ? averages[props.currentLocation]['averageL'] : ''}</div>
+        </div>
+      )}
       <div id="place"></div>
       <div id='graph-parent'>
-            {console.log(graphData, isLocationInRange)}
+            {console.log(graphData)}
           <MyResponsiveBar data={graphData} />
       </div>
       <div className="switch-button">
         <input className="switch-button-checkbox" type="checkbox" checked={isChecked} onChange={handleCheckboxChange} ></input>
         <label className="switch-button-label" htmlFor=""><span className="switch-button-label-span">Category</span></label>
       </div>
-      {console.log("WHY", isLocationInRange)}
       {isLocationInRange === "false" && (
         <div id="range-message">Sorry you must be closer to rate this location.</div>
       )}
