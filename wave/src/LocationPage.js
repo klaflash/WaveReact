@@ -256,6 +256,7 @@ function LocationPage(props) {
   const [musicRating, setMusicRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_music_rating`)) || 5);
   const [lineRating, setLineRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_line_rating`)) || 5);
   const [energyRating, setEnergyRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_energy_rating`)) || 5);
+  const [serviceRating, setServiceRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_service_rating`)) || 50);
 
   console.log("Location in range")
   console.log(isLocationInRange)
@@ -440,7 +441,8 @@ function LocationPage(props) {
     localStorage.setItem(`${currentLocation}_music_rating`, musicRating);
     localStorage.setItem(`${currentLocation}_line_rating`, lineRating);
     localStorage.setItem(`${currentLocation}_energy_rating`, energyRating);
-  }, [musicRating, lineRating, energyRating, currentLocation]);
+    localStorage.setItem(`${currentLocation}_service_rating`, serviceRating);
+  }, [musicRating, lineRating, energyRating, serviceRating, currentLocation]);
 
   function handleMusicRatingChange(event) {
     setMusicRating(event.target.value);
@@ -459,6 +461,12 @@ function LocationPage(props) {
     insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, event.target.value), currentLocation)
     updateGraphData(currentLocation)
   }
+
+  function handleServiceRatingChange(event) {
+    setServiceRating(event.target.value);
+    //insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, event.target.value), currentLocation)
+  }
+  
 
   function score(a, b, c) {
     return Math.round(((parseInt(a) + parseInt(b) + parseInt(c)) / 3) * 10) / 10
@@ -613,6 +621,12 @@ function LocationPage(props) {
             <label className='sliderLabel' htmlFor="energy-rating">Energy</label>
             <input id="energy-rating" type="range" min="0" max="10" value={energyRating} onChange={handleEnergyRatingChange} />
             <span id="rangeValue">{energyRating}</span>
+          </div>
+
+          <div className='slider'>
+            <label className='sliderLabel' htmlFor="service-rating">Service</label>
+            <input id="service-rating" type="range" min="0" max="100" step={10} value={serviceRating} onChange={handleServiceRatingChange} />
+            <span id="rangeValue">{Number(serviceRating) === 100 ? "100+" : serviceRating}</span>
           </div>
         </div>
       )}
