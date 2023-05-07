@@ -16,7 +16,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 let loading = false;
 //let graphData = [];
 
-const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, location) => {
+const insertOrUpdateRating = async (m_rating, s_rating, e_rating, l_rating, score, location) => {
 
   if (loading) {
     return
@@ -42,7 +42,7 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, locatio
     // Insert a new rating
     const { data: newRating, error: insertError } = await supabase
     .from('Ratings')
-    .insert({ m_rating, l_rating, e_rating, score, location })
+    .insert({ m_rating, s_rating, e_rating, l_rating, score, location })
     .single()
     .select();
 
@@ -82,7 +82,7 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, locatio
       console.log("One minute update period")
       const { data: updatedRating, error } = await supabase
         .from('Ratings')
-        .update({ m_rating, l_rating, e_rating, score, location })
+        .update({ m_rating, s_rating, e_rating, l_rating, score, location })
         .eq('id', newRatingId)
         .single();
 
@@ -96,15 +96,16 @@ const insertOrUpdateRating = async (m_rating, l_rating, e_rating, score, locatio
       //created more than a minute ago. Add update values and timestamp.
       console.log("created more than a minute ago")
       const u_m_rating = m_rating;
-      const u_l_rating = l_rating;
+      const u_s_rating = s_rating;
       const u_e_rating = e_rating;
+      const u_l_rating = l_rating;
       const u_score = score;
       const current = new Date();
       const updated_at = current.toISOString();
 
       const { data: updatedRating, error } = await supabase
         .from('Ratings')
-        .update({ updated_at, u_m_rating, u_l_rating, u_e_rating, u_score, location })
+        .update({ updated_at, u_m_rating, u_s_rating, u_e_rating, u_l_rating, u_score, location })
         .eq('id', newRatingId)
         .single();
 
@@ -126,7 +127,7 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
       data={data}
       keys={[
           'music',
-          'line',
+          'service',
           'energy',
           'score',
           'increase',
@@ -254,9 +255,9 @@ function LocationPage(props) {
   //const [isLocationInRange, setIsLocationInRange] = useState(inRange[props.currentLocation] || false);
   const [isLocationInRange, setIsLocationInRange] = useState(inRange);
   const [musicRating, setMusicRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_music_rating`)) || 5);
-  const [lineRating, setLineRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_line_rating`)) || 5);
+  const [serviceRating, setServiceRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_service_rating`)) || 5);
   const [energyRating, setEnergyRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_energy_rating`)) || 5);
-  const [serviceRating, setServiceRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_service_rating`)) || 50);
+  const [lineRating, setLineRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_line_rating`)) || 50);
 
   console.log("Location in range")
   console.log(isLocationInRange)
@@ -308,8 +309,9 @@ function LocationPage(props) {
         const originalRating = {
           created_at: rating.created_at,
           m_rating: rating.m_rating,
-          l_rating: rating.l_rating,
+          s_rating: rating.s_rating,
           e_rating: rating.e_rating,
+          l_rating: rating.l_rating,
           score: rating.score,
           updated_score: rating.u_score,
           location: rating.location
@@ -318,8 +320,9 @@ function LocationPage(props) {
         const updatedRating = {
           created_at: rating.updated_at,
           m_rating: rating.u_m_rating !== null ? rating.u_m_rating : rating.m_rating,
-          l_rating: rating.u_l_rating !== null ? rating.u_l_rating : rating.l_rating,
+          s_rating: rating.u_s_rating !== null ? rating.u_s_rating : rating.s_rating,
           e_rating: rating.u_e_rating !== null ? rating.u_e_rating : rating.e_rating,
+          l_rating: rating.u_l_rating !== null ? rating.u_l_rating : rating.l_rating,
           score: rating.u_score !== null ? rating.u_score : rating.score,
           location: rating.location
         };
@@ -351,12 +354,14 @@ function LocationPage(props) {
       //console.log(dataInRange)
 
       let musicSum = 0;
-      let lineSum = 0;
+      let serviceSum = 0;
       let energySum = 0;
+      //let lineSum = 0;
       for (let j = 0; j < dataInRange.length; j++) {
         musicSum += dataInRange[j].m_rating;
-        lineSum += dataInRange[j].l_rating;
+        serviceSum += dataInRange[j].s_rating;
         energySum += dataInRange[j].e_rating;
+        //lineSum += dataInRange[j].l_rating;
       }
 
       //console.log("Is checked value in updategraphdata")
@@ -368,7 +373,7 @@ function LocationPage(props) {
         const dataPoint = {
           id: i.toString(),
           music: dataInRange.length > 0 ? Math.round(musicSum / dataInRange.length) : null,
-          line: dataInRange.length > 0 ? Math.round(lineSum / dataInRange.length) : null,
+          service: dataInRange.length > 0 ? Math.round(serviceSum / dataInRange.length) : null,
           energy: dataInRange.length > 0 ? Math.round(energySum / dataInRange.length) : null,
           time: timeStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
         };
@@ -393,21 +398,21 @@ function LocationPage(props) {
 
         console.log("VALS")
         console.log(musicSum)
-        console.log(lineSum)
+        console.log(serviceSum)
         console.log(energySum)
         console.log(dataInRange.length)
 
         let increase = null;
         let decrease = null;
-        let score = dataInRange.length > 0 ? Math.round((musicSum + lineSum + energySum) / dataInRange.length) : null;
+        let score = dataInRange.length > 0 ? Math.round((musicSum + serviceSum + energySum) / dataInRange.length) : null;
         
         console.log(updated_score)
         console.log(orginal_score)
         if (updated_score !== null) {
           if (updated_score > orginal_score) {
-            increase = (((musicSum + lineSum + energySum) - orginal_score + updated_score) / dataInRange.length) - score
+            increase = (((musicSum + serviceSum + energySum) - orginal_score + updated_score) / dataInRange.length) - score
           } else if (updated_score < orginal_score) {
-            decrease = score - (((musicSum + lineSum + energySum) - orginal_score + updated_score) / dataInRange.length)
+            decrease = score - (((musicSum + serviceSum + energySum) - orginal_score + updated_score) / dataInRange.length)
             score -= decrease;
           }
         }
@@ -435,36 +440,37 @@ function LocationPage(props) {
 
   useEffect(() => {
     updateGraphData(currentLocation)
+
   }, []);
 
   useEffect(() => {
     localStorage.setItem(`${currentLocation}_music_rating`, musicRating);
-    localStorage.setItem(`${currentLocation}_line_rating`, lineRating);
-    localStorage.setItem(`${currentLocation}_energy_rating`, energyRating);
     localStorage.setItem(`${currentLocation}_service_rating`, serviceRating);
-  }, [musicRating, lineRating, energyRating, serviceRating, currentLocation]);
+    localStorage.setItem(`${currentLocation}_energy_rating`, energyRating);
+    localStorage.setItem(`${currentLocation}_line_rating`, lineRating);
+  }, [musicRating, serviceRating, energyRating, lineRating, currentLocation]);
 
   function handleMusicRatingChange(event) {
     setMusicRating(event.target.value);
-    insertOrUpdateRating(event.target.value, lineRating, energyRating, score(event.target.value, lineRating, energyRating), currentLocation)
-    updateGraphData(currentLocation)
-  }
-
-  function handleLineRatingChange(event) {
-    setLineRating(event.target.value);
-    insertOrUpdateRating(musicRating, event.target.value, energyRating, score(musicRating, event.target.value, energyRating), currentLocation)
-    updateGraphData(currentLocation)
-  }
-
-  function handleEnergyRatingChange(event) {
-    setEnergyRating(event.target.value);
-    insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, event.target.value), currentLocation)
+    insertOrUpdateRating(event.target.value, serviceRating, energyRating, lineRating, score(event.target.value, serviceRating, energyRating), currentLocation)
     updateGraphData(currentLocation)
   }
 
   function handleServiceRatingChange(event) {
     setServiceRating(event.target.value);
-    //insertOrUpdateRating(musicRating, lineRating, event.target.value, score(musicRating, lineRating, event.target.value), currentLocation)
+    insertOrUpdateRating(musicRating, event.target.value, energyRating, lineRating, score(musicRating, event.target.value, energyRating), currentLocation)
+    updateGraphData(currentLocation)
+  }
+
+  function handleEnergyRatingChange(event) {
+    setEnergyRating(event.target.value);
+    insertOrUpdateRating(musicRating, serviceRating, event.target.value, lineRating, score(musicRating, serviceRating, event.target.value), currentLocation)
+    updateGraphData(currentLocation)
+  }
+
+  function handleLineRatingChange(event) {
+    setLineRating(event.target.value);
+    insertOrUpdateRating(musicRating, serviceRating, energyRating, event.target.value, score(musicRating, serviceRating, energyRating), currentLocation)
   }
   
 
@@ -507,8 +513,9 @@ function LocationPage(props) {
         return {
           created_at: rating.updated_at,
           m_rating: rating.u_m_rating || rating.m_rating,
-          l_rating: rating.u_l_rating || rating.l_rating,
+          s_rating: rating.u_s_rating || rating.s_rating,
           e_rating: rating.u_e_rating || rating.e_rating,
+          l_rating: rating.u_l_rating || rating.l_rating,
           score: rating.u_score || rating.score,
           location: rating.location
         };
@@ -516,8 +523,9 @@ function LocationPage(props) {
         return {
           created_at: rating.created_at,
           m_rating: rating.m_rating,
-          l_rating: rating.l_rating,
+          s_rating: rating.s_rating,
           e_rating: rating.e_rating,
+          l_rating: rating.l_rating,
           score: rating.score,
           location: rating.location
         };
@@ -544,50 +552,65 @@ function LocationPage(props) {
           totalScore: 0,
           count: 0,
           averageScore: 0,
+          totalM: 0,
           averageM: 0,
+          totalE: 0,
           averageE: 0,
-          averageL: 0
+          totalL: 0,
+          averageL: 0,
+          totalS: 0,
+          averageS: 0
         };
       }
   
       averages[rating.location].totalScore += rating.score
-      averages[rating.location].averageM += rating.m_rating
-      averages[rating.location].averageE += rating.e_rating
-      averages[rating.location].averageL += rating.l_rating
+      averages[rating.location].totalM += rating.m_rating
+      averages[rating.location].totalE += rating.e_rating
+      averages[rating.location].totalS += rating.s_rating
+      averages[rating.location].totalL += rating.l_rating
       averages[rating.location].count++;
 
       averages[rating.location].averageScore = Math.round(
         averages[rating.location].totalScore / averages[rating.location].count * 10) / 10;
 
       averages[rating.location].averageM = Math.round(
-        averages[rating.location].averageM / averages[rating.location].count * 10) / 10;
+        averages[rating.location].totalM / averages[rating.location].count * 10) / 10;
 
       averages[rating.location].averageE = Math.round(
-        averages[rating.location].averageE / averages[rating.location].count * 10) / 10;
-
+        averages[rating.location].totalE / averages[rating.location].count * 10) / 10;
+      
       averages[rating.location].averageL = Math.round(
-        averages[rating.location].averageL / averages[rating.location].count * 10) / 10;
+        averages[rating.location].totalL / averages[rating.location].count / 5) * 5;
+
+      averages[rating.location].averageS = Math.round(
+        averages[rating.location].totalS / averages[rating.location].count * 10)/ 10;
+
     }
 
 
     const results = averages
+
+    console.log("---------RESULTS------------")
+    console.log(results)
   
     return results;
   }
 
   return (
     <div id="main-location-container">
-      <h1>{props.currentLocation}</h1>
+      <h1>{currentLocation}</h1>
       {Object.keys(averages).length !== 0 && (
         <div>
           <div>Score</div>
-          <div className='idkyet'>{averages && averages[props.currentLocation] ? averages[props.currentLocation]['averageScore'] : ''}</div>
+          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageScore'] : ''}</div>
           <div>Music</div>
-          <div className='idkyet'>{averages && averages[props.currentLocation] ? averages[props.currentLocation]['averageM'] : ''}</div>
+          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageM'] : ''}</div>
           <div>Energy</div>
-          <div className='idkyet'>{averages && averages[props.currentLocation] ? averages[props.currentLocation]['averageE'] : ''}</div>
+          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageE'] : ''}</div>
+          <div>Service</div>
+          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageS'] : ''}</div>
           <div>Line</div>
-          <div className='idkyet'>{averages && averages[props.currentLocation] ? averages[props.currentLocation]['averageL'] : ''}</div>
+          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageL'] : ''}</div>
         </div>
       )}
       <div id="place"></div>
@@ -612,9 +635,9 @@ function LocationPage(props) {
           </div>
 
           <div className='slider'>
-            <label className='sliderLabel' htmlFor="line-rating">Line</label>
-            <input id="line-rating" type="range" min="0" max="10" value={lineRating} onChange={handleLineRatingChange} />
-            <span id="rangeValue">{lineRating}</span>
+            <label className='sliderLabel' htmlFor="service-rating">Service</label>
+            <input id="service-rating" type="range" min="0" max="10" value={serviceRating} onChange={handleServiceRatingChange} />
+            <span id="rangeValue">{serviceRating}</span>
           </div>
 
           <div className='slider'>
@@ -624,9 +647,9 @@ function LocationPage(props) {
           </div>
 
           <div className='slider'>
-            <label className='sliderLabel' htmlFor="service-rating">Service</label>
-            <input id="service-rating" type="range" min="0" max="100" step={10} value={serviceRating} onChange={handleServiceRatingChange} />
-            <span id="rangeValue">{Number(serviceRating) === 100 ? "100+" : serviceRating}</span>
+            <label className='sliderLabel' htmlFor="line-rating">Line</label>
+            <input id="line-rating" type="range" min="0" max="100" step={10} value={lineRating} onChange={handleLineRatingChange} />
+            <span id="rangeValue">{Number(lineRating) === 100 ? "100+" : lineRating}</span>
           </div>
         </div>
       )}

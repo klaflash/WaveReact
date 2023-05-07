@@ -43,7 +43,8 @@ function MainPage(props) {
   const locations = useMemo(() => [
     { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St'},
     { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St'},
-    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St'}
+    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St'},
+    { name: 'Test', latitude: 42.111683, longitude: -71.872295, addy: '123 Random St'}
   ], []);
 
   const handleLocationClick = useCallback((locationName) => {
@@ -141,8 +142,9 @@ function MainPage(props) {
         return {
           created_at: rating.updated_at,
           m_rating: rating.u_m_rating || rating.m_rating,
-          l_rating: rating.u_l_rating || rating.l_rating,
+          s_rating: rating.u_s_rating || rating.s_rating,
           e_rating: rating.u_e_rating || rating.e_rating,
+          //l_rating: rating.u_l_rating || rating.l_rating
           score: rating.u_score || rating.score,
           location: rating.location
         };
@@ -150,8 +152,9 @@ function MainPage(props) {
         return {
           created_at: rating.created_at,
           m_rating: rating.m_rating,
-          l_rating: rating.l_rating,
+          s_rating: rating.s_rating,
           e_rating: rating.e_rating,
+          //l_rating: rating.l_rating
           score: rating.score,
           location: rating.location
         };

@@ -11,7 +11,8 @@ function App() {
   const [locations, setLocations] = useState([
     { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St'},
     { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St'},
-    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St'}
+    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St'},
+    { name: 'Test', latitude: 42.111683, longitude: -71.872295, addy: '123 Random St'}
   ]);
 
   if (!localStorage.getItem('codeHasRun')) {
