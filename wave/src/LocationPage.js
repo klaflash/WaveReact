@@ -184,19 +184,8 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
       }}
       axisTop={null}
       axisRight={null}
-      axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'time',
-          legendPosition: 'middle',
-          legendOffset: 32
-      }}
-      axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-      }}
+      axisBottom={null}
+      axisLeft={null}
       enableGridY={false}
       enableLabel={false}
       labelSkipWidth={12}
@@ -210,30 +199,7 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
               ]
           ]
       }}
-      legends={[
-          {
-              dataFrom: 'keys',
-              anchor: 'bottom-right',
-              direction: 'column',
-              justify: false,
-              translateX: 120,
-              translateY: 0,
-              itemsSpacing: 2,
-              itemWidth: 100,
-              itemHeight: 20,
-              itemDirection: 'left-to-right',
-              itemOpacity: 0.85,
-              symbolSize: 20,
-              effects: [
-                  {
-                      on: 'hover',
-                      style: {
-                          itemOpacity: 1
-                      }
-                  }
-              ]
-          }
-      ]}
+      legends={[]}
       isInteractive={false}
       role="application"
       ariaLabel="Nivo bar chart demo"
