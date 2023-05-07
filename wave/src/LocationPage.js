@@ -564,11 +564,18 @@ function LocationPage(props) {
 
   return (
     <div id="main-location-container">
-      <h1>{currentLocation}</h1>
+      <div id='location-header'>
+        <div id='location-header-left'>
+          <div>{currentLocation}</div>
+          <div>Past 2 hours</div>
+        </div>
+        {Object.keys(averages).length !== 0 && (
+          <div id='location-header-right'>{averages && averages[currentLocation] ? averages[currentLocation]['averageScore'] : ''}</div>
+        )}
+      </div>
+      
       {Object.keys(averages).length !== 0 && (
         <div>
-          <div>Score</div>
-          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageScore'] : ''}</div>
           <div>Music</div>
           <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageM'] : ''}</div>
           <div>Energy</div>
