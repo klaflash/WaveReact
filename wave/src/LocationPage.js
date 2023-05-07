@@ -564,43 +564,68 @@ function LocationPage(props) {
 
   return (
     <div id="main-location-container">
-      <div id='location-header'>
-        <div id='location-header-left'>
-          <div>{currentLocation}</div>
-          <div>Past 2 hours</div>
+      <div id='location-card-1'>
+        <div id='location-header'>
+          <div id='location-header-left'>
+            <div>{currentLocation}</div>
+            <div>Past 2 hours</div>
+          </div>
+          {Object.keys(averages).length !== 0 && (
+            <div id='location-header-right'>{averages && averages[currentLocation] ? averages[currentLocation]['averageScore'] : ''}</div>
+          )}
         </div>
-        {Object.keys(averages).length !== 0 && (
-          <div id='location-header-right'>{averages && averages[currentLocation] ? averages[currentLocation]['averageScore'] : ''}</div>
-        )}
+        <div id='graph-container'>
+          <div id='graph-parent'>
+                {console.log(graphData)}
+              <MyResponsiveBar data={graphData} />
+          </div>
+          <div className="switch-button">
+            <input className="switch-button-checkbox" type="checkbox" checked={isChecked} onChange={handleCheckboxChange} ></input>
+            <label className="switch-button-label" htmlFor=""><span className="switch-button-label-span">Category</span></label>
+          </div>
+        </div>
+
+        <div id='ratings-div'>
+          <div className='display-rating'>
+            <div>Music</div>
+            {Object.keys(averages).length !== 0 && (
+              <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageM'] : ''}</div>
+            )}
+          </div>
+          
+          <div className='display-rating'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <circle cx="15" cy="15" r="15" fill="#3D5AF1"/>
+              <path d="M11.5 24L12.375 17.7H8L15.875 6H17.625L16.75 13.2H22L13.25 24H11.5Z" fill="white"/>
+            </svg>
+            {Object.keys(averages).length !== 0 && (
+              <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageE'] : ''}</div>
+            )}
+          </div>
+
+          <div className='display-rating'>
+            <div>Service</div>
+            {Object.keys(averages).length !== 0 && (
+              <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageS'] : ''}</div>
+            )}
+          </div>
+
+          <div className='display-rating'>
+            <div>Line</div>
+            {Object.keys(averages).length !== 0 && (
+              <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageL'] : ''}</div>
+            )}
+          </div>
+          
+        </div>
       </div>
       
-      {Object.keys(averages).length !== 0 && (
-        <div>
-          <div>Music</div>
-          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageM'] : ''}</div>
-          <div>Energy</div>
-          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageE'] : ''}</div>
-          <div>Service</div>
-          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageS'] : ''}</div>
-          <div>Line</div>
-          <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageL'] : ''}</div>
-        </div>
-      )}
-      <div id="place"></div>
-      <div id='graph-parent'>
-            {console.log(graphData)}
-          <MyResponsiveBar data={graphData} />
-      </div>
-      <div className="switch-button">
-        <input className="switch-button-checkbox" type="checkbox" checked={isChecked} onChange={handleCheckboxChange} ></input>
-        <label className="switch-button-label" htmlFor=""><span className="switch-button-label-span">Category</span></label>
-      </div>
+      
       {isLocationInRange === "false" && (
         <div id="range-message">Sorry you must be closer to rate this location.</div>
       )}
       {isLocationInRange === "true" && (
         <div id="rating">
-          Rating
           <div className='slider'>
             <label className='sliderLabel' htmlFor="music-rating">Music</label>
             <input id="music-rating" type="range" min="0" max="10" value={musicRating} onChange={handleMusicRatingChange} />

@@ -266,8 +266,6 @@ input[type="range"] {
    }
 
 
-
-
 .switch-button {
   background: rgba(255, 255, 255, 0.56);
   border-radius: 30px;
@@ -338,5 +336,35 @@ input[type="range"] {
   position: relative;
 }
 
+#location-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
   
+#graph-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+}
+
+.display-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+#ratings-div {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#location-card-1 {
+  border: 2px solid black;
+  margin: 0.5rem;
+  border-radius: 25px;
+}
   
