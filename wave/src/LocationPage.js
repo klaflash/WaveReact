@@ -134,7 +134,7 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
           'decrease'
       ]}
       indexBy="time"
-      margin={{ top: 50, right: 100, bottom: 50, left: 40 }}
+      margin={{ top: 10, right: 0, bottom: 0, left: 40 }}
       maxValue={30}
       valueScale={{ type: 'linear' }}
       indexScale={{ type: 'band', round: true }}
@@ -567,8 +567,8 @@ function LocationPage(props) {
       <div id='location-card-1'>
         <div id='location-header'>
           <div id='location-header-left'>
-            <div>{currentLocation}</div>
-            <div>Past 2 hours</div>
+            <div id='location-name'>{currentLocation}</div>
+            <div id='location-subtext'>Past 2 hours</div>
           </div>
           {Object.keys(averages).length !== 0 && (
             <div id='location-header-right'>{averages && averages[currentLocation] ? averages[currentLocation]['averageScore'] : ''}</div>
@@ -578,6 +578,16 @@ function LocationPage(props) {
           <div id='graph-parent'>
                 {console.log(graphData)}
               <MyResponsiveBar data={graphData} />
+              <div id='graph-y-index'>
+                <div>10</div>
+                <div>5</div>
+                <div>0</div>
+              </div>
+          </div>
+          <div id='graph-x-index'>
+            <div>2</div>
+            <div>1</div>
+            <div>Now</div>
           </div>
           <div className="switch-button">
             <input className="switch-button-checkbox" type="checkbox" checked={isChecked} onChange={handleCheckboxChange} ></input>
