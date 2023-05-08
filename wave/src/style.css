@@ -223,7 +223,6 @@ input[type="range"] {
   #rating {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
     align-items: center;
     margin: 0.8rem;
     border-radius: 25px;
@@ -232,8 +231,7 @@ input[type="range"] {
 
   .slider {
     width:100%;
-    height:60px;
-    padding:30px;
+    padding:20px;
     padding-left: 40px;
     background:#fcfcfc;
     display:flex;
@@ -245,12 +243,12 @@ input[type="range"] {
 
    .sliderLabel {
     margin-right: 2rem;
+    margin-left: 0.5rem;
    }
 
    .slider span {
     font-size:18px;
     font-weight:600;
-    font-family: Open Sans;
     padding-left:30px;
     color: #EBEBEB;
    }

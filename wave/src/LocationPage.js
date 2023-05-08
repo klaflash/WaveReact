@@ -652,6 +652,10 @@ function LocationPage(props) {
       {isLocationInRange === "true" && (
         <div id="rating">
           <div className='slider'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <circle cx="15" cy="15" r="15" fill="#3D5AF1"/>
+              <path d="M11.5 24L12.375 17.7H8L15.875 6H17.625L16.75 13.2H22L13.25 24H11.5Z" fill="white"/>
+            </svg>
             <label className='sliderLabel' htmlFor="energy-rating">Energy</label>
             <input id="energy-rating" type="range" min="0" max="10" value={energyRating} onChange={handleEnergyRatingChange} />
             <span id="rangeValue">{energyRating}</span>
