@@ -36,6 +36,7 @@ body {
 #logo {
   font-size: 35px;
   font-weight: bold;
+  color: #3D5AF1;
 }
 
 ul {
@@ -231,8 +232,8 @@ input[type="range"] {
 
   .slider {
     width:100%;
-    padding:20px;
-    padding-left: 40px;
+    padding:15px;
+    padding-left: 0px;
     background:#fcfcfc;
     display:flex;
     align-items:center;
@@ -241,15 +242,23 @@ input[type="range"] {
     background-color: #151515;
    }
 
+   .slider-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding-left: 15px;
+   }
+
    .sliderLabel {
-    margin-right: 2rem;
+    margin-right: 20px;
     margin-left: 0.5rem;
+    font-size: 14px;
    }
 
    .slider span {
     font-size:18px;
     font-weight:600;
-    padding-left:30px;
+    padding-left:20px;
     color: #EBEBEB;
    }
    .slider input[type=”range”] {
@@ -432,5 +441,4 @@ input[type="range"] {
   border-radius: 25px;
   background-color: #151515;
 }
-
   
