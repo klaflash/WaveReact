@@ -647,7 +647,7 @@ function LocationPage(props) {
       
       
       {isLocationInRange === "false" && (
-        <div id="range-message">Sorry you must be closer to rate this location.</div>
+        <div id="range-message">Sorry you must be closer to rate or comment on this location. If you belive you are in range, refresh, select allow, and make sure precise location is turned on in settings.</div>
       )}
       {isLocationInRange === "true" && (
         <div id="rating">

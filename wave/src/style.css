@@ -441,4 +441,18 @@ input[type="range"] {
   border-radius: 25px;
   background-color: #151515;
 }
+
+#range-message {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.8rem;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 25px;
+  background-color: #151515;
+  color: #858585;
+  text-align: center;
+}
   
