@@ -263,9 +263,17 @@ function MainPage(props) {
     console.log(sortedLocations)
 
     const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
+
+    if (searchQuery.trim() !== '') {
+      const query = searchQuery.toLowerCase().trim();
+      const filtered = sortedLocations.filter(location => location.name.toLowerCase().includes(query) || location.addy.toLowerCase().includes(query));
+      setFilteredLocations(filtered);
+    } else {
+      setFilteredLocations(locationsByDistance);
+    }
   
-    setFilteredLocations(locationsByDistance);
-  }, [sortOrder, selectedDistance]);
+    //setFilteredLocations(locationsByDistance);
+  }, [sortOrder, selectedDistance, searchQuery]);
   
   
 
@@ -303,13 +311,13 @@ function MainPage(props) {
   // useEffect(() => {
   //   const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
 
-  //   if (searchQuery.trim() !== '') {
-  //     const query = searchQuery.toLowerCase().trim();
-  //     const filtered = locationsByDistance.filter(location => location.name.toLowerCase().includes(query) || location.addy.toLowerCase().includes(query));
-  //     setFilteredLocations(filtered);
-  //   } else {
-  //     setFilteredLocations(locationsByDistance);
-  //   }
+    // if (searchQuery.trim() !== '') {
+    //   const query = searchQuery.toLowerCase().trim();
+    //   const filtered = locationsByDistance.filter(location => location.name.toLowerCase().includes(query) || location.addy.toLowerCase().includes(query));
+    //   setFilteredLocations(filtered);
+    // } else {
+    //   setFilteredLocations(locationsByDistance);
+    // }
   // }, [sortedLocations, selectedDistance, searchQuery]);
 
   useEffect(() => {
@@ -326,25 +334,25 @@ function MainPage(props) {
     localStorage.setItem('selectedDistance', newSelectedDistance);
   };
 
-  // const handleSearchChange = (event) => {
-  //   setSearchQuery(event.target.value);
-  // };
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
 
 
   return (
     <div>
-      {/* 
+      
       <div>
         <label htmlFor="search-input">Search:</label>
         <input type="text" id="search-input" placeholder='Search' onChange={handleSearchChange} value={searchQuery} />
       </div>
-      */}
+
       <div>
         <label htmlFor="distance-select">Show locations within:</label>
         <select id="distance-select" onChange={handleDistanceChange} value={selectedDistance}>
           <option value="10">10 mi</option>
-          <option value="20">20 mi</option>
+          <option value="20">25 mi</option>
           <option value="50">50 mi</option>
           <option value="-1">All</option>
         </select>
