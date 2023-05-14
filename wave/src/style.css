@@ -455,4 +455,14 @@ input[type="range"] {
   color: #858585;
   text-align: center;
 }
+
+.normal-button {
+  background-color: white;
+  color: black;
+}
+
+.blue-button {
+  background-color: blue;
+  color: white;
+}
   
