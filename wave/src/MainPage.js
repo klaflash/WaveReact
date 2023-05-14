@@ -370,7 +370,9 @@ function MainPage(props) {
             <div id='logo'>Wave</div>
           </div>
           <ul>
-            {filteredLocations.map((location) => (
+            {filteredLocations.length === 0 ? (
+              <div>No results found</div>
+            ) : filteredLocations.map((location) => (
               <li key={location.name}>
                 <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
                   averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? 'red' :
