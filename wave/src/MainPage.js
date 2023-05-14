@@ -136,7 +136,9 @@ function MainPage(props) {
           return a.dist - b.dist;
         }
       });
-      setFilteredLocations(sortedLocations);
+
+      const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
+      setFilteredLocations(locationsByDistance);
       props.setLocations(sortedLocations)
     };
 
@@ -259,9 +261,11 @@ function MainPage(props) {
 
     console.log('Now sorted')
     console.log(sortedLocations)
+
+    const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
   
-    setFilteredLocations(sortedLocations);
-  }, [sortOrder]);
+    setFilteredLocations(locationsByDistance);
+  }, [sortOrder, selectedDistance]);
   
   
 
@@ -316,11 +320,11 @@ function MainPage(props) {
   //   localStorage.setItem('selectedDistance', selectedDistance);
   // }, [selectedDistance]);
 
-  // const handleDistanceChange = (e) => {
-  //   const newSelectedDistance = parseInt(e.target.value);
-  //   setSelectedDistance(newSelectedDistance);
-  //   localStorage.setItem('selectedDistance', newSelectedDistance);
-  // };
+  const handleDistanceChange = (e) => {
+    const newSelectedDistance = parseInt(e.target.value);
+    setSelectedDistance(newSelectedDistance);
+    localStorage.setItem('selectedDistance', newSelectedDistance);
+  };
 
   // const handleSearchChange = (event) => {
   //   setSearchQuery(event.target.value);
@@ -335,6 +339,7 @@ function MainPage(props) {
         <label htmlFor="search-input">Search:</label>
         <input type="text" id="search-input" placeholder='Search' onChange={handleSearchChange} value={searchQuery} />
       </div>
+      */}
       <div>
         <label htmlFor="distance-select">Show locations within:</label>
         <select id="distance-select" onChange={handleDistanceChange} value={selectedDistance}>
@@ -344,7 +349,7 @@ function MainPage(props) {
           <option value="-1">All</option>
         </select>
       </div>
-      */}
+      
       <button className={sortOrder === 'desc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'desc' ? 'desc' : 'desc'); localStorage.setItem('sortOrder', 'desc')}}>
         Top
       </button>
