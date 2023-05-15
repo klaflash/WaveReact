@@ -553,10 +553,22 @@ input[type="range"] {
   background-image: linear-gradient(to right, #a1d1fe, #95cbfe, #88c5ff, #7bbeff, #6db8ff, #60b1ff, #53aaff, #45a3ff, #379aff, #2c90ff, #2586ff, #267cfe);
 }
 
+#main-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 #footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4rem;
+  color: #4d4d4d;
+}
+
+#copyright {
   display: flex;
   justify-content: center;
-  padding-top: 4rem;
   padding-bottom: 1rem;
-  color: #4d4d4d;
 }
