@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/WaveReact/static/css/main.493baf4d.css",
-    "main.js": "/WaveReact/static/js/main.8d177138.js",
+    "main.css": "/WaveReact/static/css/main.15ebc7a7.css",
+    "main.js": "/WaveReact/static/js/main.6de26960.js",
     "static/js/787.a4241258.chunk.js": "/WaveReact/static/js/787.a4241258.chunk.js",
     "index.html": "/WaveReact/index.html",
-    "main.493baf4d.css.map": "/WaveReact/static/css/main.493baf4d.css.map",
-    "main.8d177138.js.map": "/WaveReact/static/js/main.8d177138.js.map",
+    "main.15ebc7a7.css.map": "/WaveReact/static/css/main.15ebc7a7.css.map",
+    "main.6de26960.js.map": "/WaveReact/static/js/main.6de26960.js.map",
     "787.a4241258.chunk.js.map": "/WaveReact/static/js/787.a4241258.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.493baf4d.css",
-    "static/js/main.8d177138.js"
+    "static/css/main.15ebc7a7.css",
+    "static/js/main.6de26960.js"
   ]
 }
