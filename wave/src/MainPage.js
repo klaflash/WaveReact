@@ -342,56 +342,81 @@ function MainPage(props) {
 
   return (
     <div>
-      
-      <div>
-        <label htmlFor="search-input">Search:</label>
-        <input type="text" id="search-input" placeholder='Search' onChange={handleSearchChange} value={searchQuery} />
-      </div>
-
-      <div>
-        <label htmlFor="distance-select">Show locations within:</label>
-        <select id="distance-select" onChange={handleDistanceChange} value={selectedDistance}>
-          <option value="10">10 mi</option>
-          <option value="20">25 mi</option>
-          <option value="50">50 mi</option>
-          <option value="-1">All</option>
-        </select>
-      </div>
-      
-      <button className={sortOrder === 'desc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'desc' ? 'desc' : 'desc'); localStorage.setItem('sortOrder', 'desc')}}>
-        Top
-      </button>
-      <button className={sortOrder === 'loc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'loc' ? 'loc' : 'loc'); localStorage.setItem('sortOrder', 'loc')}}>
-        Near Me
-      </button>
       {/* {!isMobile ? */}
         <div id="content">
           <div id="header">
             <div id='logo'>Wave</div>
           </div>
+
+          <div id='explore'>Explore Locations</div>
+
+          <div id='search-bar'>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search"
+              onChange={handleSearchChange}
+              value={searchQuery}
+              style={{
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none"><path d="M7 14C10.3137 14 13 11.0899 13 7.5C13 3.91015 10.3137 1 7 1C3.68629 1 1 3.91015 1 7.5C1 11.0899 3.68629 14 7 14Z" stroke="%23666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 16L12 13" stroke="%23666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>')`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "20px center",
+                backgroundSize: "auto 50%",
+              }}
+            />
+          </div>
+
+          <div id='filter-options'>
+          <div>
+            <select id="distance-select" onChange={handleDistanceChange} value={selectedDistance} style={{
+              backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="%23CBCBCB" stroke-linecap="round" stroke-linejoin="round"/></svg>')`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "right 12px center",
+              backgroundSize: "auto 25%",
+            }} >
+              <option value="10">10 mi</option>
+              <option value="20">25 mi</option>
+              <option value="50">50 mi</option>
+              <option value="-1">All</option>
+            </select>
+          </div>
+          <button className={sortOrder === 'desc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'desc' ? 'desc' : 'desc'); localStorage.setItem('sortOrder', 'desc')}}>
+            Top
+          </button>
+          <button className={sortOrder === 'loc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'loc' ? 'loc' : 'loc'); localStorage.setItem('sortOrder', 'loc')}}>
+            Near Me
+          </button>
+          </div>
+
+          <div id='locations-subtitle'>locations</div>
+
           <ul>
             {filteredLocations.length === 0 ? (
               <div>No results found</div>
             ) : filteredLocations.map((location) => (
               <li key={location.name}>
                 <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
-                  averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? 'red' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? 'orange' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? 'yellow' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? 'green' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? 'blue' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#A1D1FE' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#59AFFF' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#59AFFF' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#267CFE' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267CFE' :
                   ''
                 }}>
                   <div className='card-left'>
                     <div className='bar-name'>{location.name}</div>
                     <div className='bar-addy'>{location.addy}</div>
-                    {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] >= 0 && (
-                      <div className='timestamp'>Rated {mostRecent[location.name]} minutes ago</div>
-                    )}
                   </div>
-                  {Object.keys(averages).length !== 0 && (
-                    <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
-                  )}
+                  <div className='card-right-stack'>
+                    <div id='card-right-substack'>
+                      {Object.keys(averages).length !== 0 && (
+                        <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
+                      )}
+                      {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] >= 0 && (
+                        <div className='timestamp'>{mostRecent[location.name]} min ago</div>
+                      )}
+                    </div>
+                  </div>
                 </Link>
                 
               </li>
