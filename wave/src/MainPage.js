@@ -342,6 +342,7 @@ function MainPage(props) {
 
   return (
     <div>
+      <div id='color-bar'></div>
       {/* {!isMobile ? */}
         <div id="content">
           <div id="header">

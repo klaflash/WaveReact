@@ -36,7 +36,7 @@ body {
 #logo {
   font-size: 35px;
   font-weight: bold;
-  color: #267CFE;
+  color: #292929;
 }
 
 ul {
@@ -545,4 +545,10 @@ input[type="range"] {
   font-weight: 500;
   padding-left: 5%;
   padding-bottom: 1rem;
+}
+
+#color-bar {
+  height: 0.5rem;
+  width: 100%;
+  background-image: linear-gradient(to right, #a1d1fe, #95cbfe, #88c5ff, #7bbeff, #6db8ff, #60b1ff, #53aaff, #45a3ff, #379aff, #2c90ff, #2586ff, #267cfe);
 }
