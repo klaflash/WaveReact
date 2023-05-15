@@ -52,7 +52,7 @@ ul {
   display: flex;
   gap: 1rem;
   padding: 12px 24px;
-  background-color: #8a8a8a;
+  background-color: #ddd;
   text-decoration: none;
   color: #333;
   font-weight: bold;
@@ -108,7 +108,7 @@ li {
   flex-direction: column;
   width: 50%;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
   color: #000000;
 }
 
@@ -472,20 +472,20 @@ input[type="range"] {
   background-color: #090909;
   border: 1px solid #494949;
   border-radius: 15px;
-  width: 80px;
+  width: 85px;
   height: 27px;
   color: #CBCBCB;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .blue-button {
   background-color: #F9F9F9;
   border: 1px solid #494949;
   border-radius: 15px;
-  width: 80px;
+  width: 85px;
   height: 27px;
   color: #141414;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 #distance-select {
@@ -493,10 +493,10 @@ input[type="range"] {
   background-color: #090909;
   border: 1px solid #494949;
   border-radius: 15px;
-  width: 80px;
+  width: 85px;
   height: 27px;
   color: #CBCBCB;
-  font-size: 14px;
+  font-size: 13px;
   padding-left: 12px;
 }
 
@@ -547,8 +547,16 @@ input[type="range"] {
   padding-bottom: 1rem;
 }
 
-#color-bar {
+.color-bar {
   height: 0.5rem;
   width: 100%;
   background-image: linear-gradient(to right, #a1d1fe, #95cbfe, #88c5ff, #7bbeff, #6db8ff, #60b1ff, #53aaff, #45a3ff, #379aff, #2c90ff, #2586ff, #267cfe);
+}
+
+#footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 4rem;
+  padding-bottom: 1rem;
+  color: #4d4d4d;
 }

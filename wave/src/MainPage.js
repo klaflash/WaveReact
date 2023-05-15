@@ -342,7 +342,7 @@ function MainPage(props) {
 
   return (
     <div>
-      <div id='color-bar'></div>
+      <div className='color-bar'></div>
       {/* {!isMobile ? */}
         <div id="content">
           <div id="header">
@@ -426,6 +426,8 @@ function MainPage(props) {
         </div>
         {/* <div id="not-mobile">Sorry, wave is currently only supported on mobile devices</div> */}
       {/* } */}
+      <div id='footer'>Copyright © 2023 Wave411 Inc</div>
+      <div className='color-bar'></div>
     </div>
   );
 }
