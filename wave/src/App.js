@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import MainPage from './MainPage';
 import LocationPage from './LocationPage';
-
+import Cookies from 'js-cookie';
 
 function App() {
   const [currentLocation, setCurrentLocation] = useState('');
@@ -15,6 +15,14 @@ function App() {
     { name: 'Test', latitude: 42.111683, longitude: -71.872295, addy: '123 Random St'},
     { name: 'Test2', latitude: 42.299103, longitude: -71.785020, addy: '123 Whatever Ave'}
   ]);
+
+  useEffect(() => {
+    const loggedIn = Cookies.get('loggedIn');
+    if (!loggedIn) {
+      Cookies.set('loggedIn', true, { expires: 1 / 3 }); // Expires in 8 hours
+      Cookies.set('newRatingId', JSON.stringify({}), { expires: 1/3 });
+    }
+  }, []);
 
   if (!localStorage.getItem('codeHasRun')) {
     // Run the code here
