@@ -572,3 +572,10 @@ input[type="range"] {
   justify-content: center;
   padding-bottom: 1rem;
 }
+
+#no-results {
+  display: flex;
+  justify-content: center;
+  color: #4d4d4d;
+  padding-top: 3rem;
+}

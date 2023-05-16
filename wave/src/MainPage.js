@@ -390,7 +390,7 @@ function MainPage(props) {
 
           <ul>
             {filteredLocations.length === 0 ? (
-              <div>No results found</div>
+              <div id='no-results'>No matching results</div>
             ) : filteredLocations.map((location) => (
               <li key={location.name}>
                 <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
