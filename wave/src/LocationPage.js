@@ -673,8 +673,11 @@ function LocationPage(props) {
       </div>
       
       
-      {isLocationInRange === "false" || isLocationInRange === "undefined" && (
-        <div id="range-message">Sorry you must be closer to rate or comment on this location. If you belive you are in range, refresh, select allow, and make sure precise location is turned on in settings.</div>
+      {isLocationInRange === "false"&& (
+        <div id="range-message">Sorry you must be closer to rate or comment on this location. If you belive you are in range, refresh the homepage, select allow, and make sure precise location is turned on in settings.</div>
+      )}
+      {isLocationInRange === "undefined" && (
+        <div id="range-message">You must allow wave to use your location in order to rate or comment.</div>
       )}
       {isLocationInRange === "true" && (
         <div id="rating">
