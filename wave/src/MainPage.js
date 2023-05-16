@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js'
-import Cookies from 'js-cookie';
 
 //const supabaseUrl = process.env.REACT_APP_PROJECT_URL
 //const supabaseKey = process.env.REACT_APP_API_KEY
@@ -238,11 +237,8 @@ function MainPage(props) {
     return results;
   }
 
-  //const [sortOrder, setSortOrder] = useState(localStorage.getItem('sortOrder') || 'loc');
-  //const [selectedDistance, setSelectedDistance] = useState(parseInt(localStorage.getItem('selectedDistance')) || 10);
-  const [sortOrder, setSortOrder] = useState(Cookies.get('sortOrder') || 'loc');
-  const [selectedDistance, setSelectedDistance] = useState(parseInt(Cookies.get('selectedDistance')) || 10);
-
+  const [sortOrder, setSortOrder] = useState(localStorage.getItem('sortOrder') || 'loc');
+  const [selectedDistance, setSelectedDistance] = useState(parseInt(localStorage.getItem('selectedDistance')) || 10);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredLocations, setFilteredLocations] = useState([])
 
@@ -325,15 +321,13 @@ function MainPage(props) {
   // }, [sortedLocations, selectedDistance, searchQuery]);
 
   useEffect(() => {
-    //localStorage.setItem('sortOrder', sortOrder);
-    Cookies.set('sortOrder', sortOrder, { expires: 1/3 });
+    localStorage.setItem('sortOrder', sortOrder);
   }, [sortOrder]);
 
   const handleDistanceChange = (e) => {
     const newSelectedDistance = parseInt(e.target.value);
     setSelectedDistance(newSelectedDistance);
-    //localStorage.setItem('selectedDistance', newSelectedDistance);
-    Cookies.set('selectedDistance', newSelectedDistance, { expires: 1/3 });
+    localStorage.setItem('selectedDistance', newSelectedDistance);
   };
 
   const handleSearchChange = (event) => {
@@ -384,10 +378,10 @@ function MainPage(props) {
               <option value="-1">All</option>
             </select>
           </div>
-          <button className={sortOrder === 'desc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'desc' ? 'desc' : 'desc'); Cookies.set('sortOrder', 'desc', { expires: 1/3 })}}>
+          <button className={sortOrder === 'desc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'desc' ? 'desc' : 'desc'); localStorage.setItem('sortOrder', 'desc')}}>
             Top
           </button>
-          <button className={sortOrder === 'loc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'loc' ? 'loc' : 'loc'); Cookies.set('sortOrder', 'loc', { expires: 1/3 })}}>
+          <button className={sortOrder === 'loc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'loc' ? 'loc' : 'loc'); localStorage.setItem('sortOrder', 'loc')}}>
             Near Me
           </button>
           </div>
