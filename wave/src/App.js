@@ -15,6 +15,8 @@ function App() {
     { name: 'Test2', latitude: 42.299103, longitude: -71.785020, addy: '123 Whatever Ave'}
   ]);
 
+  //console.log("APP.JS RUNS")
+
   if (!localStorage.getItem('codeHasRun')) {
     // Run the code here
     //localStorage.setItem('newRatingId', '-1')
@@ -22,6 +24,37 @@ function App() {
     //localStorage.setItem('newRatingId', null)
     // Set the flag in localStorage to indicate that the code has been run
     localStorage.setItem('codeHasRun', true);
+
+    const currentTimestamp = Date.now(); // Get the current timestamp in milliseconds
+    localStorage.setItem('timestamp', currentTimestamp.toString()); // Store the timestamp in local storage as a string
+  } else {
+    const storedTimestamp = localStorage.getItem('timestamp');
+
+    if (storedTimestamp) {
+      const timestamp = parseInt(storedTimestamp, 10); // Convert the stored string to a number
+      const currentTime = Date.now(); // Get the current timestamp in milliseconds
+
+      //const fiveMinutesInMs = 5 * 60 * 1000; // Convert 5 minutes to milliseconds
+      const eightHoursInMs = 8 * 60 * 60 * 1000; // Convert 8 hours to milliseconds
+
+      if (currentTime - timestamp > eightHoursInMs) {
+        // The stored timestamp is more than 5 minutes ago
+        // Perform your desired action here
+        //console.log('The stored timestamp is more than 5 minutes ago.');
+        localStorage.clear();
+        localStorage.setItem('newRatingId', JSON.stringify({}))
+        localStorage.setItem('codeHasRun', true);
+        const currentTimestamp = Date.now(); // Get the current timestamp in milliseconds
+        localStorage.setItem('timestamp', currentTimestamp.toString()); // Store the timestamp in local storage as a string
+      } else {
+        // The stored timestamp is within the last 5 minutes
+        //console.log('The stored timestamp is within the last 5 minutes.');
+      }
+    } else {
+      // The timestamp is not set in local storage
+      //console.log('The timestamp is not set in local storage.');
+    }
+
   }
 
   return (

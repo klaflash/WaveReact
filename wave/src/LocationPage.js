@@ -209,6 +209,33 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
 
 function LocationPage(props) {
 
+  const storedTimestamp = localStorage.getItem('timestamp');
+
+  if (storedTimestamp) {
+    const timestamp = parseInt(storedTimestamp, 10); // Convert the stored string to a number
+    const currentTime = Date.now(); // Get the current timestamp in milliseconds
+
+    //const fiveMinutesInMs = 5 * 60 * 1000; // Convert 5 minutes to milliseconds
+    const eightHoursInMs = 8 * 60 * 60 * 1000; // Convert 8 hours to milliseconds
+
+    if (currentTime - timestamp > eightHoursInMs) {
+      // The stored timestamp is more than 5 minutes ago
+      // Perform your desired action here
+      //console.log('The stored timestamp is more than 5 minutes ago.');
+      localStorage.clear();
+      localStorage.setItem('newRatingId', JSON.stringify({}))
+      localStorage.setItem('codeHasRun', true);
+      const currentTimestamp = Date.now(); // Get the current timestamp in milliseconds
+      localStorage.setItem('timestamp', currentTimestamp.toString()); // Store the timestamp in local storage as a string
+    } else {
+      // The stored timestamp is within the last 5 minutes
+      //console.log('The stored timestamp is within the last 5 minutes.');
+    }
+  } else {
+    // The timestamp is not set in local storage
+    //console.log('The timestamp is not set in local storage.');
+  }
+
   const locationz = useLocation();
   const searchParams = new URLSearchParams(locationz.search);
   const inRange = searchParams.get("inRange");
@@ -609,9 +636,9 @@ function LocationPage(props) {
           <div className='display-rating'>
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
               <circle cx="15" cy="15" r="15" fill="#2998F2"/>
-              <path d="M12 19.5V8.66667L22 7V17.8333" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 19.5V8.66667L22 7V17.8333" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill="white" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill="white" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
               {Object.keys(averages).length !== 0 && (
                 <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageM'] : ''}</div>
@@ -646,7 +673,7 @@ function LocationPage(props) {
       </div>
       
       
-      {isLocationInRange === "false" && (
+      {isLocationInRange === "false" || isLocationInRange === "undefined" && (
         <div id="range-message">Sorry you must be closer to rate or comment on this location. If you belive you are in range, refresh, select allow, and make sure precise location is turned on in settings.</div>
       )}
       {isLocationInRange === "true" && (
@@ -666,9 +693,9 @@ function LocationPage(props) {
           <div className='slider-container'>
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
               <circle cx="15" cy="15" r="15" fill="#2998F2"/>
-              <path d="M12 19.5V8.66667L22 7V17.8333" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 19.5V8.66667L22 7V17.8333" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill="white" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill="white" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <div className='slider'>
               <label className='sliderLabel' htmlFor="music-rating">Music</label>
