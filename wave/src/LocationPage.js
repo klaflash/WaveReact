@@ -14,6 +14,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 //localStorage.setItem('newRatingId', JSON.stringify([{}]))
 let loading = false;
+let newRatingIdObj = JSON.parse(localStorage.getItem('newRatingId'))
 //let graphData = [];
 
 const insertOrUpdateRating = async (m_rating, s_rating, e_rating, l_rating, score, location) => {
@@ -22,7 +23,6 @@ const insertOrUpdateRating = async (m_rating, s_rating, e_rating, l_rating, scor
     return
   }
   
-  let newRatingIdObj = JSON.parse(localStorage.getItem('newRatingId'))
 
   let newRatingId
 
@@ -208,6 +208,10 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
 )
 
 function LocationPage(props) {
+
+  const [comment, setComment] = useState('');
+  const maxCharacters = 100;
+  const [postedComments, setPostedComments] = useState([]);
 
   const storedTimestamp = localStorage.getItem('timestamp');
 
@@ -589,6 +593,84 @@ function LocationPage(props) {
     return results;
   }
 
+  useEffect(() => {
+    fetchComments();
+
+    const channel = supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'Comments'
+        },
+        (payload) => {
+          console.log(payload)
+
+          const eventType = payload.eventType;
+
+          if (eventType === 'INSERT') {
+            const newComment = payload.new;
+            setPostedComments((prevComments) => [...prevComments, newComment]);
+          } else if (eventType === 'DELETE') {
+            const deletedCommentId = payload.old.id;
+            setPostedComments((prevComments) => prevComments.filter(comment => comment.id !== deletedCommentId));
+          }
+
+
+        } 
+      )
+      .subscribe()
+
+
+    // Cleanup subscription on component unmount
+    return () => {
+      channel.unsubscribe();
+    };
+  }, []);
+
+  const fetchComments = async () => {
+    try {
+      // Fetch comments from the "comments" table
+      const { data, error } = await supabase.from('Comments').select('*');
+      if (error) {
+        throw error;
+      }
+      console.log("________LOgged")
+      console.log(data)
+      setPostedComments(data);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+  async function handleCommentSubmit() {
+    // Perform any necessary actions with the comment data
+    console.log('Comment submitted:', comment);
+    const likes = 0
+    const dislikes = 0
+
+    const { data: newRating, error: insertError } = await supabase
+    .from('Comments')
+    .insert({ comment, likes, dislikes})
+    .single()
+    .select();
+
+    if (insertError) {
+        console.log('Error inserting into Ratings table:', insertError.message);
+        return;
+    }
+
+    const commentsByUser = JSON.parse(localStorage.getItem('commentsByUser')) || [];
+    commentsByUser.push(newRating.id);
+
+    localStorage.setItem('commentsByUser', JSON.stringify(commentsByUser));
+
+    // Reset the comment state after submission
+    setComment('');
+  }
+
   return (
     <div id="main-location-container">
       <div id='location-card-1'>
@@ -733,6 +815,37 @@ function LocationPage(props) {
           
         </div>
       )}
+
+      <div>
+        <div id='comments'>
+          <h2>Comments</h2>
+          {postedComments.map((comment) => (
+            <div key={comment.id}>
+              <div>Author: {comment.comment}</div>
+            </div>
+          ))}
+        </div>
+
+        {newRatingIdObj[currentLocation] && (
+          <div>
+            <input
+              id='comment-bar'
+              type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              maxLength={maxCharacters}
+              placeholder="Enter your comment"
+            />
+            <button onClick={handleCommentSubmit}>Comment</button>
+            <div id='character-count'>
+              Characters remaining: {maxCharacters - comment.length}/{maxCharacters}
+            </div>
+          </div>
+        )}
+
+        
+      </div>
+
     </div>
   );
 }

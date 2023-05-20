@@ -579,3 +579,16 @@ input[type="range"] {
   color: #4d4d4d;
   padding-top: 3rem;
 }
+
+#comment-bar {
+  display: flex;
+  width: 90%;
+}
+
+#character-count {
+  color: #EBEBEB;
+}
+
+#comments {
+  color: #EBEBEB;
+}
