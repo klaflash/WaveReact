@@ -612,10 +612,15 @@ function LocationPage(props) {
 
           if (eventType === 'INSERT') {
             const newComment = payload.new;
-            setPostedComments((prevComments) => [...prevComments, newComment]);
+            if (newComment.location === currentLocation) {
+              setPostedComments((prevComments) => [...prevComments, newComment]);
+            }
           } else if (eventType === 'DELETE') {
             const deletedCommentId = payload.old.id;
-            setPostedComments((prevComments) => prevComments.filter(comment => comment.id !== deletedCommentId));
+            if (payload.old.location === currentLocation) {
+              setPostedComments((prevComments) => prevComments.filter(comment => comment.id !== deletedCommentId));
+            }
+            
           }
 
 
@@ -639,7 +644,8 @@ function LocationPage(props) {
       }
       console.log("________LOgged")
       console.log(data)
-      setPostedComments(data);
+      setPostedComments(data.filter(item => item.location === currentLocation));
+      //setPostedComments(data);
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
@@ -650,10 +656,11 @@ function LocationPage(props) {
     console.log('Comment submitted:', comment);
     const likes = 0
     const dislikes = 0
+    const location = currentLocation
 
     const { data: newRating, error: insertError } = await supabase
     .from('Comments')
-    .insert({ comment, likes, dislikes})
+    .insert({ comment, likes, dislikes, location})
     .single()
     .select();
 
@@ -670,6 +677,49 @@ function LocationPage(props) {
     // Reset the comment state after submission
     setComment('');
   }
+
+  const [liked, setLiked] = useState(JSON.parse(localStorage.getItem('likesByUser')) || []);
+
+  const handleLike = async (commentId, currentLikes) => {
+    if (liked.includes(commentId)) {
+      setLiked((prevLiked) => prevLiked.filter((id) => id !== commentId));
+    } else {
+      setLiked((prevLiked) => [...prevLiked, commentId]);
+    }
+
+    localStorage.setItem('likesByUser', JSON.stringify(liked));
+
+    
+    let updatedLikes;
+    const likesByUser = JSON.parse(localStorage.getItem('likesByUser')) || [];
+    likesByUser.push(commentId);
+    localStorage.setItem('likesByUser', JSON.stringify(likesByUser));
+
+    if (likesByUser.includes(commentId)) {
+      //Already liked - should unlike
+      likesByUser.remove(commentId)
+      localStorage.setItem('likesByUser', JSON.stringify(likesByUser));
+      updatedLikes = currentLikes - 1;
+    } else {
+      //Not liked yet
+      likesByUser.push(commentId);
+      localStorage.setItem('likesByUser', JSON.stringify(likesByUser));
+      updatedLikes = currentLikes + 1;
+    }
+  
+    const { data, error } = await supabase
+      .from('Comments')
+      .update({ likes: updatedLikes })
+      .eq('id', commentId);
+  
+    if (error) {
+      console.error('Error updating likes count:', error);
+    } else {
+      console.log('Likes count updated successfully:', data);
+      // Perform any additional logic after the likes count is updated
+    }
+  };
+  
 
   return (
     <div id="main-location-container">
@@ -818,10 +868,14 @@ function LocationPage(props) {
 
       <div>
         <div id='comments'>
-          <h2>Comments</h2>
+          <h2>Wave Wall</h2>
           {postedComments.map((comment) => (
-            <div key={comment.id}>
-              <div>Author: {comment.comment}</div>
+            <div id='comment-line' key={comment.id}>
+              <div>User {newRatingIdObj[currentLocation]}: {comment.comment}</div>
+              <button onClick={() => handleLike(comment.id, comment.likes)}>
+                {liked.includes(comment.id) ? 'Unlike' : 'Like'}
+              </button>
+              <span>{comment.likes}</span>
             </div>
           ))}
         </div>

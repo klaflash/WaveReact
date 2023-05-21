@@ -592,3 +592,8 @@ input[type="range"] {
 #comments {
   color: #EBEBEB;
 }
+
+#comment-line {
+  display: flex;
+  justify-content: space-between;
+}
