@@ -616,11 +616,11 @@ function LocationPage(props) {
               setPostedComments((prevComments) => [...prevComments, newComment]);
             }
           } else if (eventType === 'DELETE') {
+            console.log("--------Delete registered________")
             const deletedCommentId = payload.old.id;
             if (payload.old.location === currentLocation) {
               setPostedComments((prevComments) => prevComments.filter(comment => comment.id !== deletedCommentId));
             }
-            
           }
 
 
@@ -633,7 +633,7 @@ function LocationPage(props) {
     return () => {
       channel.unsubscribe();
     };
-  }, []);
+  }, [postedComments]);
 
   const fetchComments = async () => {
     try {
@@ -680,30 +680,28 @@ function LocationPage(props) {
 
   const [liked, setLiked] = useState(JSON.parse(localStorage.getItem('likesByUser')) || []);
 
-  const handleLike = async (commentId, currentLikes) => {
-    if (liked.includes(commentId)) {
-      setLiked((prevLiked) => prevLiked.filter((id) => id !== commentId));
-    } else {
-      setLiked((prevLiked) => [...prevLiked, commentId]);
-    }
-
+  useEffect(() => {
     localStorage.setItem('likesByUser', JSON.stringify(liked));
+    console.log(liked);
+  }, [liked]);
+  
 
-    
+  const handleLike = async (commentId, currentLikes) => {
+
     let updatedLikes;
-    const likesByUser = JSON.parse(localStorage.getItem('likesByUser')) || [];
-    likesByUser.push(commentId);
-    localStorage.setItem('likesByUser', JSON.stringify(likesByUser));
 
-    if (likesByUser.includes(commentId)) {
-      //Already liked - should unlike
-      likesByUser.remove(commentId)
-      localStorage.setItem('likesByUser', JSON.stringify(likesByUser));
+    console.log("LIKED")
+    console.log(liked)
+
+    if (liked.includes(commentId)) {
+      const temp = liked.filter((id) => id !== commentId);
+      console.log(temp)
+      setLiked(temp)
       updatedLikes = currentLikes - 1;
     } else {
-      //Not liked yet
-      likesByUser.push(commentId);
-      localStorage.setItem('likesByUser', JSON.stringify(likesByUser));
+      const temp = [...liked, commentId];
+      console.log(temp)
+      setLiked(temp)
       updatedLikes = currentLikes + 1;
     }
   
@@ -716,9 +714,18 @@ function LocationPage(props) {
       console.error('Error updating likes count:', error);
     } else {
       console.log('Likes count updated successfully:', data);
+      //fetchComments();
       // Perform any additional logic after the likes count is updated
+      const updatedComments = postedComments.map((comment) => {
+        if (comment.id === commentId) {
+          return { ...comment, likes: updatedLikes };
+        }
+        return comment;
+      });
+      setPostedComments(updatedComments);
     }
   };
+  
   
 
   return (
@@ -869,16 +876,19 @@ function LocationPage(props) {
       <div>
         <div id='comments'>
           <h2>Wave Wall</h2>
-          {postedComments.map((comment) => (
-            <div id='comment-line' key={comment.id}>
-              <div>User {newRatingIdObj[currentLocation]}: {comment.comment}</div>
-              <button onClick={() => handleLike(comment.id, comment.likes)}>
-                {liked.includes(comment.id) ? 'Unlike' : 'Like'}
-              </button>
-              <span>{comment.likes}</span>
-            </div>
-          ))}
+          {postedComments
+            .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+            .map((comment) => (
+              <div id='comment-line' key={comment.id}>
+                <div>User: {comment.comment}</div>
+                <button onClick={() => handleLike(comment.id, comment.likes)}>
+                  {liked.includes(comment.id) ? 'Unlike' : 'Like'}
+                </button>
+                <span>{comment.likes}</span>
+              </div>
+            ))}
         </div>
+
 
         {newRatingIdObj[currentLocation] && (
           <div>
