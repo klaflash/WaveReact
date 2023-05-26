@@ -597,3 +597,53 @@ input[type="range"] {
   display: flex;
   justify-content: space-between;
 }
+
+.liked-button {
+  position: relative;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  transition: all 0.3s ease;
+  background-color: #f8d4df;
+  pointer-events: auto;
+}
+
+.liked-button svg path {
+  fill: #f65c8a;
+}
+
+.liked-button:active {
+  transform: scale(0.88);
+}
+
+.liked-button:active svg {
+  transform: scale(0.6);
+}
+
+.unliked-button {
+  background-color: #3D3D3D;
+  position: relative;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  transition: all 0.3s ease;
+  /* Add any additional styling for unliked button */
+}
+
+.unliked-button:active {
+  transform: scale(0.88);
+}
+
+.unliked-button:active svg {
+  transform: scale(0.6);
+}
+
+

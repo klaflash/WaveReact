@@ -679,6 +679,7 @@ function LocationPage(props) {
   }
 
   const [liked, setLiked] = useState(JSON.parse(localStorage.getItem('likesByUser')) || []);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('likesByUser', JSON.stringify(liked));
@@ -687,6 +688,11 @@ function LocationPage(props) {
   
 
   const handleLike = async (commentId, currentLikes) => {
+
+    setIsAnimating(true);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 800);
 
     let updatedLikes;
 
@@ -881,9 +887,15 @@ function LocationPage(props) {
             .map((comment) => (
               <div id='comment-line' key={comment.id}>
                 <div>User: {comment.comment}</div>
-                <button onClick={() => handleLike(comment.id, comment.likes)}>
-                  {liked.includes(comment.id) ? 'Unlike' : 'Like'}
+                <button
+                  onClick={() => handleLike(comment.id, comment.likes)}
+                  className={liked.includes(comment.id) ? 'liked-button' : 'unliked-button'}
+                >
+                  <svg width="23" height="20" viewBox="0 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.9649 3.12832C8.29171 -2.5454 0.857422 0.545461 0.857422 6.72603C0.857422 11.3672 11.0494 18.6272 11.9649 19.5712C12.8866 18.6272 22.5717 11.3672 22.5717 6.72603C22.5717 0.592318 15.6449 -2.5454 11.9649 3.12832Z" fill="#3E4373" />
+                  </svg>
                 </button>
+
                 <span>{comment.likes}</span>
               </div>
             ))}
