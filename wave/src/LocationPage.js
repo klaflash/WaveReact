@@ -968,6 +968,8 @@ function LocationPage(props) {
                 </button>
 
                 <span>{comment.dislikes}</span>
+
+                <div>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
               </div>
             ))}
         </div>
