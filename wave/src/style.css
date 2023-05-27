@@ -697,3 +697,10 @@ input[type="range"] {
   transform: scale(0.6);
 }
 
+.svg-container {
+  min-width: 15px; /* Adjust the value as needed */
+  min-height: 15px; /* Adjust the value as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
