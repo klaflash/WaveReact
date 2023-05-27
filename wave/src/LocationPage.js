@@ -679,12 +679,19 @@ function LocationPage(props) {
   }
 
   const [liked, setLiked] = useState(JSON.parse(localStorage.getItem('likesByUser')) || []);
+  const [disliked, setDisliked] = useState(JSON.parse(localStorage.getItem('dislikesByUser')) || []);
   const [isAnimating, setIsAnimating] = useState(false);
+
 
   useEffect(() => {
     localStorage.setItem('likesByUser', JSON.stringify(liked));
     console.log(liked);
   }, [liked]);
+
+  useEffect(() => {
+    localStorage.setItem('dislikesByUser', JSON.stringify(disliked));
+    console.log(disliked);
+  }, [disliked]);
   
 
   const handleLike = async (commentId, currentLikes) => {
@@ -709,6 +716,11 @@ function LocationPage(props) {
       console.log(temp)
       setLiked(temp)
       updatedLikes = currentLikes + 1;
+
+      if (disliked.includes(commentId)) {
+        const desiredComment = postedComments.find(comment => comment.id === commentId);
+        handleDislike(commentId, desiredComment.dislikes)
+      }
     }
   
     const { data, error } = await supabase
@@ -731,9 +743,57 @@ function LocationPage(props) {
       setPostedComments(updatedComments);
     }
   };
-  
-  
 
+  const handleDislike = async (commentId, currentDislikes) => {
+
+    setIsAnimating(true);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 800);
+
+    let updatedDislikes;
+
+    console.log("DISLIKED")
+    console.log(disliked)
+
+    if (disliked.includes(commentId)) {
+      const temp = disliked.filter((id) => id !== commentId);
+      console.log(temp)
+      setDisliked(temp)
+      updatedDislikes = currentDislikes - 1;
+    } else {
+      const temp = [...disliked, commentId];
+      console.log(temp)
+      setDisliked(temp)
+      updatedDislikes = currentDislikes + 1;
+
+      if (liked.includes(commentId)) {
+        const desiredComment = postedComments.find(comment => comment.id === commentId);
+        handleLike(commentId, desiredComment.likes)
+      }
+    }
+  
+    const { data, error } = await supabase
+      .from('Comments')
+      .update({ dislikes: updatedDislikes })
+      .eq('id', commentId);
+  
+    if (error) {
+      console.error('Error updating dislikes count:', error);
+    } else {
+      console.log('Dislikes count updated successfully:', data);
+      //fetchComments();
+      // Perform any additional logic after the likes count is updated
+      const updatedComments = postedComments.map((comment) => {
+        if (comment.id === commentId) {
+          return { ...comment, dislikes: updatedDislikes };
+        }
+        return comment;
+      });
+      setPostedComments(updatedComments);
+    }
+  };
+  
   return (
     <div id="main-location-container">
       <div id='location-card-1'>
@@ -892,11 +952,22 @@ function LocationPage(props) {
                   className={liked.includes(comment.id) ? 'liked-button' : 'unliked-button'}
                 >
                   <svg width="23" height="20" viewBox="0 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.9649 3.12832C8.29171 -2.5454 0.857422 0.545461 0.857422 6.72603C0.857422 11.3672 11.0494 18.6272 11.9649 19.5712C12.8866 18.6272 22.5717 11.3672 22.5717 6.72603C22.5717 0.592318 15.6449 -2.5454 11.9649 3.12832Z" fill="#3E4373" />
+                    <path d="M11.9649 3.12832C8.29171 -2.5454 0.857422 0.545461 0.857422 6.72603C0.857422 11.3672 11.0494 18.6272 11.9649 19.5712C12.8866 18.6272 22.5717 11.3672 22.5717 6.72603C22.5717 0.592318 15.6449 -2.5454 11.9649 3.12832Z" fill="#3a3a3a" />
+                  </svg>
+                </button>
+                <span>{comment.likes}</span>
+
+                <button
+                  onClick={() => handleDislike(comment.id, comment.dislikes)}
+                  className={disliked.includes(comment.id)  ? 'disliked-button' : 'undisliked-button'}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 26 20" fill="none">
+                    <path d="M9.00003 17.9999V13.9999H3.34003C3.05012 14.0032 2.76297 13.9434 2.49846 13.8247C2.23395 13.706 1.99842 13.5311 1.80817 13.3124C1.61793 13.0936 1.47753 12.8361 1.39669 12.5576C1.31586 12.2792 1.29652 11.9865 1.34003 11.6999L2.72003 2.69988C2.79235 2.22298 3.0346 1.78828 3.40212 1.47588C3.76965 1.16348 4.2377 0.994431 4.72003 0.999884H16V11.9999L12 20.9999C11.2044 20.9999 10.4413 20.6838 9.87871 20.1212C9.3161 19.5586 9.00003 18.7955 9.00003 17.9999Z" fill="#3A3A3A" stroke="#3A3A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20 1.00036V12.0004H22.67C23.236 12.0104 23.7859 11.8122 24.2154 11.4435C24.6449 11.0749 24.9241 10.5613 25 10.0004V3.00036C24.9241 2.43942 24.6449 1.92586 24.2154 1.55718C23.7859 1.1885 23.236 0.990352 22.67 1.00036H20Z" fill="#3A3A3A" stroke="#3A3A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </button>
 
-                <span>{comment.likes}</span>
+                <span>{comment.dislikes}</span>
               </div>
             ))}
         </div>

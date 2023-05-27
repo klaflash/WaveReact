@@ -608,8 +608,9 @@ input[type="range"] {
   align-items: center;
   border-radius: 7px;
   transition: all 0.3s ease;
-  background-color: #f8d4df;
+  background-color: #ffa8c2ef;
   pointer-events: auto;
+  border: 1px solid #f65c8a;
 }
 
 .liked-button svg path {
@@ -625,7 +626,7 @@ input[type="range"] {
 }
 
 .unliked-button {
-  background-color: #3D3D3D;
+  background-color: #1b1b1b;
   position: relative;
   cursor: pointer;
   width: 25px;
@@ -646,4 +647,53 @@ input[type="range"] {
   transform: scale(0.6);
 }
 
+.disliked-button {
+  position: relative;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  transition: all 0.3s ease;
+  background-color: #f76b6bee;
+  pointer-events: auto;
+  border: 1px solid #c51c1c;
+}
+
+.disliked-button svg path {
+  fill: #c51c1c;
+  stroke: #c51c1c;
+}
+
+.disliked-button:active {
+  transform: scale(0.88);
+}
+
+.disliked-button:active svg {
+  transform: scale(0.6);
+}
+
+.undisliked-button {
+  background-color: #1b1b1b;
+  position: relative;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  transition: all 0.3s ease;
+  /* Add any additional styling for unliked button */
+}
+
+.undisliked-button:active {
+  transform: scale(0.88);
+}
+
+.undisliked-button:active svg {
+  transform: scale(0.6);
+}
 
