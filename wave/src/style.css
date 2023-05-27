@@ -580,9 +580,28 @@ input[type="range"] {
   padding-top: 3rem;
 }
 
+#comment-bar-container {
+  display: flex;
+  background-color: #151515;
+  width: 90%;
+  border-radius: 15px;
+}
+
 #comment-bar {
   display: flex;
-  width: 90%;
+  width: 96%;
+  height: 30px;
+  background-color: #151515;
+  color: #858585;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-left: 2rem;
+}
+
+#submit-comment {
+  background-color: #2586ff;
+  color: #CBCBCB;
+  border-radius: 15px;
 }
 
 #character-count {

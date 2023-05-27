@@ -653,6 +653,9 @@ function LocationPage(props) {
 
   async function handleCommentSubmit() {
     // Perform any necessary actions with the comment data
+    if (comment.length === 0) {
+      return
+    }
     console.log('Comment submitted:', comment);
     const likes = 0
     const dislikes = 0
@@ -981,15 +984,18 @@ function LocationPage(props) {
 
         {newRatingIdObj[currentLocation] && (
           <div>
-            <input
-              id='comment-bar'
-              type="text"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              maxLength={maxCharacters}
-              placeholder="Enter your comment"
-            />
-            <button onClick={handleCommentSubmit}>Comment</button>
+            <div id='comment-bar-container'>
+              <input
+                id='comment-bar'
+                type="text"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                maxLength={maxCharacters}
+                placeholder="Enter your comment"
+              />
+              <button id='submit-comment' onClick={handleCommentSubmit}>Comment</button>
+            </div>
+            
             <div id='character-count'>
               Characters remaining: {maxCharacters - comment.length}/{maxCharacters}
             </div>
