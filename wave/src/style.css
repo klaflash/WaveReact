@@ -728,5 +728,22 @@ input[type="range"] {
 .pinned-comment {
   background-color: #151515;
   border-radius: 15px;
-  padding: 15px
+  padding: 15px;
+}
+
+.pinned-comments-section {
+  border: 1px solid #2586ff;
+}
+
+.preview-comments {
+  background-color: #151515;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 1rem;
+}
+
+.main-comments {
+  background-color: #151515;
+  padding: 15px;
+
 }
