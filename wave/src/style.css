@@ -612,7 +612,7 @@ input[type="range"] {
   color: #EBEBEB;
 }
 
-#comment-line {
+.comment-line {
   display: flex;
   justify-content: space-between;
 }

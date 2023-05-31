@@ -684,6 +684,7 @@ function LocationPage(props) {
   const [liked, setLiked] = useState(JSON.parse(localStorage.getItem('likesByUser')) || []);
   const [disliked, setDisliked] = useState(JSON.parse(localStorage.getItem('dislikesByUser')) || []);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [topComment, setTopComment] = useState();
 
 
   useEffect(() => {
@@ -695,6 +696,16 @@ function LocationPage(props) {
     localStorage.setItem('dislikesByUser', JSON.stringify(disliked));
     console.log(disliked);
   }, [disliked]);
+
+  useEffect(() => {
+    const sortedComments = [...postedComments].sort((a, b) => {
+      const ratioA = a.likes - a.dislikes; // Avoid division by zero
+      const ratioB = b.likes - b.dislikes;
+      return ratioB - ratioA; // Sort in descending order
+    });
+    setTopComment(sortedComments[0]);
+    
+  }, [postedComments]);
   
 
   const handleLike = async (commentId, currentLikes) => {
@@ -945,10 +956,47 @@ function LocationPage(props) {
       <div>
         <div id='comments'>
           <h2>Wave Wall</h2>
+          
+          {topComment && (
+            <div>
+              <div className='comment-line'>
+                <div>User: {topComment.comment}</div>
+                <button
+                  onClick={() => handleLike(topComment.id, topComment.likes)}
+                  className={liked.includes(topComment.id) ? 'liked-button' : 'unliked-button'}
+                >
+                  <div class="svg-container">
+                    <svg width="23" height="20" viewBox="0 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.9649 3.12832C8.29171 -2.5454 0.857422 0.545461 0.857422 6.72603C0.857422 11.3672 11.0494 18.6272 11.9649 19.5712C12.8866 18.6272 22.5717 11.3672 22.5717 6.72603C22.5717 0.592318 15.6449 -2.5454 11.9649 3.12832Z" fill="#3a3a3a" />
+                    </svg>
+                  </div>
+                </button>
+
+                <span>{topComment.likes}</span>
+
+                <button
+                  onClick={() => handleDislike(topComment.id, topComment.dislikes)}
+                  className={disliked.includes(topComment.id)  ? 'disliked-button' : 'undisliked-button'}
+                >
+                  <div class="svg-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20" viewBox="0 0 26 20" fill="none">
+                      <path d="M9.00003 17.9999V13.9999H3.34003C3.05012 14.0032 2.76297 13.9434 2.49846 13.8247C2.23395 13.706 1.99842 13.5311 1.80817 13.3124C1.61793 13.0936 1.47753 12.8361 1.39669 12.5576C1.31586 12.2792 1.29652 11.9865 1.34003 11.6999L2.72003 2.69988C2.79235 2.22298 3.0346 1.78828 3.40212 1.47588C3.76965 1.16348 4.2377 0.994431 4.72003 0.999884H16V11.9999L12 20.9999C11.2044 20.9999 10.4413 20.6838 9.87871 20.1212C9.3161 19.5586 9.00003 18.7955 9.00003 17.9999Z" fill="#3A3A3A" stroke="#3A3A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M20 1.00036V12.0004H22.67C23.236 12.0104 23.7859 11.8122 24.2154 11.4435C24.6449 11.0749 24.9241 10.5613 25 10.0004V3.00036C24.9241 2.43942 24.6449 1.92586 24.2154 1.55718C23.7859 1.1885 23.236 0.990352 22.67 1.00036H20Z" fill="#3A3A3A" stroke="#3A3A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </button>
+
+                <span>{topComment.dislikes}</span>
+                <div>{new Date(topComment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+              </div>
+            </div>
+          )}
+          
           {postedComments
             .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
             .map((comment) => (
-              <div id='comment-line' key={comment.id}>
+              
+              <div className='comment-line' key={comment.id}>
                 <div>User: {comment.comment}</div>
                 <button
                   onClick={() => handleLike(comment.id, comment.likes)}
@@ -1001,8 +1049,6 @@ function LocationPage(props) {
             </div>
           </div>
         )}
-
-        
       </div>
 
     </div>
