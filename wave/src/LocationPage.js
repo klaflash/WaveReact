@@ -958,7 +958,7 @@ function LocationPage(props) {
           <h2>Wave Wall</h2>
           
           {topComment && (
-            <div>
+            <div className='pinned-comment'>
               <div className='comment-line'>
                 <div>User: {topComment.comment}</div>
                 <button

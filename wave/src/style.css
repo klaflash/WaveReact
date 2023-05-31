@@ -615,6 +615,7 @@ input[type="range"] {
 .comment-line {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .liked-button {
@@ -722,4 +723,10 @@ input[type="range"] {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.pinned-comment {
+  background-color: #151515;
+  border-radius: 15px;
+  padding: 15px
 }
