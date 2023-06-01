@@ -956,12 +956,14 @@ function LocationPage(props) {
 
       <div>
         <div id='comments'>
-          <h2>Wave Wall</h2>
-
+          
           {topComment && topComment.slice(0, 1).map((comment) => (
             <div className='preview-comments'>
               <div className='comment-line'>
-                <div>User {comment.user_number}: {comment.comment}</div>
+                  <div className='comment-line-left'>
+                    <div className='user-bubble'>User {comment.user_number}</div>
+                    <div>{comment.comment}</div>
+                  </div>
                 <button
                   onClick={() => handleLike(comment.id, comment.likes)}
                   className={liked.includes(comment.id) ? 'liked-button' : 'unliked-button'}
@@ -988,17 +990,24 @@ function LocationPage(props) {
                 </button>
 
                 <span>{comment.dislikes}</span>
-                <div>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
           ))}
+
+        <div className='comment-container'>
+          <div className='wave-wall'>Wave Wall</div>
 
           <div className='pinned-comments-section'>
           
           {topComment && topComment.slice(0, 3).map((comment) => (
               <div className='pinned-comment'>
                 <div className='comment-line'>
-                  <div>User {comment.user_number}: {comment.comment}</div>
+                  <div className='comment-line-left'>
+                    <div className='user-bubble'>User {comment.user_number}</div>
+                    <div>{comment.comment}</div>
+                  </div>
+      
                   <button
                     onClick={() => handleLike(comment.id, comment.likes)}
                     className={liked.includes(comment.id) ? 'liked-button' : 'unliked-button'}
@@ -1025,7 +1034,7 @@ function LocationPage(props) {
                   </button>
 
                   <span>{comment.dislikes}</span>
-                  <div>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                  <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
                 </div>
               </div>
           ))}
@@ -1039,7 +1048,10 @@ function LocationPage(props) {
               <div key={comment.id}>
                 {topComment[0] && comment.id !== topComment[0].id && comment.id !== topComment[1].id && comment.id !== topComment[2].id && (
                   <div className='comment-line'>
-                    <div>User {comment.user_number}: {comment.comment}</div>
+                      <div className='comment-line-left'>
+                      <div className='user-bubble'>User {comment.user_number}</div>
+                      <div>{comment.comment}</div>
+                    </div>
                     <button
                       onClick={() => handleLike(comment.id, comment.likes)}
                       className={liked.includes(comment.id) ? 'liked-button' : 'unliked-button'}
@@ -1066,7 +1078,7 @@ function LocationPage(props) {
 
                     <span>{comment.dislikes}</span>
 
-                    <div>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                    <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
                   </div>
                 )}
 
@@ -1074,29 +1086,32 @@ function LocationPage(props) {
             ))}
           </div>
 
-        </div>
+        
 
 
-        {newRatingIdObj[currentLocation] && (
-          <div>
-            <div id='comment-bar-container'>
-              <input
-                id='comment-bar'
-                type="text"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                maxLength={maxCharacters}
-                placeholder="Enter your comment"
-              />
-              <button id='submit-comment' onClick={handleCommentSubmit}>Comment</button>
+          {newRatingIdObj[currentLocation] && (
+            <div id='comment-bar-outer-container'>
+              <div id='comment-bar-container'>
+                <input
+                  id='comment-bar'
+                  type="text"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  maxLength={maxCharacters}
+                  placeholder="Enter your comment"
+                />
+                <button id='submit-comment' onClick={handleCommentSubmit}>Comment</button>
+              </div>
+              
+              <div id='character-count'>
+                Characters remaining: {maxCharacters - comment.length}/{maxCharacters}
+              </div>
             </div>
-            
-            <div id='character-count'>
-              Characters remaining: {maxCharacters - comment.length}/{maxCharacters}
-            </div>
+          )}
           </div>
-        )}
+        </div>
       </div>
+
 
     </div>
   );
