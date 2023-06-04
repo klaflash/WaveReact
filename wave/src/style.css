@@ -603,11 +603,18 @@ input[type="range"] {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   padding-left: 2rem;
-  font-size: 15px;
+  font-size: 13px;
+  align-items: center;
 }
 
 #submit-comment {
   background-color: #1f61c4;
+  color: #CBCBCB;
+  border-radius: 15px;
+}
+
+#submit-comment-grey {
+  background-color: #3D3D3D;
   color: #CBCBCB;
   border-radius: 15px;
 }
@@ -623,6 +630,11 @@ input[type="range"] {
 
 .comment-line {
   border-bottom: 1px solid #2c2c2c;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.comment-line-pinned {
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -762,7 +774,6 @@ input[type="range"] {
 }
 
 .pinned-comment {
-  background-color: #1f61c4;
 }
 
 .pinned-comments-section {
@@ -772,6 +783,14 @@ input[type="range"] {
   border-radius: 15px;
   position: sticky;
   top: 0.5rem;
+  border: none;
+  z-index: 100;
+  background: rgba(31, 97, 196, 0.81);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.4px);
+  -webkit-backdrop-filter: blur(5.4px);
+  border: 1px solid rgba(31, 97, 196, 0.34);
 }
 
 .preview-comments {

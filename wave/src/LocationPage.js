@@ -959,7 +959,7 @@ function LocationPage(props) {
           
           {topComment && topComment.slice(0, 1).map((comment) => (
             <div className='preview-comments'>
-              <div className='comment-line'>
+              <div className='comment-line-pinned'>
                 <div className='comment-line-one'>
                   <div className='user-bubble'>User {comment.user_number}</div>
                   <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
@@ -1005,7 +1005,7 @@ function LocationPage(props) {
           
           {topComment && topComment.slice(0, 3).map((comment) => (
               <div className='pinned-comment'>
-                <div className='comment-line'>
+                <div className='comment-line-pinned'>
                     <div className='comment-line-one'>
                       <div className='user-bubble'>User {comment.user_number}</div>
                       <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
@@ -1111,6 +1111,19 @@ function LocationPage(props) {
                   placeholder="Enter your comment"
                 />
                 <button id='submit-comment' onClick={handleCommentSubmit}>Comment</button>
+              </div>
+              
+              <div id='character-count'>
+                Characters remaining: {maxCharacters - comment.length}/{maxCharacters}
+              </div>
+            </div>
+          )}
+
+          {!newRatingIdObj[currentLocation] && (
+            <div id='comment-bar-outer-container'>
+              <div id='comment-bar-container'>
+                <div id='comment-bar'>Please rate before you can comment</div>
+                <button id='submit-comment-grey'>Comment</button>
               </div>
               
               <div id='character-count'>
