@@ -607,7 +607,7 @@ input[type="range"] {
 }
 
 #submit-comment {
-  background-color: #2586ff;
+  background-color: #1f61c4;
   color: #CBCBCB;
   border-radius: 15px;
 }
@@ -622,27 +622,34 @@ input[type="range"] {
 }
 
 .comment-line {
+  border-bottom: 1px solid #2c2c2c;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.comment-line-one {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  gap: 1rem;
+  padding-bottom: 5px;
+  font-size: 11px;
 }
 
-.comment-line-left {
+.comment-line-two {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  padding-left: 4px;
+  font-size: 13px;
+  gap: 0.25rem;
 }
 
 .user-bubble {
   background-color: #979696;
   border-radius: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .liked-button {
@@ -790,6 +797,10 @@ input[type="range"] {
 .comment-timestamp {
   font-size: 12px;
   color: #858585;
+}
+
+.comment-text {
+  padding-right: 5px;
 }
 
 .wave-wall {
