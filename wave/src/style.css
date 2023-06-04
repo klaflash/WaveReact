@@ -237,7 +237,7 @@ input[type="range"] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0.8rem;
+    margin: 15px;
     border-radius: 25px;
     background-color: #151515;
   }
@@ -449,7 +449,7 @@ input[type="range"] {
 }
 
 #location-card-1 {
-  margin: 0.8rem;
+  margin: 15px;
   border-radius: 25px;
   background-color: #151515;
 }
@@ -788,8 +788,8 @@ input[type="range"] {
   background: rgba(31, 97, 196, 0.81);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5.4px);
-  -webkit-backdrop-filter: blur(5.4px);
+  backdrop-filter: blur(3.4px);
+  -webkit-backdrop-filter: blur(3.4px);
   border: 1px solid rgba(31, 97, 196, 0.34);
 }
 
@@ -832,20 +832,22 @@ input[type="range"] {
 
 #comment-header {
   display: flex;
+  height: 50px;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  margin: 1rem;
 }
 
 .close-button {
+  display: flex;
   width: 25px;
   height: 25px;
   background-color: #292929;
   font-size: 25px;
-  display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
+  color: #141414;
 }
 
 .close-button:active {
@@ -854,7 +856,7 @@ input[type="range"] {
 
 .popup-content {
   position: absolute;
-  top: 50vh;
+  top: 52vh;
   z-index: 9999;
   width: 100vw;
   animation: slideIn 0.3s linear;
