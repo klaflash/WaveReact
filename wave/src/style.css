@@ -801,6 +801,10 @@ input[type="range"] {
   margin: 15px;
 }
 
+.preview-comments:active {
+  background-color: #292929;
+}
+
 .main-comments {
   background-color: #151515;
   padding: 15px;
@@ -823,6 +827,48 @@ input[type="range"] {
 }
 
 .wave-wall {
-  padding: 1rem;
   font-size: 25px;
 }
+
+#comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.close-button {
+  width: 25px;
+  height: 25px;
+  background-color: #292929;
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.close-button:active {
+  background-color: #333;
+}
+
+.popup-content {
+  position: absolute;
+  top: 50vh;
+  z-index: 9999;
+  width: 100vw;
+  animation: slideIn 0.3s linear;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(400px);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: translateY(0px);
+    animation-timing-function: ease-in;
+  }
+}
+
+
