@@ -592,6 +592,23 @@ input[type="range"] {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw - 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 15px;
+  margin-bottom: 2px;
+  padding-top: 15px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.76);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2.9px);
+  -webkit-backdrop-filter: blur(2.9px);
+  border: 1px solid rgba(0, 0, 0, 0.24);
 }
 
 #comment-bar {
@@ -812,9 +829,11 @@ input[type="range"] {
 
 .comment-container {
   margin: 15px;
+  margin-bottom: 60px;
   background-color: #151515;
   border-radius: 15px;
   padding-bottom: 1rem;
+  min-height: 44vh;
 }
 
 .comment-timestamp {
@@ -854,6 +873,14 @@ input[type="range"] {
   background-color: #333;
 }
 
+#no-comments {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+  color: #CBCBCB;
+}
+
 .popup-content {
   position: absolute;
   top: 52vh;
@@ -872,5 +899,4 @@ input[type="range"] {
     animation-timing-function: ease-in;
   }
 }
-
 

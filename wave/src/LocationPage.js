@@ -1008,6 +1008,12 @@ function LocationPage(props) {
             </div>
           ))}
 
+        {topComment && !topComment[0] && (
+          <div className='preview-comments' onClick={openPopup}>
+            <div id='no-comments'>Be the first to comment</div>
+          </div>
+        )}
+
         {isPopupOpen && (
           <div className='popup'>
             <div className='popup-content'>
