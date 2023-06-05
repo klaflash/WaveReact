@@ -609,6 +609,7 @@ input[type="range"] {
   backdrop-filter: blur(2.9px);
   -webkit-backdrop-filter: blur(2.9px);
   border: 1px solid rgba(0, 0, 0, 0.24);
+  z-index: 200;
 }
 
 #comment-bar {
@@ -829,7 +830,7 @@ input[type="range"] {
 
 .comment-container {
   margin: 15px;
-  margin-bottom: 60px;
+  margin-bottom: 65px;
   background-color: #151515;
   border-radius: 15px;
   padding-bottom: 1rem;
@@ -859,14 +860,12 @@ input[type="range"] {
 
 .close-button {
   display: flex;
-  width: 25px;
-  height: 25px;
   background-color: #292929;
-  font-size: 25px;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
   color: #141414;
+  padding: 3px;
 }
 
 .close-button:active {
@@ -898,5 +897,9 @@ input[type="range"] {
     transform: translateY(0px);
     animation-timing-function: ease-in;
   }
+}
+
+#main-location-container {
+  height: 100svh;
 }
 
