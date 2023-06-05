@@ -4,6 +4,8 @@ import { useLocation, useParams } from "react-router-dom";
 import { createClient } from '@supabase/supabase-js'
 import { ResponsiveBar } from '@nivo/bar'
 
+import logo from './waveLogo.png';
+
 //const supabaseUrl = process.env.REACT_APP_PROJECT_URL
 //const supabaseKey = process.env.REACT_APP_API_KEY
 
@@ -614,6 +616,7 @@ function LocationPage(props) {
             const newComment = payload.new;
             if (newComment.location === currentLocation) {
               setPostedComments((prevComments) => [...prevComments, newComment]);
+              handleNoti(newComment);
             }
           } else if (eventType === 'DELETE') {
             console.log("--------Delete registered________")
@@ -672,6 +675,7 @@ function LocationPage(props) {
         console.log('Error inserting into Ratings table:', insertError.message);
         return;
     }
+    handleNoti(newRating);
 
     const commentsByUser = JSON.parse(localStorage.getItem('commentsByUser')) || [];
     commentsByUser.push(newRating.id);
@@ -818,9 +822,36 @@ function LocationPage(props) {
   const closePopup = () => {
     setIsPopupOpen(false);
   };
+
+  const [showNoti, setShowNoti] = useState(false);
+  const [notiContent, setNotiContent] = useState();
+  
+
+  const handleNoti = (comment) => {
+    setNotiContent(comment)
+    setShowNoti(true);
+
+    setTimeout(() => {
+      setShowNoti(false);
+    }, 5000);
+  };
   
   return (
     <div id="main-location-container">
+
+      {showNoti && (
+        <div className='noti-container'>
+          <img className='wave-logo' src={logo} alt="Logo" />
+          <div className='noti-inner-container'>
+            <div className='noti-line-one'>
+              <div className='noti-user'>User {notiContent.user_number}</div>
+              <div className='noti-timestamp'>Now</div>
+            </div>
+            <div>{notiContent.comment}</div>
+          </div>
+        </div>
+      )}
+
       <div id='location-card-1'>
         <div id='location-header'>
           <div id='location-header-left'>
