@@ -211,7 +211,7 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
 
 function LocationPage(props) {
 
-  const [comment, setComment] = useState('');
+  const [commentText, setCommentText] = useState('');
   const maxCharacters = 100;
   const [postedComments, setPostedComments] = useState([]);
 
@@ -597,7 +597,9 @@ function LocationPage(props) {
 
   useEffect(() => {
     fetchComments();
+  }, [])
 
+  useEffect(() => {
     const channel = supabase
       .channel('schema-db-changes')
       .on(
@@ -656,9 +658,21 @@ function LocationPage(props) {
 
   async function handleCommentSubmit() {
     // Perform any necessary actions with the comment data
-    if (comment.length === 0) {
+    if (commentText.length === 0) {
       return
     }
+    const bannedWords = {'nigga': 'brotha', 'nigger': 'brother'};
+    let comment = commentText;
+    let modifiedComment = comment.toLowerCase();
+
+    for (const word in bannedWords) {
+      if (modifiedComment.includes(word)) {
+        const regex = new RegExp(`${word}`, 'gi');
+        modifiedComment = modifiedComment.replace(regex, bannedWords[word]);
+        comment = modifiedComment;
+      }
+    }
+
     console.log('Comment submitted:', comment);
     const likes = 0
     const dislikes = 0
@@ -675,6 +689,7 @@ function LocationPage(props) {
         console.log('Error inserting into Ratings table:', insertError.message);
         return;
     }
+
     handleNoti(newRating);
 
     const commentsByUser = JSON.parse(localStorage.getItem('commentsByUser')) || [];
@@ -683,7 +698,7 @@ function LocationPage(props) {
     localStorage.setItem('commentsByUser', JSON.stringify(commentsByUser));
 
     // Reset the comment state after submission
-    setComment('');
+    setCommentText('');
   }
 
   const [liked, setLiked] = useState(JSON.parse(localStorage.getItem('likesByUser')) || []);
@@ -828,8 +843,8 @@ function LocationPage(props) {
   
 
   const handleNoti = (comment) => {
-    setNotiContent(comment)
     setShowNoti(true);
+    setNotiContent(comment)
 
     setTimeout(() => {
       setShowNoti(false);
@@ -999,7 +1014,7 @@ function LocationPage(props) {
         <div id='comments'>
           
           {topComment && topComment.slice(0, 1).map((comment) => (
-            <div className='preview-comments' onClick={openPopup}>
+            <div key={comment.id} className='preview-comments' onClick={openPopup}>
               <div className='comment-line-pinned'>
                 <div className='comment-line-one'>
                   <div className='user-bubble'>User {comment.user_number}</div>
@@ -1054,7 +1069,7 @@ function LocationPage(props) {
               <div id='comment-header'>
                 <div className='wave-wall'>Wave Stream</div>
                 <button className='close-button' onClick={closePopup}>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="23" height="23" viewBox="0 0 23 23" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="23" height="23" viewBox="0 0 23 23" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M18 6l-12 12"/>
                     <path d="M6 6l12 12"/>
@@ -1066,7 +1081,7 @@ function LocationPage(props) {
               <div className='pinned-comments-section'>
               
               {topComment && topComment.slice(0, 3).map((comment) => (
-                  <div className='pinned-comment'>
+                  <div key={comment.id} className='pinned-comment'>
                     <div className='comment-line-pinned'>
                         <div className='comment-line-one'>
                           <div className='user-bubble'>User {comment.user_number}</div>
@@ -1165,8 +1180,8 @@ function LocationPage(props) {
                     <input
                       id='comment-bar'
                       type="text"
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
                       maxLength={maxCharacters}
                       placeholder="Enter your comment"
                     />
@@ -1174,7 +1189,7 @@ function LocationPage(props) {
                   </div>
                   
                   <div id='character-count'>
-                    Characters remaining: {maxCharacters - comment.length}/{maxCharacters}
+                    Characters remaining: {maxCharacters - commentText.length}/{maxCharacters}
                   </div>
                 </div>
               )}
@@ -1187,7 +1202,7 @@ function LocationPage(props) {
                   </div>
                   
                   <div id='character-count'>
-                    Characters remaining: {maxCharacters - comment.length}/{maxCharacters}
+                    Characters remaining: {maxCharacters - commentText.length}/{maxCharacters}
                   </div>
                 </div>
               )}
