@@ -618,6 +618,8 @@ function LocationPage(props) {
             const newComment = payload.new;
             if (newComment.location === currentLocation) {
               setPostedComments((prevComments) => [...prevComments, newComment]);
+              //sortCommentsByChoice()
+              //updateComments(newComment)
 
               if (!(newComment.user_number === newRatingIdObj[currentLocation])) {
                 setIsBorderNone(false);
@@ -639,6 +641,7 @@ function LocationPage(props) {
                 const updatedComments = prevComments.filter(comment => comment.id !== commentId);
                 return [...updatedComments, updatedComment];
               });
+              //sortCommentsByChoice()
             }
           }
 
@@ -654,6 +657,7 @@ function LocationPage(props) {
     };
   }, [postedComments]);
 
+
   const fetchComments = async () => {
     try {
       // Fetch comments from the "comments" table
@@ -664,7 +668,8 @@ function LocationPage(props) {
       console.log("________LOgged")
       console.log(data)
       const thisLocationData = data.filter(item => item.location === currentLocation)
-      setPostedComments(thisLocationData);
+      sortCommentsByChoice(thisLocationData)
+      //setPostedComments(thisLocationData);
 
       thisLocationData.forEach(item => {
         let itemTimestamp = item.created_at; // Assuming item.created_at is the timestamp value of each item
@@ -966,24 +971,25 @@ function LocationPage(props) {
   };
 
   useEffect(() => {
-    
 
+    sortCommentsByChoice(postedComments);
+    
   }, [selectedSort]);
 
-  const sortCommentsByChoice = () => {
+  const sortCommentsByChoice = (comments) => {
     if (selectedSort === 1) {
       //Sort by recent
-      const sortedComments = [...postedComments].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      const sortedComments = [...comments].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       setPostedComments(sortedComments);
       
     } else if (selectedSort === 2) {
       //Sort by oldest
-      const sortedComments = [...postedComments].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      const sortedComments = [...comments].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
       setPostedComments(sortedComments);
 
     } else if (selectedSort === 3) {
       //Sort by top
-      const sortedComments = [...postedComments].sort((a, b) => {
+      const sortedComments = [...comments].sort((a, b) => {
         const ratioA = a.likes - a.dislikes; // Avoid division by zero
         const ratioB = b.likes - b.dislikes;
         return ratioB - ratioA; // Sort in descending order
@@ -992,12 +998,12 @@ function LocationPage(props) {
 
     } else if (selectedSort === 4) {
       //Sort by likes
-      const sortedComments = [...postedComments].sort((a, b) => b.likes - a.likes);
+      const sortedComments = [...comments].sort((a, b) => b.likes - a.likes);
       setPostedComments(sortedComments);
 
     } else if (selectedSort === 5) {
       //Sort by dislikes
-      const sortedComments = [...postedComments].sort((a, b) => b.dislikes - a.dislikes);
+      const sortedComments = [...comments].sort((a, b) => b.dislikes - a.dislikes);
       setPostedComments(sortedComments);
 
     }
@@ -1302,9 +1308,7 @@ function LocationPage(props) {
               </div>
 
               <div className='main-comments'>
-              {postedComments
-                .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
-                .map((comment) => (
+              {postedComments.map((comment) => (
 
                   <div key={comment.id}>
                     {topComment[0] && comment.id !== topComment[0].id && comment.id !== topComment[1].id && comment.id !== topComment[2].id && (
