@@ -617,9 +617,9 @@ function LocationPage(props) {
           if (eventType === 'INSERT') {
             const newComment = payload.new;
             if (newComment.location === currentLocation) {
-              setPostedComments((prevComments) => [...prevComments, newComment]);
-              //sortCommentsByChoice()
-              //updateComments(newComment)
+              const updatedComments = [...postedComments, newComment];
+              sortCommentsByChoice(updatedComments)
+              //setPostedComments((prevComments) => [...prevComments, newComment]);
 
               if (!(newComment.user_number === newRatingIdObj[currentLocation])) {
                 setIsBorderNone(false);
@@ -637,10 +637,18 @@ function LocationPage(props) {
             const updatedComment = payload.new;
             const commentId = payload.old.id;
             if (updatedComment.location === currentLocation) {
-              setPostedComments((prevComments) => {
+              const updatedComments = (prevComments) => {
                 const updatedComments = prevComments.filter(comment => comment.id !== commentId);
                 return [...updatedComments, updatedComment];
-              });
+              };
+              
+              const sortedComments = updatedComments(postedComments);
+
+              setTimeout(() => {
+                sortCommentsByChoice(sortedComments)
+              }, 500);
+              
+              
               //sortCommentsByChoice()
             }
           }
@@ -827,7 +835,11 @@ function LocationPage(props) {
         }
         return comment;
       });
-      setPostedComments(updatedComments);
+
+      setTimeout(() => {
+        sortCommentsByChoice(updatedComments)
+      }, 500);
+      //setPostedComments(updatedComments);
     }
   };
 
@@ -879,7 +891,11 @@ function LocationPage(props) {
         }
         return comment;
       });
-      setPostedComments(updatedComments);
+      setTimeout(() => {
+        sortCommentsByChoice(updatedComments)
+      }, 500);
+      
+      //setPostedComments(updatedComments);
     }
   };
 
