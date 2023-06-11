@@ -1265,7 +1265,7 @@ function LocationPage(props) {
               </div>
 
 
-              {newRatingIdObj[currentLocation] && (
+              {newRatingIdObj && newRatingIdObj[currentLocation] && (
                 <div id='comment-bar-outer-container'>
                   <div id='comment-bar-container'>
                     <input
@@ -1279,7 +1279,7 @@ function LocationPage(props) {
                     />
                     <button id='submit-comment' onClick={handleCommentSubmit} disabled={!commentText} style={{ opacity: commentText ? 1 : 0.5 }}>
                       <div className="svg-container-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-up" width="23" height="23" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-up" width="23" height="23" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                           <path d="M12 5l0 14"/>
                           <path d="M18 11l-6 -6"/>
@@ -1301,7 +1301,7 @@ function LocationPage(props) {
                     <div id='comment-bar'>Please rate before you can comment</div>
                     <button id='submit-comment-grey'>
                       <div className="svg-container-2">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-up" width="23" height="23" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-up" width="23" height="23" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M12 5l0 14"/>
                             <path d="M18 11l-6 -6"/>
