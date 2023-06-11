@@ -977,7 +977,7 @@ input[type="range"] {
   padding-left: 1rem;
   z-index: 500;
   font-size: 13px;
-  background: rgba(46, 45, 45, 0.76);
+  background: rgba(46, 45, 45, 0.66);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(7.1px);
