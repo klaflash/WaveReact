@@ -27,12 +27,12 @@ body {
 
 #header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-top: 2rem;
   padding-bottom: 2rem;
   padding-left: 5%;
   padding-right: 5%;
+  gap: 0.5rem;
 }
 
 #logo {
@@ -81,6 +81,10 @@ li {
   width: 100%;
   height: 100px;
   margin: 2px;
+}
+
+.card-container:active {
+  background-color: #292929;
 }
 
 .card-left {
@@ -576,6 +580,21 @@ input[type="range"] {
   flex-direction: column;
   padding-top: 4rem;
   color: #4d4d4d;
+  gap: 1rem;
+}
+
+.report-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+#ig-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center
 }
 
 #copyright {
@@ -1028,9 +1047,24 @@ input[type="range"] {
   background-color: #151515;
   height: 30px;
   width: 30px;
+  margin-left: auto;
 }
 
 #mute-button:active {
+  background-color: #2c2c2c;
+}
+
+#ig-button {
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #151515;
+  height: 30px;
+  width: 30px;
+}
+
+#ig-button:active {
   background-color: #2c2c2c;
 }
 
