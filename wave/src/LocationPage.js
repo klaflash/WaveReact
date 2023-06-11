@@ -618,8 +618,11 @@ function LocationPage(props) {
             const newComment = payload.new;
             if (newComment.location === currentLocation) {
               setPostedComments((prevComments) => [...prevComments, newComment]);
-              setIsBorderNone(false);
-              setBorder(false)
+
+              if (!(newComment.user_number === newRatingIdObj[currentLocation])) {
+                setIsBorderNone(false);
+                setBorder(false)
+              }
               handleNoti(newComment);
             }
           } else if (eventType === 'DELETE') {
@@ -655,11 +658,16 @@ function LocationPage(props) {
       setPostedComments(thisLocationData);
 
       thisLocationData.forEach(item => {
-        const itemTimestamp = item.created_at; // Assuming item.created_at is the timestamp value of each item
+        let itemTimestamp = item.created_at; // Assuming item.created_at is the timestamp value of each item
+        const withoutDecimal = itemTimestamp.split(".")[0];
+        const result = withoutDecimal + "+00:00";
+        itemTimestamp = result;
       
         if (itemTimestamp > viewedCommentsTime) {
           // The item's timestamp is newer than the viewedCommentsTime timestamp
           // Perform your desired actions here
+          console.log(itemTimestamp)
+          console.log(viewedCommentsTime)
           setIsBorderNone(false);
           setBorder(false)
         }
@@ -715,6 +723,12 @@ function LocationPage(props) {
 
     // Reset the comment state after submission
     setCommentText('');
+
+    const currentDate = new Date();
+    const currentTimeString = currentDate.toISOString().split('.')[0] + "+00:00";
+
+    setViewedCommentsTime(currentTimeString)
+    setStorageViewedComments(currentTimeString)
   }
 
   const handleKeyDown = (event) => {
@@ -1277,7 +1291,7 @@ function LocationPage(props) {
                     />
                     <button id='submit-comment' onClick={handleCommentSubmit} disabled={!commentText} style={{ opacity: commentText ? 1 : 0.5 }}>
                       <div className="svg-container-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-up" width="23" height="23" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-up" width="23" height="23" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                           <path d="M12 5l0 14"/>
                           <path d="M18 11l-6 -6"/>
@@ -1299,7 +1313,7 @@ function LocationPage(props) {
                     <div id='comment-bar'>Please rate before you can comment</div>
                     <button id='submit-comment-grey'>
                       <div className="svg-container-2">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-up" width="23" height="23" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-up" width="23" height="23" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M12 5l0 14"/>
                             <path d="M18 11l-6 -6"/>
