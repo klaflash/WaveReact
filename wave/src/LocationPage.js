@@ -1143,9 +1143,12 @@ function LocationPage(props) {
           ))}
 
         {topComment && !topComment[0] && (
-          <div className='preview-comments' onClick={openPopup}>
-            <div id='no-comments'>Be the first to comment</div>
+          <div className='preview-comments-border-none'>
+            <div className='preview-comments' onClick={openPopup}>
+              <div id='no-comments'>Be the first to comment</div>
+            </div>
           </div>
+          
         )}
 
         {isPopupOpen && (
@@ -1296,7 +1299,16 @@ function LocationPage(props) {
                 <div id='comment-bar-outer-container'>
                   <div id='comment-bar-container'>
                     <div id='comment-bar'>Please rate before you can comment</div>
-                    <button id='submit-comment-grey'>Comment</button>
+                    <button id='submit-comment-grey'>
+                      <div className="svg-container-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-up" width="23" height="23" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 5l0 14"/>
+                            <path d="M18 11l-6 -6"/>
+                            <path d="M6 11l6 -6"/>
+                          </svg>
+                        </div>
+                    </button>
                   </div>
                   
                   <div id='character-count'>

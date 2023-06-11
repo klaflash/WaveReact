@@ -646,7 +646,6 @@ input[type="range"] {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .svg-container-2 {
@@ -655,9 +654,15 @@ input[type="range"] {
 }
 
 #submit-comment-grey {
-  background-color: #3D3D3D;
+  background-color: #1f61c4;
   color: #CBCBCB;
+  opacity: 0.5;
+  width: 27px;
+  height: 27px;
   border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #character-count {
@@ -836,7 +841,7 @@ input[type="range"] {
 
 .preview-comments {
   background-color: #151515;
-  border-radius: 15px;
+  border-radius: 20px;
   padding: 15px;
 }
 
@@ -848,7 +853,7 @@ input[type="range"] {
   padding: 2px;
   background-image: radial-gradient(circle, #a1d1fe, #95cbfe, #88c5ff, #7bbeff, #6db8ff, #60b1ff, #53aaff, #45a3ff, #379aff, #2c90ff, #2586ff, #267cfe);
   margin: 15px;
-  border-radius: 15px;
+  border-radius: 20px;
   margin-bottom: 1rem;
 }
 
@@ -856,7 +861,7 @@ input[type="range"] {
   padding: 2px;
   margin: 15px;
   background-color: #151515;
-  border-radius: 15px;
+  border-radius: 20px;
   margin-bottom: 1rem;
 }
 
@@ -915,8 +920,8 @@ input[type="range"] {
   align-items: center;
   justify-content: center;
   margin-left: 15px;
-  color: #CBCBCB;
-  font-size: 13px;
+  color: #858585;
+  font-size: 15px;
 }
 
 .popup-content {
