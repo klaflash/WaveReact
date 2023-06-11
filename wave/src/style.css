@@ -829,6 +829,14 @@ input[type="range"] {
   margin-bottom: 1rem;
 }
 
+.preview-comments-border-none {
+  padding: 2px;
+  margin: 15px;
+  background-color: #151515;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+}
+
 .main-comments {
   background-color: #151515;
   padding: 15px;

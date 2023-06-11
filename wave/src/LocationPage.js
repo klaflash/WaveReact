@@ -618,6 +618,8 @@ function LocationPage(props) {
             const newComment = payload.new;
             if (newComment.location === currentLocation) {
               setPostedComments((prevComments) => [...prevComments, newComment]);
+              setIsBorderNone(false);
+              setBorder(false)
               handleNoti(newComment);
             }
           } else if (eventType === 'DELETE') {
@@ -649,7 +651,23 @@ function LocationPage(props) {
       }
       console.log("________LOgged")
       console.log(data)
-      setPostedComments(data.filter(item => item.location === currentLocation));
+      const thisLocationData = data.filter(item => item.location === currentLocation)
+      setPostedComments(thisLocationData);
+
+      thisLocationData.forEach(item => {
+        const itemTimestamp = item.created_at; // Assuming item.created_at is the timestamp value of each item
+        console.log(itemTimestamp)
+      
+        if (itemTimestamp > viewedCommentsTime) {
+          // The item's timestamp is newer than the viewedCommentsTime timestamp
+          // Perform your desired actions here
+          console.log("YEA the border should show")
+          setIsBorderNone(false);
+          setBorder(false)
+        }
+      });
+      
+
       //setPostedComments(data);
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -829,13 +847,59 @@ function LocationPage(props) {
   };
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isBorderNone, setIsBorderNone] = useState(localStorage.getItem('border_off') ? JSON.parse(localStorage.getItem('border_off'))[currentLocation] : false);
+  const [viewedCommentsTime, setViewedCommentsTime] = useState(localStorage.getItem('viewed_comments_time') ? JSON.parse(localStorage.getItem('viewed_comments_time'))[currentLocation] : null);
+
+  const setBorder = (value) => {
+    const existingData = localStorage.getItem('border_off');
+    let updatedData = {};
+  
+    if (existingData) {
+      // If data already exists, parse it and update with the new key-value pair
+      updatedData = JSON.parse(existingData);
+    }
+  
+    // Update the updatedData object with the new key-value pair
+    updatedData[currentLocation] = value;
+  
+    // Store the updated data back to local storage
+    localStorage.setItem('border_off', JSON.stringify(updatedData));
+  };
+
+  const setStorageViewedComments = (value) => {
+    const existingData = localStorage.getItem('viewed_comments_time');
+    let updatedData = {};
+  
+    if (existingData) {
+      // If data already exists, parse it and update with the new key-value pair
+      updatedData = JSON.parse(existingData);
+    }
+  
+    // Update the updatedData object with the new key-value pair
+    updatedData[currentLocation] = value;
+  
+    // Store the updated data back to local storage
+    localStorage.setItem('viewed_comments_time', JSON.stringify(updatedData));
+  };
 
   const openPopup = () => {
     setIsPopupOpen(true);
+    setIsBorderNone(true);
+    setBorder(true)
   };
 
   const closePopup = () => {
+    setIsBorderNone(true);
+
+    setBorder(true)
     setIsPopupOpen(false);
+
+    const currentDate = new Date();
+    const currentTimeString = currentDate.toISOString().split('.')[0] + "+00:00";
+
+    setViewedCommentsTime(currentTimeString)
+    setStorageViewedComments(currentTimeString)
+
   };
 
   const [showNoti, setShowNoti] = useState(false);
@@ -1014,7 +1078,10 @@ function LocationPage(props) {
         <div id='comments'>
           
           {topComment && topComment.slice(0, 1).map((comment) => (
-            <div key={comment.id} className='preview-comments-border'>
+            <div
+              key={comment.id}
+              className={`preview-comments ${isBorderNone ? 'preview-comments-border-none' : 'preview-comments-border'}`}
+            >
               <div className='preview-comments' onClick={openPopup}>
                 <div className='comment-line-pinned'>
                   <div className='comment-line-one'>
