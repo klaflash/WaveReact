@@ -884,8 +884,15 @@ function LocationPage(props) {
 
   const openPopup = () => {
     setIsPopupOpen(true);
+
     setIsBorderNone(true);
     setBorder(true)
+
+    const currentDate = new Date();
+    const currentTimeString = currentDate.toISOString().split('.')[0] + "+00:00";
+
+    setViewedCommentsTime(currentTimeString)
+    setStorageViewedComments(currentTimeString)
   };
 
   const closePopup = () => {
@@ -904,16 +911,21 @@ function LocationPage(props) {
 
   const [showNoti, setShowNoti] = useState(false);
   const [notiContent, setNotiContent] = useState();
+  const [muted, setMuted] = useState(localStorage.getItem('muted') === 'true');
   
 
   const handleNoti = (comment) => {
-    setShowNoti(true);
-    setNotiContent(comment)
+    if (!muted) {
+      setShowNoti(true);
+      setNotiContent(comment)
 
-    setTimeout(() => {
-      setShowNoti(false);
-    }, 5000);
+      setTimeout(() => {
+        setShowNoti(false);
+      }, 5000);
+    } 
   };
+
+  
   
   return (
     <div id="main-location-container">
