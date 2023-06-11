@@ -919,15 +919,16 @@ input[type="range"] {
 }
 
 .wave-wall {
-  font-size: 25px;
+  font-size: 23px;
 }
 
 #comment-header {
   display: flex;
   height: 50px;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin: 1rem;
+  gap: 1rem;
 }
 
 .close-button {
@@ -938,6 +939,7 @@ input[type="range"] {
   border-radius: 5px;
   color: #141414;
   padding: 3px;
+  margin-left: auto;
 }
 
 .close-button:active {
@@ -1075,4 +1077,19 @@ input[type="range"] {
   align-items: center;
   width: 18px;
   height: 18px;
+}
+
+#sort-select {
+  -webkit-appearance: none;
+  background-color: #292929;
+  border-radius: 10px;
+  width: 85px;
+  height: 30px;
+  color: #aaaaaa;
+  font-size: 13px;
+  padding-left: 12px;
+}
+
+#sort-select:focus {
+  outline: none;
 }

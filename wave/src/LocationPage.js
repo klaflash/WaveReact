@@ -1254,7 +1254,7 @@ function LocationPage(props) {
                 <div className='wave-wall'>Wave Stream</div>
 
                 <div>
-                  <select id="distance-select" onChange={handleSortChange} value={selectedSort} style={{
+                  <select id="sort-select" onChange={handleSortChange} value={selectedSort} style={{
                     backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="%23CBCBCB" stroke-linecap="round" stroke-linejoin="round"/></svg>')`,
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "right 12px center",
