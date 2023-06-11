@@ -651,6 +651,7 @@ input[type="range"] {
 .svg-container-2 {
   width: 23px;
   height: 23px;
+  color: #090909;
 }
 
 #submit-comment-grey {
@@ -1016,6 +1017,18 @@ input[type="range"] {
   justify-content: center;
   align-items: center;
   background-color: #151515;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
+}
+
+#mute-button:active {
+  background-color: #2c2c2c;
+}
+
+.bell-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
 }
