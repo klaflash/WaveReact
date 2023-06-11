@@ -631,6 +631,15 @@ function LocationPage(props) {
             if (payload.old.location === currentLocation) {
               setPostedComments((prevComments) => prevComments.filter(comment => comment.id !== deletedCommentId));
             }
+          } else if (eventType === 'UPDATE') {
+            const updatedComment = payload.new;
+            const commentId = payload.old.id;
+            if (updatedComment.location === currentLocation) {
+              setPostedComments((prevComments) => {
+                const updatedComments = prevComments.filter(comment => comment.id !== commentId);
+                return [...updatedComments, updatedComment];
+              });
+            }
           }
 
 
@@ -773,6 +782,7 @@ function LocationPage(props) {
     }, 800);
 
     let updatedLikes;
+    let updatedDislikes = postedComments.find(comment => comment.id === commentId).dislikes
 
     console.log("LIKED")
     console.log(liked)
@@ -789,14 +799,15 @@ function LocationPage(props) {
       updatedLikes = currentLikes + 1;
 
       if (disliked.includes(commentId)) {
-        const desiredComment = postedComments.find(comment => comment.id === commentId);
-        handleDislike(commentId, desiredComment.dislikes)
+        const temp = disliked.filter((id) => id !== commentId);
+        setDisliked(temp)
+        updatedDislikes -= 1;
       }
     }
   
     const { data, error } = await supabase
       .from('Comments')
-      .update({ likes: updatedLikes })
+      .update({ likes: updatedLikes, dislikes: updatedDislikes })
       .eq('id', commentId);
   
     if (error) {
@@ -807,7 +818,7 @@ function LocationPage(props) {
       // Perform any additional logic after the likes count is updated
       const updatedComments = postedComments.map((comment) => {
         if (comment.id === commentId) {
-          return { ...comment, likes: updatedLikes };
+          return { ...comment, likes: updatedLikes, dislikes: updatedDislikes };
         }
         return comment;
       });
@@ -823,6 +834,7 @@ function LocationPage(props) {
     }, 800);
 
     let updatedDislikes;
+    let updatedLikes = postedComments.find(comment => comment.id === commentId).likes
 
     console.log("DISLIKED")
     console.log(disliked)
@@ -839,14 +851,15 @@ function LocationPage(props) {
       updatedDislikes = currentDislikes + 1;
 
       if (liked.includes(commentId)) {
-        const desiredComment = postedComments.find(comment => comment.id === commentId);
-        handleLike(commentId, desiredComment.likes)
+        const temp = liked.filter((id) => id !== commentId);
+        setLiked(temp)
+        updatedLikes -= 1;
       }
     }
   
     const { data, error } = await supabase
       .from('Comments')
-      .update({ dislikes: updatedDislikes })
+      .update({ dislikes: updatedDislikes, likes: updatedLikes})
       .eq('id', commentId);
   
     if (error) {
@@ -857,7 +870,7 @@ function LocationPage(props) {
       // Perform any additional logic after the likes count is updated
       const updatedComments = postedComments.map((comment) => {
         if (comment.id === commentId) {
-          return { ...comment, dislikes: updatedDislikes };
+          return { ...comment, dislikes: updatedDislikes, likes: updatedLikes };
         }
         return comment;
       });
@@ -943,6 +956,52 @@ function LocationPage(props) {
       }, 5000);
     } 
   };
+
+  const [selectedSort, setSelectedSort] = useState(parseInt(localStorage.getItem('selected_sort')) || 1);
+
+  const handleSortChange = (e) => {
+    const newSelectedSort = parseInt(e.target.value);
+    setSelectedSort(newSelectedSort);
+    localStorage.setItem('selected_sort', newSelectedSort);
+  };
+
+  useEffect(() => {
+    
+
+  }, [selectedSort]);
+
+  const sortCommentsByChoice = () => {
+    if (selectedSort === 1) {
+      //Sort by recent
+      const sortedComments = [...postedComments].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      setPostedComments(sortedComments);
+      
+    } else if (selectedSort === 2) {
+      //Sort by oldest
+      const sortedComments = [...postedComments].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      setPostedComments(sortedComments);
+
+    } else if (selectedSort === 3) {
+      //Sort by top
+      const sortedComments = [...postedComments].sort((a, b) => {
+        const ratioA = a.likes - a.dislikes; // Avoid division by zero
+        const ratioB = b.likes - b.dislikes;
+        return ratioB - ratioA; // Sort in descending order
+      });
+      setPostedComments(sortedComments);
+
+    } else if (selectedSort === 4) {
+      //Sort by likes
+      const sortedComments = [...postedComments].sort((a, b) => b.likes - a.likes);
+      setPostedComments(sortedComments);
+
+    } else if (selectedSort === 5) {
+      //Sort by dislikes
+      const sortedComments = [...postedComments].sort((a, b) => b.dislikes - a.dislikes);
+      setPostedComments(sortedComments);
+
+    }
+  }  
 
   
   
@@ -1171,6 +1230,22 @@ function LocationPage(props) {
 
               <div id='comment-header'>
                 <div className='wave-wall'>Wave Stream</div>
+
+                <div>
+                  <select id="distance-select" onChange={handleSortChange} value={selectedSort} style={{
+                    backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="%23CBCBCB" stroke-linecap="round" stroke-linejoin="round"/></svg>')`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 12px center",
+                    backgroundSize: "auto 25%",
+                  }} >
+                    <option value="1">Recent</option>
+                    <option value="2">Oldest</option>
+                    <option value="3">Top</option>
+                    <option value="4">Likes</option>
+                    <option value="5">Dislikes</option>
+                  </select>
+                </div>
+
                 <button className='close-button' onClick={closePopup}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="23" height="23" viewBox="0 0 23 23" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>

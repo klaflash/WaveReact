@@ -425,25 +425,25 @@ function MainPage(props) {
           </div>
 
           <div id='filter-options'>
-          <div>
-            <select id="distance-select" onChange={handleDistanceChange} value={selectedDistance} style={{
-              backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="%23CBCBCB" stroke-linecap="round" stroke-linejoin="round"/></svg>')`,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "right 12px center",
-              backgroundSize: "auto 25%",
-            }} >
-              <option value="10">10 mi</option>
-              <option value="20">25 mi</option>
-              <option value="50">50 mi</option>
-              <option value="-1">All</option>
-            </select>
-          </div>
-          <button className={sortOrder === 'desc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'desc' ? 'desc' : 'desc'); localStorage.setItem('sortOrder', 'desc')}}>
-            Top
-          </button>
-          <button className={sortOrder === 'loc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'loc' ? 'loc' : 'loc'); localStorage.setItem('sortOrder', 'loc')}}>
-            Near Me
-          </button>
+            <div>
+              <select id="distance-select" onChange={handleDistanceChange} value={selectedDistance} style={{
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="%23CBCBCB" stroke-linecap="round" stroke-linejoin="round"/></svg>')`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "right 12px center",
+                backgroundSize: "auto 25%",
+              }} >
+                <option value="10">10 mi</option>
+                <option value="20">25 mi</option>
+                <option value="50">50 mi</option>
+                <option value="-1">All</option>
+              </select>
+            </div>
+            <button className={sortOrder === 'desc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'desc' ? 'desc' : 'desc'); localStorage.setItem('sortOrder', 'desc')}}>
+              Top
+            </button>
+            <button className={sortOrder === 'loc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'loc' ? 'loc' : 'loc'); localStorage.setItem('sortOrder', 'loc')}}>
+              Near Me
+            </button>
           </div>
 
           <div id='locations-subtitle'>locations</div>
@@ -488,7 +488,7 @@ function MainPage(props) {
       {/* } */}
       <div id='footer'>
         <div className='report-line'>
-          <div>Report threatening or offensive comments to @wavepurdue</div>
+          <div>Report threatening comments to @wavepurdue</div>
           <a id='ig-logo' href="https://www.instagram.com/wavepurdue" target="_blank" rel="noopener noreferrer">
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-instagram" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="#4d4d4d" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
