@@ -450,20 +450,23 @@ function MainPage(props) {
                   averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267CFE' :
                   ''
                 }}>
-                  <div className='card-left'>
-                    <div className='bar-name'>{location.name}</div>
-                    <div className='bar-addy'>{location.addy}</div>
-                  </div>
-                  <div className='card-right-stack'>
-                    <div id='card-right-substack'>
-                      {Object.keys(averages).length !== 0 && (
-                        <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
-                      )}
-                      {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] >= 0 && (
-                        <div className='timestamp'>{mostRecent[location.name]} min ago</div>
-                      )}
+                  <div className='card-container'>
+                    <div className='card-left'>
+                      <div className='bar-name'>{location.name}</div>
+                      <div className='bar-addy'>{location.addy}</div>
+                    </div>
+                    <div className='card-right-stack'>
+                      <div id='card-right-substack'>
+                        {Object.keys(averages).length !== 0 && (
+                          <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
+                        )}
+                        {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] >= 0 && (
+                          <div className='timestamp'>{mostRecent[location.name]} min ago</div>
+                        )}
+                      </div>
                     </div>
                   </div>
+                  
                 </Link>
                 
               </li>

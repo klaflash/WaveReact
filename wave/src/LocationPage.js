@@ -656,12 +656,10 @@ function LocationPage(props) {
 
       thisLocationData.forEach(item => {
         const itemTimestamp = item.created_at; // Assuming item.created_at is the timestamp value of each item
-        console.log(itemTimestamp)
       
         if (itemTimestamp > viewedCommentsTime) {
           // The item's timestamp is newer than the viewedCommentsTime timestamp
           // Perform your desired actions here
-          console.log("YEA the border should show")
           setIsBorderNone(false);
           setBorder(false)
         }
