@@ -861,12 +861,13 @@ input[type="range"] {
   top: 0.5rem;
   border: none;
   z-index: 100;
-  background: rgba(31, 97, 196, 0.81);
+  border: 3px solid rgb(31, 97, 196);
+  background: rgba(24, 25, 26, 0.63);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(3.4px);
   -webkit-backdrop-filter: blur(3.4px);
-  border: 1px solid rgba(31, 97, 196, 0.34);
+
 }
 
 .preview-comments {
