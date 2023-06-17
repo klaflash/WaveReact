@@ -725,9 +725,14 @@ function LocationPage(props) {
     const location = currentLocation
     const user_number = newRatingIdObj[currentLocation]
 
+    const colors = ["#00C4FF", "#30A2FF", "#4FF0FF", "#0079FF", "#00DFA2", "#22A699", "#9575DE", "#7149C6"];
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    const user_color = colors[randomIndex];
+
+
     const { data: newRating, error: insertError } = await supabase
     .from('Comments')
-    .insert({ comment, likes, dislikes, location, user_number})
+    .insert({ comment, likes, dislikes, location, user_number, user_color})
     .single()
     .select();
 
@@ -1197,7 +1202,7 @@ function LocationPage(props) {
               <div className='preview-comments' onClick={openPopup}>
                 <div className='comment-line-pinned'>
                   <div className='comment-line-one'>
-                    <div className='user-bubble'>User {comment.user_number}</div>
+                    <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>User {comment.user_number}</div>
                     <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
                   </div>
 
@@ -1284,7 +1289,8 @@ function LocationPage(props) {
                   <div key={comment.id} className='pinned-comment'>
                     <div className='comment-line-pinned'>
                         <div className='comment-line-one'>
-                          <div className='user-bubble'>User {comment.user_number}</div>
+                          <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>User {comment.user_number}</div>
+
                           <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
                         </div>
 
@@ -1330,7 +1336,7 @@ function LocationPage(props) {
                     {topComment[0] && comment.id !== topComment[0].id && comment.id !== topComment[1].id && comment.id !== topComment[2].id && (
                       <div className='comment-line'>
                         <div className='comment-line-one'>
-                          <div className='user-bubble'>User {comment.user_number}</div>
+                        <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>User {comment.user_number}</div>
                           <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
                         </div>
 
