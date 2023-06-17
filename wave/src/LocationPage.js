@@ -16,7 +16,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 //localStorage.setItem('newRatingId', JSON.stringify([{}]))
 let loading = false;
-let newRatingIdObj = JSON.parse(localStorage.getItem('newRatingId'))
+let newRatingIdObj = JSON.parse(localStorage.getItem('newRatingId')) || {}
 //let graphData = [];
 
 const insertOrUpdateRating = async (m_rating, s_rating, e_rating, l_rating, score, location) => {
