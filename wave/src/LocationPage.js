@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 
 import { createClient } from '@supabase/supabase-js'
 import { ResponsiveBar } from '@nivo/bar'
+import { useNavigate } from 'react-router-dom';
 
 import logo from './waveLogo.png';
 
@@ -1030,6 +1031,13 @@ function LocationPage(props) {
     }
   }  
 
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    navigate('/', { replace: true });
+    window.location.reload(); // Refresh the page
+  };
+
   
   
   return (
@@ -1131,7 +1139,16 @@ function LocationPage(props) {
       
       
       {isLocationInRange === "false"&& (
-        <div id="range-message">Sorry you must be closer to rate or comment on this location. If you belive you are in range, refresh the homepage, select allow, and make sure precise location is turned on in settings.</div>
+        <div id='range-message'>
+          <div id='range-message-container'>
+            <span>Sorry you must be closer to rate or comment on this location. If you belive you are in range,</span>  
+            <button id='go-home' onClick={goHome}>refresh the homepage</button>
+            <span>, select allow, and make sure</span>
+            <a id='precise-location' href="https://www.google.com/search?client=safari&rls=en&q=how+to+turn+on+precise+location&ie=UTF-8&oe=UTF-8" target="_blank" rel="noopener noreferrer">precise location</a>
+            <span>is turned on in settings.</span>
+          </div>
+        </div>
+        
       )}
       {isLocationInRange === "undefined" && (
         <div id="range-message">You must allow wave to use your location in order to rate or comment.</div>
