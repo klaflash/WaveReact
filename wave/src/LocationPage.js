@@ -38,13 +38,11 @@ const insertOrUpdateRating = async (m_rating, s_rating, e_rating, l_rating, scor
   }
 
   const colors = ["#00C4FF", "#30A2FF", "#4FF0FF", "#0079FF", "#00DFA2", "#22A699", "#9575DE", "#7149C6"];
-  let userColorObj = {}
+  const userColorObj = userColors || {}
 
-  if (userColors[`${location}`]) {
-    userColorObj = userColors
-  } else {
+  if (!userColors[location]) {
     const randomIndex = Math.floor(Math.random() * colors.length);
-    userColorObj[`${location}`] = colors[randomIndex];
+    userColorObj[location] = colors[randomIndex];
   }
   
 
