@@ -18,6 +18,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 //localStorage.setItem('newRatingId', JSON.stringify([{}]))
 let loading = false;
 let newRatingIdObj = JSON.parse(localStorage.getItem('newRatingId')) || {}
+let userColors = JSON.parse(localStorage.getItem('userColors')) || {}
 //let graphData = [];
 
 const insertOrUpdateRating = async (m_rating, s_rating, e_rating, l_rating, score, location) => {
@@ -36,7 +37,19 @@ const insertOrUpdateRating = async (m_rating, s_rating, e_rating, l_rating, scor
     newRatingId = newRatingIdObj[`${location}`]
   }
 
+  const colors = ["#00C4FF", "#30A2FF", "#4FF0FF", "#0079FF", "#00DFA2", "#22A699", "#9575DE", "#7149C6"];
+  let userColorObj = {}
+
+  if (userColors[`${location}`]) {
+    userColorObj = userColors
+  } else {
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    userColorObj[`${location}`] = colors[randomIndex];
+  }
+  
+
   localStorage.setItem('newRatingId', JSON.stringify(newRatingIdObj))
+  localStorage.setItem('userColors', JSON.stringify(userColorObj))
 
   console.log('existing newRatingObj', newRatingIdObj)
   console.log('existing new rating', newRatingId)
@@ -725,11 +738,7 @@ function LocationPage(props) {
     const dislikes = 0
     const location = currentLocation
     const user_number = newRatingIdObj[currentLocation]
-
-    const colors = ["#00C4FF", "#30A2FF", "#4FF0FF", "#0079FF", "#00DFA2", "#22A699", "#9575DE", "#7149C6"];
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    const user_color = colors[randomIndex];
-
+    const user_color = JSON.parse(localStorage.getItem('userColors'))[currentLocation] || null
 
     const { data: newRating, error: insertError } = await supabase
     .from('Comments')
