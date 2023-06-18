@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js'
+import logo from './waveLogo.png';
+import { useNavigate } from 'react-router-dom';
 
 //const supabaseUrl = process.env.REACT_APP_PROJECT_URL
 //const supabaseKey = process.env.REACT_APP_API_KEY
@@ -48,6 +50,7 @@ const updateAverages = async () => {
 
 function MainPage(props) {
   const [isMobile, setIsMobile] = useState(false);
+  
   //const threshold = 0.09;
   const threshold = 100;
   const locations = useMemo(() => [
@@ -94,7 +97,7 @@ function MainPage(props) {
   console.log(averages)
   console.log(mostRecent)
 
-  useEffect(() => {
+  const runLocationUpdate = () => {
     const degToRad = (deg) => {
       return deg * Math.PI / 180;
     };
@@ -145,6 +148,7 @@ function MainPage(props) {
 
     const errorCallback = (error) => {
       console.log(error);
+      setDeniedLocation(true);
     };
 
     const options = {
@@ -153,6 +157,12 @@ function MainPage(props) {
     };
 
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options);
+
+  }
+
+  useEffect(() => {
+
+    runLocationUpdate()
 
   }, [locations, props.setInRange, props.setLocations, threshold]);
 
@@ -345,10 +355,40 @@ function MainPage(props) {
     setMuted(prevMuted => !prevMuted);
   };
 
+  const [deniedLocation, setDeniedLocation] = useState(false)
+  
+  const handleNoti = () => {
+    setTimeout(() => {
+      setDeniedLocation(false);
+    }, 5000);
+  };
 
+
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    navigate('/', { replace: true });
+    window.location.reload(); // Refresh the page
+  };
 
   return (
     <div id='main-page'>
+
+        {deniedLocation && (
+          <div className='noti-container-location'>
+            <img className='wave-logo' src={logo} alt="Logo" />
+            <div className='noti-inner-container'>
+              <div className='noti-line-one'>
+                <div className='noti-user'>Wave Team</div>
+                <div className='noti-timestamp'>Now</div>
+              </div>
+              <div id='allow-location-container'>
+                <button onClick={goHome} id='allow-location'>Allow your location</button>
+                <span>to use all of wave's features</span>
+              </div>
+            </div>
+          </div>
+        )}
       
       {/* {!isMobile ? */}
         <div id="content">

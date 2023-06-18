@@ -1015,6 +1015,33 @@ input[type="range"] {
   animation: slideDown 0.5s linear;
 }
 
+.noti-container-location {
+  display: flex;
+  align-items: center;
+  color: #EBEBEB;
+  height: 75px;
+  border-radius: 15px;
+  gap: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw - 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 5px;
+  padding-left: 1rem;
+  z-index: 500;
+  font-size: 13px;
+  background: rgba(255, 255, 0, 0.445);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.1px);
+  -webkit-backdrop-filter: blur(7.1px);
+  border: 1px solid rgba(46, 45, 45, 0.24);
+  animation: slideDown 0.5s linear;
+}
+
 @keyframes slideDown {
   0% {
     transform: translateY(-200px);
@@ -1124,6 +1151,24 @@ input[type="range"] {
   border: none;
   cursor: pointer;
   margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  border-radius: 5px;
+  font-size: inherit;
+  text-align: center;
+}
+
+#allow-location-container {
+  display: block;
+}
+
+#allow-location {
+  display: inline;
+  background-color: #1b1b1b;
+  color: #EBEBEB;
+  text-decoration: none;
+  padding: 0.2rem 0.5rem;
+  border: none;
+  cursor: pointer;
   margin-right: 0.25rem;
   border-radius: 5px;
   font-size: inherit;

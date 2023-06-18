@@ -5,7 +5,7 @@ import LocationPage from './LocationPage';
 
 function App() {
   const [currentLocation, setCurrentLocation] = useState('');
-  const [inRange, setInRange] = useState({ test: false, Hub: false });
+  const [inRange, setInRange] = useState({});
 
   const [locations, setLocations] = useState([
     { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St'},

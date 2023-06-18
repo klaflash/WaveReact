@@ -1039,7 +1039,6 @@ function LocationPage(props) {
   };
 
   
-  
   return (
     <div id="main-location-container">
 
