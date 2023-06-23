@@ -716,6 +716,37 @@ function LocationPage(props) {
 
   async function handleCommentSubmit() {
     // Perform any necessary actions with the comment data
+    const commentsByUser = JSON.parse(localStorage.getItem('commentsByUser')) || {};
+    const location = currentLocation
+    const user_number = newRatingIdObj[currentLocation]
+
+    if (commentsByUser[location] && commentsByUser[location].length > 3) {
+
+      const lastCommentTime = JSON.parse(localStorage.getItem('lastCommentTime'));
+
+      // Check if the location exists in lastCommentTime and its value is more than a minute ago
+      if (lastCommentTime && lastCommentTime.hasOwnProperty(location)) {
+        const lastTimestamp = lastCommentTime[location];
+        const currentTimestamp = Date.now();
+        const timeDifference = currentTimestamp - lastTimestamp;
+        
+        if (timeDifference <= (60 * 1000)) {
+          console.log('Location value is within a minute');
+          const secondsRemaining = Math.ceil((60 * 1000 - timeDifference) / 1000);
+          const temp = {
+            user_number: user_number,
+            comment: `Please dont spam. You can comment again in ${secondsRemaining} seconds.`
+          };
+          handleNoti(temp)
+          return;
+        } else {
+          console.log('Location value is more than a minute ago');
+        }
+      } else {
+        console.log('Location value is either not found or more than a minute ago');
+      }
+    }
+
     if (commentText.length === 0) {
       return
     }
@@ -734,8 +765,6 @@ function LocationPage(props) {
     console.log('Comment submitted:', comment);
     const likes = 0
     const dislikes = 0
-    const location = currentLocation
-    const user_number = newRatingIdObj[currentLocation]
     const user_color = JSON.parse(localStorage.getItem('userColors'))[currentLocation] || null
 
     const { data: newRating, error: insertError } = await supabase
@@ -745,15 +774,28 @@ function LocationPage(props) {
     .select();
 
     if (insertError) {
-        console.log('Error inserting into Ratings table:', insertError.message);
+        console.log('Error inserting into Comments table:', insertError.message);
         return;
     }
 
+    let lastCommentTime = JSON.parse(localStorage.getItem('lastCommentTime')) || {};
+
+    lastCommentTime[location] = Date.now();
+
+    localStorage.setItem('lastCommentTime', JSON.stringify(lastCommentTime));
+
     handleNoti(newRating);
 
-    const commentsByUser = JSON.parse(localStorage.getItem('commentsByUser')) || [];
-    commentsByUser.push(newRating.id);
 
+    if (!commentsByUser.hasOwnProperty(location)) {
+      // If the key doesn't exist, create a new array with newRating.id as the value
+      commentsByUser[location] = [newRating.id];
+    } else {
+      // If the key already exists, append newRating.id to the existing array
+      commentsByUser[location].push(newRating.id);
+    }
+
+    // Store the updated commentsByUser object in localStorage
     localStorage.setItem('commentsByUser', JSON.stringify(commentsByUser));
 
     // Reset the comment state after submission
@@ -1401,7 +1443,7 @@ function LocationPage(props) {
               </div>
 
 
-              {newRatingIdObj && newRatingIdObj[currentLocation] && (
+              {newRatingIdObj && Object.keys(newRatingIdObj).length !== 0 && newRatingIdObj[currentLocation] && (
                 <div id='comment-bar-outer-container'>
                   <div id='comment-bar-container'>
                     <input
