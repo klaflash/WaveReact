@@ -506,16 +506,39 @@ function LocationPage(props) {
       setAverages(secondAverages);
     };
     getAverages();
-  
-    const intervalId = setInterval(async () => {
-      const newAverages = await updateAverages();
-      setAverages(newAverages);
-    }, 10000);
-  
-    return () => {
-      clearInterval(intervalId);
-    };
   }, []);
+
+  useEffect(() => {
+
+    const Ratings = supabase.channel('custom-all-channel')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'Ratings' },
+      async (payload) => {
+        console.log('Change received!', payload)
+        const newAverages = await updateAverages();
+        setAverages(newAverages);
+      }
+    )
+    .subscribe()
+
+
+    // Cleanup subscription on component unmount
+    return () => {
+      Ratings.unsubscribe();
+    };
+
+    // const intervalId = setInterval(async () => {
+    //   const newAverages = await updateAverages();
+    //   setAverages(newAverages);
+    // }, 10000);
+  
+    // return () => {
+    //   clearInterval(intervalId);
+    // };
+  }, []);
+
+  
 
   async function updateAverages() {
     const { data: ratings, error } = await supabase
