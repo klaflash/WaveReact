@@ -82,16 +82,38 @@ function MainPage(props) {
       setMostRecent(secondAverages[1])
     };
     getAverages();
-  
-    const intervalId = setInterval(async () => {
-      const newAverages = await updateAverages();
-      setAverages(newAverages[0]);
-      setMostRecent(newAverages[1])
-    }, 10000);
-  
+  }, []);
+
+  useEffect(() => {
+
+    const Ratings = supabase.channel('custom-all-channel')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'Ratings' },
+      async (payload) => {
+        console.log('Change received!', payload)
+        const newAverages = await updateAverages();
+        setAverages(newAverages[0]);
+        setMostRecent(newAverages[1])
+      }
+    )
+    .subscribe()
+
+
+    // Cleanup subscription on component unmount
     return () => {
-      clearInterval(intervalId);
+      Ratings.unsubscribe();
     };
+    
+    // const intervalId = setInterval(async () => {
+    //   const newAverages = await updateAverages();
+    //   setAverages(newAverages[0]);
+    //   setMostRecent(newAverages[1])
+    // }, 10000);
+  
+    // return () => {
+    //   clearInterval(intervalId);
+    // };
   }, []);
 
   console.log(averages)
