@@ -728,7 +728,9 @@ function LocationPage(props) {
     const location = currentLocation
     const user_number = newRatingIdObj[currentLocation]
 
-    if (commentsByUser[location] && commentsByUser[location].length > 3) {
+
+    //give a 1 minute time out
+    if (commentsByUser[location] && commentsByUser[location].length > 3 && commentsByUser[location].length < 6) {
 
       const lastCommentTime = JSON.parse(localStorage.getItem('lastCommentTime'));
 
@@ -744,6 +746,61 @@ function LocationPage(props) {
           const temp = {
             user_number: user_number,
             comment: `Please dont spam. You can comment again in ${secondsRemaining} seconds.`
+          };
+          handleNoti(temp)
+          return;
+        } else {
+          console.log('Location value is more than a minute ago');
+        }
+      } else {
+        console.log('Location value is either not found or more than a minute ago');
+      }
+    } else if (commentsByUser[location] && commentsByUser[location].length > 5 && commentsByUser[location].length < 8) {
+      //give a 5 minute time out
+      const lastCommentTime = JSON.parse(localStorage.getItem('lastCommentTime'));
+
+      // Check if the location exists in lastCommentTime and its value is more than 5 minutes ago
+      if (lastCommentTime && lastCommentTime.hasOwnProperty(location)) {
+        const lastTimestamp = lastCommentTime[location];
+        const currentTimestamp = Date.now();
+        const timeDifference = currentTimestamp - lastTimestamp;
+        
+        if (timeDifference <= (60 * 5 * 1000)) {
+          console.log('Location value is within 5 minutes');
+          const secondsRemaining = Math.ceil((60 * 5 * 1000 - timeDifference) / 1000);
+          const minutesRemaining = Math.floor(secondsRemaining / 60);
+          const seconds = secondsRemaining % 60;
+          const temp = {
+            user_number: user_number,
+            comment: `Please dont spam. You can comment again in ${minutesRemaining} minutes ${seconds} seconds.`
+          };
+          handleNoti(temp)
+          return;
+        } else {
+          console.log('Location value is more than a minute ago');
+        }
+      } else {
+        console.log('Location value is either not found or more than a minute ago');
+      }
+
+    } else if (commentsByUser[location] && commentsByUser[location].length > 7) {
+      //give a 30 minute time out
+      const lastCommentTime = JSON.parse(localStorage.getItem('lastCommentTime'));
+
+      // Check if the location exists in lastCommentTime and its value is more than 30 minutes ago
+      if (lastCommentTime && lastCommentTime.hasOwnProperty(location)) {
+        const lastTimestamp = lastCommentTime[location];
+        const currentTimestamp = Date.now();
+        const timeDifference = currentTimestamp - lastTimestamp;
+        
+        if (timeDifference <= (60 * 30 * 1000)) {
+          console.log('Location value is within 30 minutes');
+          const secondsRemaining = Math.ceil((60 * 30 * 1000 - timeDifference) / 1000);
+          const minutesRemaining = Math.floor(secondsRemaining / 60);
+          const seconds = secondsRemaining % 60;
+          const temp = {
+            user_number: user_number,
+            comment: `Please dont spam. You can comment again in ${minutesRemaining} minutes ${seconds} seconds.`
           };
           handleNoti(temp)
           return;
