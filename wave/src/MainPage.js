@@ -256,11 +256,25 @@ function MainPage(props) {
 
       //console.log(rating.created_at)
 
-      const timeDiff = (new Date() - new Date(rating.created_at)) / (1000 * 60);
-      if (!mostRecent[locationName] || Math.round(timeDiff) < mostRecent[locationName]) {
-        //const timeDiff = (new Date() - new Date(rating.created_at)) / (1000 * 60);
-        mostRecent[locationName] = Math.round(timeDiff)
+      // const timeDiff = (new Date() - new Date(rating.created_at)) / (1000 * 60);
+      // if (!mostRecent[locationName] || Math.round(timeDiff) < mostRecent[locationName]) {
+      //   mostRecent[locationName] = Math.round(timeDiff)
+      // }
+
+      // const formattedTimeDiff = getTimeSince(rating.created_at);
+      // console.log(formattedTimeDiff)
+
+      const createdAtTimestamp = new Date(rating.created_at).getTime();
+      const currentTimestamp = Date.now();
+      const timeDiff = (currentTimestamp - createdAtTimestamp) / 1000;
+
+      if (!mostRecent[locationName] || timeDiff < mostRecent[locationName]) {
+        mostRecent[locationName] = timeDiff;
       }
+
+      // if (!mostRecent[locationName] || formattedTimeDiff < mostRecent[locationName]) {
+      //   mostRecent[locationName] = formattedTimeDiff;
+      // }
     }
 
     console.log(mostRecent)
@@ -392,6 +406,30 @@ function MainPage(props) {
     navigate('/', { replace: true });
     window.location.reload(); // Refresh the page
   };
+
+  function getTimeSince(seconds) {
+    //const seconds = Math.floor((Date.now() - timestamp) / 1000);
+    // const createdAt = new Date(timestamp);
+    // const seconds = Math.floor((Date.now() - createdAt) / 1000);
+
+    const rounded = Math.ceil(seconds)
+    
+    if (rounded < 60) {
+      return `${rounded}s`;
+    } else if (rounded < 3600) {
+      const minutes = Math.floor(rounded / 60);
+      return `${minutes}m`;
+    } else if (rounded < 86400) {
+      const hours = Math.floor(rounded / 3600);
+      return `${hours}h`;
+    } else if (rounded < 604800) {
+      const days = Math.floor(rounded / 86400);
+      return `${days}d`;
+    } else {
+      const weeks = Math.floor(rounded / 604800);
+      return `${weeks}w`;
+    }
+  }
 
   return (
     <div id='main-page'>
@@ -533,8 +571,8 @@ function MainPage(props) {
                         {Object.keys(averages).length !== 0 && (
                           <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
                         )}
-                        {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] >= 0 && (
-                          <div className='timestamp'>{mostRecent[location.name]} min ago</div>
+                        {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] && (
+                          <div className='timestamp'>{getTimeSince(mostRecent[location.name])}</div>
                         )}
                       </div>
                     </div>
