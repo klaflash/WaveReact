@@ -1175,6 +1175,28 @@ function LocationPage(props) {
     window.location.reload(); // Refresh the page
   };
 
+  function getTimeSince(timestamp) {
+    const createdAt = new Date(timestamp);
+    const seconds = Math.floor((Date.now() - createdAt) / 1000);
+    
+    if (seconds < 60) {
+      return `${seconds}s`;
+    } else if (seconds < 3600) {
+      const minutes = Math.floor(seconds / 60);
+      return `${minutes}m`;
+    } else if (seconds < 86400) {
+      const hours = Math.floor(seconds / 3600);
+      return `${hours}h`;
+    } else if (seconds < 604800) {
+      const days = Math.floor(seconds / 86400);
+      return `${days}d`;
+    } else {
+      const weeks = Math.floor(seconds / 604800);
+      return `${weeks}w`;
+    }
+  }
+  
+
   
   return (
     <div id="main-location-container">
@@ -1356,7 +1378,7 @@ function LocationPage(props) {
                 <div className='comment-line-pinned'>
                   <div className='comment-line-one'>
                     <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>User {comment.user_number}</div>
-                    <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                    <div className='comment-timestamp'>{getTimeSince(comment.created_at)}</div>
                   </div>
 
                   <div className='comment-line-two'>
@@ -1443,8 +1465,7 @@ function LocationPage(props) {
                     <div className='comment-line-pinned'>
                         <div className='comment-line-one'>
                           <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>User {comment.user_number}</div>
-
-                          <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                          <div className='comment-timestamp'>{getTimeSince(comment.created_at)}</div>
                         </div>
 
                         <div className='comment-line-two'>
@@ -1490,7 +1511,7 @@ function LocationPage(props) {
                       <div className='comment-line'>
                         <div className='comment-line-one'>
                         <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>User {comment.user_number}</div>
-                          <div className='comment-timestamp'>{new Date(comment.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</div>
+                        <div className='comment-timestamp'>{getTimeSince(comment.created_at)}</div>
                         </div>
 
                         <div className='comment-line-two'>
