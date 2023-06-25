@@ -84,14 +84,18 @@ function MainPage(props) {
 
       const result = {};
 
-      if (secondAverages[2].location) {
-        for (const location in secondAverages[0]) {
+      console.log(secondAverages[0])
+      console.log(secondAverages[2])
+
+      for (const location in secondAverages[0]) {
+        if (secondAverages[0][location] && secondAverages[2][location]) {
           const averageScore1 = secondAverages[0][location].averageScore;
           const averageScore2 = secondAverages[2][location].averageScore;
           const difference = parseFloat((averageScore1 - averageScore2).toFixed(1));
           result[location] = difference;
         }
       }
+      
       console.log(result);
       setTrending(result)
     };
@@ -111,10 +115,10 @@ function MainPage(props) {
         setMostRecent(newAverages[1])
         const result = {};
 
-        if (newAverages[2].location) {
-          for (const location in updateAverages[0]) {
-            const averageScore1 = updateAverages[0][location].averageScore;
-            const averageScore2 = updateAverages[2][location].averageScore;
+        for (const location in newAverages[0]) {
+          if (newAverages[0][location] && newAverages[2][location]) {
+            const averageScore1 = newAverages[0][location].averageScore;
+            const averageScore2 = newAverages[2][location].averageScore;
             const difference = parseFloat((averageScore1 - averageScore2).toFixed(1));
             result[location] = difference;
           }
@@ -621,11 +625,37 @@ function MainPage(props) {
                       <div className='bar-addy'>{location.addy}</div>
                     </div>
                     <div className='card-right-stack'>
+                      <div>
+                        {trending && trending[location.name] && trending[location.name] !== 0.0 ? (
+                          <>
+                            {trending[location.name] > 0 ? (
+                              <span className='trending-container'>
+                                <div className='trending-up'>{trending[location.name]}</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trending-up" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="green" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M3 17l6 -6l4 4l8 -8"/>
+                                  <path d="M14 7l7 0l0 7"/>
+                                </svg>
+                              </span>
+                            ) : (
+                              <span className='trending-container'>
+                                <div className='trending-down'>{trending[location.name]}</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trending-down" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="crimson" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M3 7l6 6l4 -4l8 8"/>
+                                  <path d="M21 10l0 7l-7 0"/>
+                                </svg>
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          ''
+                        )}
+                      </div>
                       <div id='card-right-substack'>
                         {Object.keys(averages).length !== 0 && (
-                          <div>
+                          <div className='card-right-container'>
                             <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
-                            <div>{trending && trending[location.name] && trending[location.name] !== 0.0 ? trending[location.name] : ''}</div>
                           </div>
                         )}
                         {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] && (
