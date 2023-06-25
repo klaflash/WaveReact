@@ -15,126 +15,8 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-//localStorage.setItem('newRatingId', JSON.stringify([{}]))
+
 let loading = false;
-let newRatingIdObj = JSON.parse(localStorage.getItem('newRatingId')) || {}
-let userColors = JSON.parse(localStorage.getItem('userColors')) || {}
-//let graphData = [];
-
-const insertOrUpdateRating = async (m_rating, s_rating, e_rating, l_rating, score, location) => {
-
-  if (loading) {
-    return
-  }
-  
-
-  let newRatingId
-
-  if (Object.keys(newRatingIdObj).length === 0 || newRatingIdObj[`${location}`] == null) {
-    newRatingIdObj[`${location}`] = -1;
-    newRatingId = -1;
-  } else {
-    newRatingId = newRatingIdObj[`${location}`]
-  }
-
-  const colors = ["#00C4FF", "#30A2FF", "#4FF0FF", "#0079FF", "#00DFA2", "#22A699", "#9575DE", "#7149C6"];
-  const userColorObj = userColors || {}
-
-  if (!userColors[location]) {
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    userColorObj[location] = colors[randomIndex];
-  }
-  
-
-  localStorage.setItem('newRatingId', JSON.stringify(newRatingIdObj))
-  localStorage.setItem('userColors', JSON.stringify(userColorObj))
-
-  console.log('existing newRatingObj', newRatingIdObj)
-  console.log('existing new rating', newRatingId)
-  if (newRatingId < 0) {
-    loading = true;
-    // Insert a new rating
-    const { data: newRating, error: insertError } = await supabase
-    .from('Ratings')
-    .insert({ m_rating, s_rating, e_rating, l_rating, score, location })
-    .single()
-    .select();
-
-    if (insertError) {
-        console.log('Error inserting into Ratings table:', insertError.message);
-        return;
-    }
-
-    console.log('Inserted new rating:', newRating.id);
-    //newRatingId = newRating.id;
-    newRatingIdObj[`${location}`] = newRating.id;
-    //let obj = [{ location : `${newRating.id}`}]
-    localStorage.setItem('newRatingId', JSON.stringify(newRatingIdObj))
-    loading = false;
-   
-  } else {
-    // Update an existing rating
-    const rating = await supabase
-      .from('Ratings')
-      .select('created_at')
-      .eq('id', newRatingId)
-      .single() // Example filter
-
-    //console.log (rating)
-
-    const data = rating.data
-
-    const now = new Date(); // Get current timestamp
-    const threshold = now.getTime() - 60000; // Calculate threshold timestamp (60 seconds ago)
-    const createdAtTimestamp = Date.parse(data.created_at)
-
-    //console.log(threshold)
-    //console.log(createdAtTimestamp)
-
-    if (createdAtTimestamp >= threshold) {
-      //created within last minute, update inital values
-      console.log("One minute update period")
-      const { data: updatedRating, error } = await supabase
-        .from('Ratings')
-        .update({ m_rating, s_rating, e_rating, l_rating, score, location })
-        .eq('id', newRatingId)
-        .single();
-
-      if (error) {
-        console.log('Error updating Ratings table:', error.message);
-        return;
-      }
-
-      console.log('Updated rating:', updatedRating);
-    } else {
-      //created more than a minute ago. Add update values and timestamp.
-      console.log("created more than a minute ago")
-      const u_m_rating = m_rating;
-      const u_s_rating = s_rating;
-      const u_e_rating = e_rating;
-      const u_l_rating = l_rating;
-      const u_score = score;
-      const current = new Date();
-      const updated_at = current.toISOString();
-
-      const { data: updatedRating, error } = await supabase
-        .from('Ratings')
-        .update({ updated_at, u_m_rating, u_s_rating, u_e_rating, u_l_rating, u_score, location })
-        .eq('id', newRatingId)
-        .single();
-
-      if (error) {
-        console.log('Error updating Ratings table:', error.message);
-        return;
-      }
-
-      console.log('Updated rating:', updatedRating);
-
-    }
-
-  }
-};
-
 
 const MyResponsiveBar = ({ data /* see data tab */ }) => (
   <ResponsiveBar
@@ -222,6 +104,132 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
 )
 
 function LocationPage(props) {
+
+  const [newRatingIdObj, setNewRatingIdObj] = useState(JSON.parse(localStorage.getItem('newRatingId')) || {})
+  const [userColors, setUserColors] = useState(JSON.parse(localStorage.getItem('userColors')) || {})
+
+  const insertOrUpdateRating = async (m_rating, s_rating, e_rating, l_rating, score, location) => {
+
+    if (loading) {
+      return
+    }
+    
+  
+    let newRatingId
+  
+    if (Object.keys(newRatingIdObj).length === 0 || newRatingIdObj[`${location}`] == null) {
+      //newRatingIdObj[`${location}`] = -1;
+      setNewRatingIdObj(prevState => ({
+        ...prevState,
+        [location]: -1
+      }));
+      
+      newRatingId = -1;
+    } else {
+      newRatingId = newRatingIdObj[`${location}`]
+    }
+  
+    const colors = ["#00C4FF", "#30A2FF", "#4FF0FF", "#0079FF", "#00DFA2", "#22A699", "#9575DE", "#7149C6"];
+    const userColorObj = userColors || {}
+  
+    if (!userColors[location]) {
+      const randomIndex = Math.floor(Math.random() * colors.length);
+      userColorObj[location] = colors[randomIndex];
+    }
+    
+  
+    localStorage.setItem('newRatingId', JSON.stringify(newRatingIdObj))
+    localStorage.setItem('userColors', JSON.stringify(userColorObj))
+  
+    console.log('existing newRatingObj', newRatingIdObj)
+    console.log('existing new rating', newRatingId)
+    if (newRatingId < 0) {
+      loading = true;
+      // Insert a new rating
+      const { data: newRating, error: insertError } = await supabase
+      .from('Ratings')
+      .insert({ m_rating, s_rating, e_rating, l_rating, score, location })
+      .single()
+      .select();
+  
+      if (insertError) {
+          console.log('Error inserting into Ratings table:', insertError.message);
+          return;
+      }
+  
+      console.log('Inserted new rating:', newRating.id);
+      //newRatingId = newRating.id;
+      //newRatingIdObj[`${location}`] = newRating.id;
+      setNewRatingIdObj(prevState => ({
+        ...prevState,
+        [location]: newRating.id
+      }));      
+      //let obj = [{ location : `${newRating.id}`}]
+      localStorage.setItem('newRatingId', JSON.stringify(newRatingIdObj))
+      loading = false;
+     
+    } else {
+      // Update an existing rating
+      const rating = await supabase
+        .from('Ratings')
+        .select('created_at')
+        .eq('id', newRatingId)
+        .single() // Example filter
+  
+      //console.log (rating)
+  
+      const data = rating.data
+  
+      const now = new Date(); // Get current timestamp
+      const threshold = now.getTime() - 60000; // Calculate threshold timestamp (60 seconds ago)
+      const createdAtTimestamp = Date.parse(data.created_at)
+  
+      //console.log(threshold)
+      //console.log(createdAtTimestamp)
+  
+      if (createdAtTimestamp >= threshold) {
+        //created within last minute, update inital values
+        console.log("One minute update period")
+        const { data: updatedRating, error } = await supabase
+          .from('Ratings')
+          .update({ m_rating, s_rating, e_rating, l_rating, score, location })
+          .eq('id', newRatingId)
+          .single();
+  
+        if (error) {
+          console.log('Error updating Ratings table:', error.message);
+          return;
+        }
+  
+        console.log('Updated rating:', updatedRating);
+      } else {
+        //created more than a minute ago. Add update values and timestamp.
+        console.log("created more than a minute ago")
+        const u_m_rating = m_rating;
+        const u_s_rating = s_rating;
+        const u_e_rating = e_rating;
+        const u_l_rating = l_rating;
+        const u_score = score;
+        const current = new Date();
+        const updated_at = current.toISOString();
+  
+        const { data: updatedRating, error } = await supabase
+          .from('Ratings')
+          .update({ updated_at, u_m_rating, u_s_rating, u_e_rating, u_l_rating, u_score, location })
+          .eq('id', newRatingId)
+          .single();
+  
+        if (error) {
+          console.log('Error updating Ratings table:', error.message);
+          return;
+        }
+  
+        console.log('Updated rating:', updatedRating);
+  
+      }
+  
+    }
+  };
 
   const [commentText, setCommentText] = useState('');
   const maxCharacters = 100;
