@@ -149,11 +149,11 @@ li {
 }
 
 .trending-up {
-  color: green;
+  color: #569DAA;
 }
 
 .trending-down {
-  color: crimson;
+  color: #C83200;
 }
 
 #graph-parent {
