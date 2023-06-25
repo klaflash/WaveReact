@@ -12,31 +12,31 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-const updateAverages = async () => {
-  const { data: ratings, error } = await supabase.from('Ratings').select('*');
+// const updateAverages = async () => {
+//   const { data: ratings, error } = await supabase.from('Ratings').select('*');
 
-  if (error) {
-    console.error('Error fetching ratings:', error.message);
-    return {};
-  }
+//   if (error) {
+//     console.error('Error fetching ratings:', error.message);
+//     return {};
+//   }
 
-  const averages = {};
+//   const averages = {};
 
-  ratings.forEach((rating) => {
-    if (averages[rating.location]) {
-      averages[rating.location].totalScore += rating.score;
-      averages[rating.location].count += 1;
-    } else {
-      averages[rating.location] = { totalScore: rating.score, count: 1 };
-    }
-  });
+//   ratings.forEach((rating) => {
+//     if (averages[rating.location]) {
+//       averages[rating.location].totalScore += rating.score;
+//       averages[rating.location].count += 1;
+//     } else {
+//       averages[rating.location] = { totalScore: rating.score, count: 1 };
+//     }
+//   });
 
-  Object.keys(averages).forEach((location) => {
-    averages[location] = averages[location].totalScore / averages[location].count;
-  });
+//   Object.keys(averages).forEach((location) => {
+//     averages[location] = averages[location].totalScore / averages[location].count;
+//   });
 
-  return averages;
-};
+//   return averages;
+// };
 
 // const getFilteredLocations = (locations, selectedDistance, searchQuery) => {
 //   const filteredLocations = selectedDistance >= 0 ? locations.filter((location) => location.dist * 0.621371 <= selectedDistance) : locations;
@@ -73,6 +73,7 @@ function MainPage(props) {
 
   const [averages, setAverages] = useState({});
   const [mostRecent, setMostRecent] = useState({});
+  const [trending, setTrending] = useState({});
 
   useEffect(() => {
     const getAverages = async () => {
@@ -80,6 +81,19 @@ function MainPage(props) {
       const secondAverages = await updateAverages();
       setAverages(secondAverages[0]);
       setMostRecent(secondAverages[1])
+
+      const result = {};
+
+      if (secondAverages[2].location) {
+        for (const location in secondAverages[0]) {
+          const averageScore1 = secondAverages[0][location].averageScore;
+          const averageScore2 = secondAverages[2][location].averageScore;
+          const difference = parseFloat((averageScore1 - averageScore2).toFixed(1));
+          result[location] = difference;
+        }
+      }
+      console.log(result);
+      setTrending(result)
     };
     getAverages();
   }, []);
@@ -95,6 +109,20 @@ function MainPage(props) {
         const newAverages = await updateAverages();
         setAverages(newAverages[0]);
         setMostRecent(newAverages[1])
+        const result = {};
+
+        if (newAverages[2].location) {
+          for (const location in updateAverages[0]) {
+            const averageScore1 = updateAverages[0][location].averageScore;
+            const averageScore2 = updateAverages[2][location].averageScore;
+            const difference = parseFloat((averageScore1 - averageScore2).toFixed(1));
+            result[location] = difference;
+          }
+        }
+
+        console.log(result);
+        setTrending(result)
+
       }
     )
     .subscribe()
@@ -231,10 +259,35 @@ function MainPage(props) {
       return createdAtTimestamp > twoHoursAgo.getTime(); // Check if the timestamp is after 2 hours ago
     });
 
+    const twoAndHalfHoursAgo = new Date(Date.now() - 2.5 * 60 * 60 * 1000); // Get the timestamp 2 and a half hours ago
+    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000); // Get the timestamp 30 minutes ago
+
+    const trendingRatings = updatedRatings.filter((rating) => {
+      const createdAtTimestamp = new Date(rating.created_at).getTime(); // Get the timestamp of the rating's creation time
+      return createdAtTimestamp > twoAndHalfHoursAgo.getTime() && createdAtTimestamp <= thirtyMinutesAgo.getTime(); // Check if the timestamp is within the desired time range
+    });
+
     //console.log(filteredRatings)
   
     const averages = {};
     const mostRecent = {};
+    const trending = {};
+
+    for (const rating of trendingRatings) {
+      //set averages
+      if (!trending[rating.location]) {
+        trending[rating.location] = {
+          totalScore: 0,
+          count: 0,
+          averageScore: 0,
+        };
+      }
+
+      trending[rating.location].totalScore += rating.score
+      trending[rating.location].count++;
+      trending[rating.location].averageScore = Math.round(
+        trending[rating.location].totalScore / trending[rating.location].count * 10) / 10;
+    }
   
     for (const rating of filteredRatings) {
       //set averages
@@ -278,8 +331,9 @@ function MainPage(props) {
     }
 
     console.log(mostRecent)
+    console.log(averages)
 
-    const results = [averages, mostRecent]
+    const results = [averages, mostRecent, trending]
   
     return results;
   }
@@ -569,7 +623,10 @@ function MainPage(props) {
                     <div className='card-right-stack'>
                       <div id='card-right-substack'>
                         {Object.keys(averages).length !== 0 && (
-                          <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
+                          <div>
+                            <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
+                            <div>{trending && trending[location.name] && trending[location.name] !== 0.0 ? trending[location.name] : ''}</div>
+                          </div>
                         )}
                         {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] && (
                           <div className='timestamp'>{getTimeSince(mostRecent[location.name])}</div>
