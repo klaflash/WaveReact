@@ -1218,7 +1218,7 @@ function LocationPage(props) {
         <div id='location-header'>
           <div id='location-header-left'>
             <div id='location-name'>{currentLocation}</div>
-            <div id='location-subtext'>Past 2 hours</div>
+            <div id='location-subtext'>Past 2 hours - {averages && averages[currentLocation] ? averages[currentLocation]['count'] : '0'} ratings</div>
           </div>
           {Object.keys(averages).length !== 0 && (
             <div id='location-header-right'>{averages && averages[currentLocation] ? averages[currentLocation]['averageScore'] : ''}</div>
