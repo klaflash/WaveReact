@@ -54,12 +54,12 @@ function MainPage(props) {
   //const threshold = 0.09;
   const threshold = 100;
   const locations = useMemo(() => [
-    { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St'},
-    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St'},
-    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St'},
-    { name: 'Test', latitude: 42.111683, longitude: -71.872295, addy: '123 Random St'},
-    { name: 'Test2', latitude: 42.299103, longitude: -71.785020, addy: '123 Whatever Ave'},
-    { name: 'Seattle', latitude: 47.607480, longitude: -122.336241, addy: '123 Whatever Ave'}
+    { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St', event: false, start: null, end: null, eventName: null},
+    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St', event: true, start: '9:00', end: '12:00pm', eventName: 'DJ whatever'},
+    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St', event: true, start: '9:00', end: '12:00pm', eventName: 'Celebrity boxing'},
+    { name: 'Test', latitude: 42.111683, longitude: -71.872295, addy: '123 Random St', event: true, start: '9:00', end: '12:00pm', eventName: 'Basketball vs IU'},
+    { name: 'Test2', latitude: 42.299103, longitude: -71.785020, addy: '123 Whatever Ave', event: true, start: '9:00', end: '12:00pm', eventName: 'Half price drinks'},
+    { name: 'Seattle', latitude: 47.607480, longitude: -122.336241, addy: '123 Whatever Ave', event: true, start: '9:00', end: '12:00pm', eventName: 'Football vs Nebraska'}
   ], []);
 
   const handleLocationClick = useCallback((locationName) => {
@@ -604,9 +604,52 @@ function MainPage(props) {
             </button>
           </div>
 
+          <div id='locations-subtitle'>featured events</div>
+
+         
+          <ul className='scrolling-wrapper'>
+            {filteredLocations.length === 0 ? (
+              <div id='no-results'>No matching results</div>
+            ) : filteredLocations.filter((location) => location.event === true)
+                .map((location, index) => (
+              <li className={`card${index === filteredLocations.length - 1 ? ' last-item' : ''}`} key={location.name}>
+                <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
+                  averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#A1D1FE' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#59AFFF' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#59AFFF' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#267CFE' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267CFE' :
+                  ''
+                }}>
+                  <div className='event-card-container'>
+                    <div className='event-card-inner'>
+                      <div className='event-time'>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-clock-hour-10" width="16" height="16" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                          <path d="M12 12l-3 -2"/>
+                          <path d="M12 7v5"/>
+                        </svg>
+                        <div>{location.start + ' - ' + location.end}</div>
+                      </div>
+                      
+                      <div className='bar-name-small'>{location.name}</div>
+                      <div className='event-name'>{location.eventName}</div>
+                      <div className='event-buttons'>
+                        <button className='buy'>$10</button>
+                        <button className='going'>23 going</button>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        
+
           <div id='locations-subtitle'>locations</div>
 
-          <ul>
+          <ul className='un-ordered-list'>
             {filteredLocations.length === 0 ? (
               <div id='no-results'>No matching results</div>
             ) : filteredLocations.map((location) => (
@@ -623,6 +666,7 @@ function MainPage(props) {
                     <div className='card-left'>
                       <div className='bar-name'>{location.name}</div>
                       <div className='bar-addy'>{location.addy}</div>
+                      <div></div>
                     </div>
                     <div className='card-right-stack'>
                       
