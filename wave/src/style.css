@@ -1363,3 +1363,23 @@ input[type="range"] {
   overflow: hidden;
 }
 
+.filter-buttons-container {
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.filter-button {
+  padding: 8px 8px;
+  font-size: 16px;
+  background-color: #090909;
+  color: #6B6B6B;
+}
+
+.filter-button.selected {
+  color: #CBCBCB;
+  font-weight: 500;
+  border-bottom: 2px solid #CBCBCB;
+}

@@ -489,6 +489,13 @@ function MainPage(props) {
     }
   }
 
+  const [eventFilterButton, setEventFilterButton] = useState(localStorage.getItem('eventFilter') || 'today');
+
+  const handleFilterEvents = (button) => {
+    setEventFilterButton(button);
+    localStorage.setItem('eventFilter', button);
+  };
+
   return (
     <div id='main-page'>
 
@@ -605,6 +612,27 @@ function MainPage(props) {
           </div>
 
           <div id='locations-subtitle'>featured events</div>
+
+          <div className='filter-buttons-container'>
+            <button
+              className={`filter-button ${eventFilterButton === 'today' ? 'selected' : ''}`}
+              onClick={() => handleFilterEvents('today')}
+            >
+              Today
+            </button>
+            <button
+              className={`filter-button ${eventFilterButton === 'tomorrow' ? 'selected' : ''}`}
+              onClick={() => handleFilterEvents('tomorrow')}
+            >
+              Tomorrow
+            </button>
+            <button
+              className={`filter-button ${eventFilterButton === 'upcoming' ? 'selected' : ''}`}
+              onClick={() => handleFilterEvents('upcoming')}
+            >
+              Upcoming
+            </button>
+          </div>
 
          
           <ul className='scrolling-wrapper'>
