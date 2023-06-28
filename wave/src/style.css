@@ -102,7 +102,7 @@ li {
 }
 
 .bar-name-small {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   color: #CBCBCB;
 }
@@ -1222,7 +1222,7 @@ input[type="range"] {
   cursor: pointer;
   border-radius: 20px;
   width: 100%;
-  height: 125px;
+  height: 150px;
   margin: 2px;
 }
 
@@ -1248,6 +1248,9 @@ input[type="range"] {
   font-size: 15px;
   font-weight: 400;
   color: #aaaaaa;
+  overflow: hidden;
+  max-width: 95%; /* Allow the text to fill the available width within the box */
+  white-space: pre-wrap;
 }
 
 .event-time {
@@ -1259,35 +1262,82 @@ input[type="range"] {
   color: #979696;
   stroke: #979696;
   height: 20px;
+  margin-bottom: 0.5rem;
 }
 
 .buy {
   -webkit-appearance: none;
   background-color: #292929;
   border-radius: 7px;
-  height: 25px;
-  width: 50px;
+  height: 27px;
+  width: 55px;
   color: #aaaaaa;
-  font-size: 12px;
+  font-size: 11px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
 }
 
 .buy:focus {
   outline: none;
 }
 
+.buy-box {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 5px;
+  background-color: #25ff5b73;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7bff82;
+}
+
+.price-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .going {
   -webkit-appearance: none;
-  background-color: #151515;
-  border: 1.5px solid #494949;
+  background-color: #292929;
   border-radius: 7px;
   width: 70px;
-  height: 25px;
+  height: 27px;
   color: #aaaaaa;
-  font-size: 12px;
+  font-size: 11px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
 }
 
 .going:focus {
   outline: none;
+}
+
+.going-box {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 5px;
+  background-color: #2587ff73;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7bbeff;
+  font-weight: 600;
+}
+
+.going-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .event-buttons {
@@ -1296,3 +1346,20 @@ input[type="range"] {
   justify-content: center;
   gap: 10px;
 }
+
+.circle {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #1f61c4; /* You can change the color as per your requirement */
+}
+
+.bar-name-small-line {
+  display: flex;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  width: 95%;
+  overflow: hidden;
+}
+

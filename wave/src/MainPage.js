@@ -54,12 +54,12 @@ function MainPage(props) {
   //const threshold = 0.09;
   const threshold = 100;
   const locations = useMemo(() => [
-    { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St', event: false, start: null, end: null, eventName: null},
-    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St', event: true, start: '9:00', end: '12:00pm', eventName: 'DJ whatever'},
-    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St', event: true, start: '9:00', end: '12:00pm', eventName: 'Celebrity boxing'},
-    { name: 'Test', latitude: 42.111683, longitude: -71.872295, addy: '123 Random St', event: true, start: '9:00', end: '12:00pm', eventName: 'Basketball vs IU'},
-    { name: 'Test2', latitude: 42.299103, longitude: -71.785020, addy: '123 Whatever Ave', event: true, start: '9:00', end: '12:00pm', eventName: 'Half price drinks'},
-    { name: 'Seattle', latitude: 47.607480, longitude: -122.336241, addy: '123 Whatever Ave', event: true, start: '9:00', end: '12:00pm', eventName: 'Football vs Nebraska'}
+    { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St', event: false, start: null, end: null, date: null, eventName: null, price: null},
+    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St', event: true, start: '9', end: '12pm', date: 'Mar 11', eventName: 'DJ whatever', price: '20'},
+    { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St', event: true, start: '9', end: '12pm', date: 'Mar 30', eventName: 'Celebrity boxing', price: '10'},
+    { name: 'Test', latitude: 42.111683, longitude: -71.872295, addy: '123 Random St', event: true, start: '9', end: '12pm', date: 'Mar 1', eventName: 'Basketball vs IU', price: '2'},
+    { name: 'Test2', latitude: 42.299103, longitude: -71.785020, addy: '123 Whatever Ave', event: true, start: '9', end: '12pm', date: 'Jun 5', eventName: 'Half price drinks', price: 'Free'},
+    { name: 'Seattle', latitude: 47.607480, longitude: -122.336241, addy: '123 Whatever Ave', event: true, start: '9', end: '12pm', date: 'Mar 8', eventName: 'Football vs Nebraska', price: 'Free'}
   ], []);
 
   const handleLocationClick = useCallback((locationName) => {
@@ -630,14 +630,29 @@ function MainPage(props) {
                           <path d="M12 12l-3 -2"/>
                           <path d="M12 7v5"/>
                         </svg>
-                        <div>{location.start + ' - ' + location.end}</div>
+                        <div>{location.start + ' - ' + location.end + ' ' + location.date}</div>
                       </div>
-                      
-                      <div className='bar-name-small'>{location.name}</div>
+                      <div className='bar-name-small-line'>
+                        <div className="circle"></div>
+                        <div className='bar-name-small'>{location.name}</div>
+                      </div>
                       <div className='event-name'>{location.eventName}</div>
                       <div className='event-buttons'>
-                        <button className='buy'>$10</button>
-                        <button className='going'>23 going</button>
+                        <button className='buy'>
+                          <div className='buy-box'>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-currency-dollar" width="14" height="14" viewBox="0 0 24 24" strokeWidth="3" stroke="#7bff82" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                              <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"/>
+                              <path d="M12 3v3m0 12v3"/>
+                            </svg>
+                          </div>
+                          <div className='price-container'>{location.price}</div>
+                        </button>
+  
+                        <button className='going'>
+                          <div className='going-box'>28</div>
+                          <div className='going-container'>going</div>
+                        </button>
                       </div>
                     </div>
                   </div>
