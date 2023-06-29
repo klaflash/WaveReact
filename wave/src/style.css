@@ -1220,10 +1220,24 @@ input[type="range"] {
   text-decoration: none;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   width: 100%;
-  height: 150px;
+  height: 100px;
   margin: 2px;
+}
+
+.event-button-link {
+  display: flex;
+  background-color: #151515;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  width: 100%;
+  height: 100%;
 }
 
 .card {
@@ -1333,6 +1347,24 @@ input[type="range"] {
   font-weight: 600;
 }
 
+.going-box.on {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 5px;
+  background-color: #2587ff73;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7bbeff;
+  font-weight: 600;
+}
+
+.going-box.off {
+  background-color: #494949;
+  color: #858585;
+}
+
 .going-container {
   width: 100%;
   display: flex;
@@ -1345,6 +1377,11 @@ input[type="range"] {
   display: flex;
   justify-content: center;
   gap: 10px;
+  height: 50px;
+  background-color: #151515;
+  align-items: center;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .circle {

@@ -496,6 +496,154 @@ function MainPage(props) {
     localStorage.setItem('eventFilter', button);
   };
 
+  const insertLocationNames = async () => {
+    for (const location of locations) {
+      const { data: existingData, error: existingError } = await supabase
+        .from('Events')
+        .select('name')
+        .eq('name', location.name)
+        .limit(1);
+  
+      if (existingError) {
+        console.error('Error checking existing name:', existingError.message);
+        continue;
+      }
+  
+      if (existingData.length === 0) {
+        const { data: insertedData, error: insertError } = await supabase
+          .from('Events')
+          .insert({ name: location.name, going: 0 });
+  
+        if (insertError) {
+          console.error('Error inserting location name:', insertError.message);
+          continue;
+        }
+  
+        console.log('Location name inserted:', insertedData);
+      } else {
+        console.log('Location name already exists:', location.name);
+      }
+    }
+  };
+  
+  
+  
+  // Call the function to insert the location names
+
+  useEffect(() => {
+    insertLocationNames();
+    fetchGoingCountData();
+  }, []);
+
+
+  useEffect(() => {
+
+    const Events = supabase.channel('custom-all-channel')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'Events' },
+      (payload) => {
+        console.log('Change received!', payload)
+        fetchGoingCountData()
+      }
+    )
+    .subscribe()
+
+  }, []);
+  
+
+  const [goingOn, setGoingOn] = useState(() => {
+    const storedGoingToEvent = localStorage.getItem('goingToEvent');
+    if (storedGoingToEvent) {
+      return JSON.parse(storedGoingToEvent);
+    } else {
+      const initialGoingOn = {};
+      locations.forEach((location) => {
+        initialGoingOn[location.name] = false;
+      });
+      return initialGoingOn;
+    }
+  });
+  
+  useEffect(() => {
+    localStorage.setItem('goingToEvent', JSON.stringify(goingOn));
+    console.log(goingOn)
+  }, [goingOn]);
+
+  
+  const [goingCount, setGoingCount] = useState({})
+  
+  const fetchGoingCountData = async () => {
+    const { data, error } = await supabase.from('Events').select('name, going');
+  
+    if (error) {
+      console.error('Error fetching data:', error.message);
+      return;
+    }
+  
+    const updatedGoingCount = {};
+    data.forEach((row) => {
+      updatedGoingCount[row.name] = row.going;
+    });
+
+    console.log("hYh")
+    console.log(updatedGoingCount)
+  
+    setGoingCount(updatedGoingCount);
+  };
+  
+
+  const handleGoingClick = async (location, current) => {
+
+    console.log(goingOn)
+
+    setGoingOn(prevState => {
+      const updatedGoingOn = { ...prevState }; // Create a copy of the previous state
+    
+      // Toggle the value of a specific location key
+      updatedGoingOn[location] = !prevState[location];
+    
+      return updatedGoingOn;
+    });
+
+    console.log(goingOn)
+    
+
+    let updatedGoing;
+
+    if (goingOn[location] === false) {
+      //increment
+      updatedGoing = current + 1
+    } else if (goingOn[location] === true) {
+      //decrement
+      updatedGoing = current - 1
+    }
+
+    setGoingCount(prevGoingCount => ({
+      ...prevGoingCount,
+      [location]: updatedGoing
+    }));
+    
+
+    // Update the database here
+    const { data, error } = await supabase
+    .from('Events')
+    .update({ going: updatedGoing })
+    .eq('name', location)
+
+  
+    if (error) {
+      console.error('Error updating going count:', error);
+    } else {
+      console.log('Going count updated successfully:', data);
+    }
+
+  };
+
+
+
+
+
   return (
     <div id='main-page'>
 
@@ -641,7 +789,7 @@ function MainPage(props) {
             ) : filteredLocations.filter((location) => location.event === true)
                 .map((location, index) => (
               <li className={`card${index === filteredLocations.length - 1 ? ' last-item' : ''}`} key={location.name}>
-                <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
+                <Link className='event-button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
                   averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#A1D1FE' :
                   averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#59AFFF' :
                   averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#59AFFF' :
@@ -665,26 +813,30 @@ function MainPage(props) {
                         <div className='bar-name-small'>{location.name}</div>
                       </div>
                       <div className='event-name'>{location.eventName}</div>
-                      <div className='event-buttons'>
-                        <button className='buy'>
-                          <div className='buy-box'>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-currency-dollar" width="14" height="14" viewBox="0 0 24 24" strokeWidth="3" stroke="#7bff82" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                              <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"/>
-                              <path d="M12 3v3m0 12v3"/>
-                            </svg>
-                          </div>
-                          <div className='price-container'>{location.price}</div>
-                        </button>
-  
-                        <button className='going'>
-                          <div className='going-box'>28</div>
-                          <div className='going-container'>going</div>
-                        </button>
-                      </div>
                     </div>
+
                   </div>
                 </Link>
+
+                <div className='event-buttons'>
+                  <button className='buy'>
+                    <div className='buy-box'>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-currency-dollar" width="14" height="14" viewBox="0 0 24 24" strokeWidth="3" stroke="#7bff82" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"/>
+                        <path d="M12 3v3m0 12v3"/>
+                      </svg>
+                    </div>
+                    <div className='price-container'>{location.price}</div>
+                  </button>
+
+                  
+                  <button className={`going ${goingOn[location.name] ? 'on' : 'off'}`} onClick={() => handleGoingClick(location.name, goingCount[location.name])}>
+                    <div className={`going-box ${goingOn[location.name] ? 'on' : 'off'}`}>{goingCount[location.name]}</div>
+                    <div className='going-container'>going</div>
+                  </button>
+
+                </div>
               </li>
             ))}
           </ul>
