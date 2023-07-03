@@ -58,7 +58,7 @@ function MainPage(props) {
     { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St', event: true, start: '9', end: '12pm', date: 'Mar 11', eventName: 'DJ whatever', price: '20'},
     { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St', event: true, start: '9', end: '12pm', date: 'Mar 30', eventName: 'Celebrity boxing', price: '10'},
     { name: 'Test', latitude: 42.111683, longitude: -71.872295, addy: '123 Random St', event: true, start: '9', end: '12pm', date: 'Mar 1', eventName: 'Basketball vs IU', price: '2'},
-    { name: 'Test2', latitude: 42.299103, longitude: -71.785020, addy: '123 Whatever Ave', event: true, start: '9', end: '12pm', date: 'Jun 5', eventName: 'Half price drinks', price: 'Free'},
+    { name: 'Test2', latitude: 42.299103, longitude: -71.785020, addy: '123 Whatever Ave', event: true, start: '9', end: '12pm', date: 'Jun 5', eventName: 'Football vs Nebraska', price: 'Free'},
     { name: 'Seattle', latitude: 47.607480, longitude: -122.336241, addy: '123 Whatever Ave', event: true, start: '9', end: '12pm', date: 'Mar 8', eventName: 'Football vs Nebraska', price: 'Free'}
   ], []);
 
@@ -818,25 +818,36 @@ function MainPage(props) {
                   </div>
                 </Link>
 
-                <div className='event-buttons'>
-                  <button className='buy'>
-                    <div className='buy-box'>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-currency-dollar" width="14" height="14" viewBox="0 0 24 24" strokeWidth="3" stroke="#7bff82" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"/>
-                        <path d="M12 3v3m0 12v3"/>
-                      </svg>
-                    </div>
-                    <div className='price-container'>{location.price}</div>
-                  </button>
+                <div className='event-buttons-background' style={{backgroundColor: 
+                  averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#A1D1FE' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#59AFFF' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#59AFFF' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#267CFE' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267CFE' :
+                  ''
+                }}>
+                  <div className='event-buttons'>
+                    <button className='buy'>
+                      <div className='buy-box'>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-currency-dollar" width="14" height="14" viewBox="0 0 24 24" strokeWidth="3" stroke="#7bff82" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"/>
+                          <path d="M12 3v3m0 12v3"/>
+                        </svg>
+                      </div>
+                      <div className='price-container'>{location.price}</div>
+                    </button>
 
-                  
-                  <button className={`going ${goingOn[location.name] ? 'on' : 'off'}`} onClick={() => handleGoingClick(location.name, goingCount[location.name])}>
-                    <div className={`going-box ${goingOn[location.name] ? 'on' : 'off'}`}>{goingCount[location.name]}</div>
-                    <div className='going-container'>going</div>
-                  </button>
+                    
+                    <button className={`going ${goingOn[location.name] ? 'on' : 'off'}`} onClick={() => handleGoingClick(location.name, goingCount[location.name])}>
+                      <div className={`going-box ${goingOn[location.name] ? 'on' : 'off'}`}>{goingCount[location.name]}</div>
+                      <div className='going-container'>going</div>
+                    </button>
 
+                  </div>
                 </div>
+
+                
               </li>
             ))}
           </ul>
