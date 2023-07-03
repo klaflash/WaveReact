@@ -1294,6 +1294,7 @@ input[type="range"] {
   display: flex;
   align-items: center;
   padding-left: 4px;
+  text-decoration: none;
 }
 
 .buy:focus {
