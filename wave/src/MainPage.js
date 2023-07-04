@@ -633,8 +633,29 @@ function MainPage(props) {
 
   };
 
+  // Function to format the start time in '10' format
+  function formatStartTime(date) {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const formattedHours = hours % 12 || 12;
+    return `${formattedHours}`;
+  }
 
+  // Function to format the end time in '3am' format
+  function formatEndTime(date) {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    const formattedHours = hours % 12 || 12;
+    return `${formattedHours}${ampm}`;
+  }
 
+  // Function to format the date in 'Mar 3' format
+  function formatDate(date) {
+    const month = date.toLocaleString('en-US', { month: 'short' });
+    const day = date.getDate();
+    return `${month} ${day}`;
+  }
 
 
   return (
@@ -915,7 +936,22 @@ function MainPage(props) {
                 }}>
                   <div className='card-container'>
                     <div className='card-left'>
-                      <div className='bar-name'>{location.name}</div>
+                      <div className='bar-name-container'>
+                        <div className='bar-name'>{location.name}</div>
+                        {location.event && (
+                          <div>
+                            {new Date(location.start).toDateString() === new Date().toDateString() ||
+                            new Date(location.end).toDateString() === new Date().toDateString() ? (
+                              <div>
+                                {formatStartTime(new Date(location.start))} - {formatEndTime(new Date(location.end))}
+                              </div>
+                            ) : (
+                              <div>{formatDate(new Date(location.start))}</div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      
                       <div className='bar-addy'>{location.addy}</div>
                       <div></div>
                     </div>
