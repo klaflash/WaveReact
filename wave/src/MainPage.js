@@ -55,7 +55,7 @@ function MainPage(props) {
   const threshold = 100;
   const locations = useMemo(() => [
     { name: 'Nova', latitude: 40.415171, longitude: -86.893275, addy: '200 S Fourth St', event: false, start: null, end: null, date: null, eventName: null, price: null},
-    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St', event: true, start: '2023-07-03T22:00-04:00', end: '2023-07-03T23:00-04:00', eventName: 'DJ whatever', price: '20'},
+    { name: 'Hub', latitude: 40.422203, longitude: -86.906227, addy: '111 S Salisbury St', event: true, start: '2023-07-03T22:00-04:00', end: '2023-07-04T03:00-04:00', eventName: 'DJ whatever', price: '20'},
     { name: 'Rise', latitude: 40.422677, longitude: -86.906967, addy: '134 W State St', event: true, start: '2023-07-04T22:00-04:00', end: '2023-07-04T23:00-04:00', eventName: 'Celebrity boxing', price: '10'},
     { name: 'Test', latitude: 42.111683, longitude: -71.872295, addy: '123 Random St', event: true, start: '2023-07-04T22:00-04:00', end: '2023-07-05T01:00-04:00', eventName: 'Basketball vs IU', price: '2', buyLink: 'https://seatgeek.com/indiana-hoosiers-at-purdue-boilermakers-football-tickets/ncaa-football/2023-11-25-3-30-am/5853585'},
     { name: 'Test2', latitude: 42.299103, longitude: -71.785020, addy: '123 Whatever Ave', event: true, start: '2023-07-07T21:00-04:00', end: '2023-07-07T24:00-04:00', eventName: 'Football vs Nebraska', price: 'Free'},
@@ -527,7 +527,6 @@ function MainPage(props) {
   };
   
   
-  
   // Call the function to insert the location names
 
   useEffect(() => {
@@ -786,7 +785,38 @@ function MainPage(props) {
           <ul className='scrolling-wrapper'>
             {filteredLocations.length === 0 ? (
               <div id='no-results'>No matching results</div>
-            ) : filteredLocations.filter((location) => location.event === true)
+            ) : filteredLocations
+            .filter((location) => location.event === true)
+            .filter((location) => {
+              const today = new Date();
+              const start = new Date(location.start);
+
+              if (eventFilterButton === 'today') {
+                const isSameDay = start.getDate() === today.getDate() &&
+                  start.getMonth() === today.getMonth() &&
+                  start.getFullYear() === today.getFullYear();
+                
+                const endDateTime = new Date(location.end);
+                const isOngoing = start < today && endDateTime >= today;
+                
+                return isSameDay || isOngoing;
+              }
+          
+              if (eventFilterButton === 'tomorrow') {
+                const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+                const isNextDay = start.getDate() === tomorrow.getDate() &&
+                  start.getMonth() === tomorrow.getMonth() &&
+                  start.getFullYear() === tomorrow.getFullYear();
+                return isNextDay;
+              }
+          
+              if (eventFilterButton === 'upcoming') {
+                const dayAfterTomorrow = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
+                return start > dayAfterTomorrow;
+              }
+          
+              return true; // If eventFilterButton is not 'today', 'tomorrow', or 'upcoming', include all locations
+            })
                 .map((location, index) => (
               <li className={`card${index === filteredLocations.length - 1 ? ' last-item' : ''}`} key={location.name}>
                 <Link className='event-button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
