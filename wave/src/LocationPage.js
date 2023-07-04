@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useParams } from "react-router-dom";
 
 import { createClient } from '@supabase/supabase-js'
@@ -104,6 +104,9 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
 )
 
 function LocationPage(props) {
+
+  const locations = useMemo(() => props.locations, []);
+  console.log(locations)
 
   const [newRatingIdObj, setNewRatingIdObj] = useState(JSON.parse(localStorage.getItem('newRatingId')) || {})
   const [userColors, setUserColors] = useState(JSON.parse(localStorage.getItem('userColors')) || {})
