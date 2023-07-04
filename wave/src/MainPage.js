@@ -939,7 +939,7 @@ function MainPage(props) {
                       <div className='bar-name-container'>
                         <div className='bar-name'>{location.name}</div>
                         {location.event && (
-                          <div>
+                          <div className='event-banner'>
                             {new Date(location.start).toDateString() === new Date().toDateString() ||
                             new Date(location.end).toDateString() === new Date().toDateString() ? (
                               <div>
