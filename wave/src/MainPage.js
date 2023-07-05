@@ -857,12 +857,15 @@ function MainPage(props) {
             
                 return true; // If eventFilterButton is not 'today', 'tomorrow', or 'upcoming', include all locations
               })
-              .map((event, index) => {
+              .map((event, index, array) => {
                 const { name, start, end, eventName, price, buyLink } = event;
                 // Render each event using the start, end, eventName, price, and buyLink values
   
                 return (
-                  <li key={index} className={`card${index === filteredLocations.length - 1 ? ' last-item' : ''}`}>
+                  <li
+                    key={name}
+                    className={`card${index === array.length - 1 ? ' last-item' : ''}`}
+                  >
                     <Link className='event-button-link' to={`/location/${name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[name]))}`} onClick={() => handleLocationClick(name)} style={{backgroundColor: 
                       averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#A1D1FE' :
                       averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#59AFFF' :
@@ -950,11 +953,6 @@ function MainPage(props) {
             }
              {!hasMatchingResults && <div id='no-events'>More events coming soon</div>}
           </ul>
-
-
-
-
-
 
 
 {/*          
