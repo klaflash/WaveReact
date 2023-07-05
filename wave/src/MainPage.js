@@ -798,7 +798,166 @@ function MainPage(props) {
             </button>
           </div>
 
-         
+
+          <ul className='scrolling-wrapper'>
+            {filteredLocations.length === 0 ? (
+              <div id='no-results'>No matching results</div>
+            ) : filteredLocations
+              .filter((location) => location.event === true)
+              .flatMap((location) => {
+                const starts = Array.isArray(location.start) ? location.start : [location.start];
+                const ends = Array.isArray(location.end) ? location.end : [location.end];
+                const eventNames = Array.isArray(location.eventName) ? location.eventName : [location.eventName];
+                const prices = Array.isArray(location.price) ? location.price : [location.price];
+                const buyLinks = Array.isArray(location.buyLink) ? location.buyLink : [location.buyLink];
+                const iterations = Math.max(starts.length, ends.length, eventNames.length, prices.length, buyLinks.length);
+                
+                return Array.from({ length: iterations }, (_, index) => ({
+                  name: location.name,
+                  start: starts[index] || '',
+                  end: ends[index] || '',
+                  eventName: eventNames[index] || '',
+                  price: prices[index] || '',
+                  buyLink: buyLinks[index] || ''
+                }));
+              })
+              .filter((event) => {
+                console.log('JJJJJJJJ', event.name)
+                const { name, start, end, eventName, price, buyLink } = event;
+                const today = new Date();
+                const startDate = new Date(start);
+                console.log(startDate)
+
+                if (eventFilterButton === 'today') {
+                  const isSameDay = startDate.getDate() === today.getDate() &&
+                    startDate.getMonth() === today.getMonth() &&
+                    startDate.getFullYear() === today.getFullYear();
+                  
+                  const endDateTime = new Date(end);
+                  const isOngoing = startDate < today && endDateTime >= today;
+                  
+                  return isSameDay || isOngoing;
+                }
+            
+                if (eventFilterButton === 'tomorrow') {
+                  const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+                  const isNextDay = startDate.getDate() === tomorrow.getDate() &&
+                    startDate.getMonth() === tomorrow.getMonth() &&
+                    startDate.getFullYear() === tomorrow.getFullYear();
+                  return isNextDay;
+                }
+
+                if (eventFilterButton === 'upcoming') {
+                  const dayAfterTomorrow = new Date();
+                  dayAfterTomorrow.setDate(today.getDate() + 2);
+                  dayAfterTomorrow.setHours(0, 0, 0, 0);
+                
+                  return startDate >= dayAfterTomorrow;
+                }
+            
+                return true; // If eventFilterButton is not 'today', 'tomorrow', or 'upcoming', include all locations
+              })
+              .map((event, index) => {
+                const { name, start, end, eventName, price, buyLink } = event;
+                // Render each event using the start, end, eventName, price, and buyLink values
+  
+                return (
+                  <li key={index} className={`card${index === filteredLocations.length - 1 ? ' last-item' : ''}`}>
+                    <Link className='event-button-link' to={`/location/${name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[name]))}`} onClick={() => handleLocationClick(name)} style={{backgroundColor: 
+                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#A1D1FE' :
+                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#59AFFF' :
+                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#59AFFF' :
+                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#267CFE' :
+                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#267CFE' :
+                      ''
+                    }}>
+                      <div className='event-card-container'>
+                        <div className='event-card-inner'>
+                          <div className='event-time'>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-clock-hour-10" width="16" height="16" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                              <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                              <path d="M12 12l-3 -2"/>
+                              <path d="M12 7v5"/>
+                            </svg>
+                            <div>
+                              {(() => {
+                                const startTime = new Date(start);
+                                const endTime = new Date(end);
+    
+                                console.log(startTime)
+                                console.log(endTime)
+    
+                                const startHour = startTime.getHours() % 12 || 12;
+                                const endHour = endTime.getHours() % 12 || 12;
+    
+                                const startPeriod = startTime.getHours() >= 12 ? 'pm' : 'am';
+                                const endPeriod = endTime.getHours() >= 12 ? 'pm' : 'am';
+    
+                                const formattedDate = startTime.toLocaleString('en-US', {
+                                  month: 'short',
+                                  day: 'numeric'
+                                });
+    
+                                return `${startHour} - ${endHour}${endPeriod} ${formattedDate}`;
+                              })()}
+                            </div>
+    
+                          </div>
+                          <div className='bar-name-small-line'>
+                            <div className="circle"></div>
+                            <div className='bar-name-small'>{name}</div>
+                          </div>
+                          <div className='event-name'>{eventName}</div>
+                        </div>
+    
+                      </div>
+                    </Link>
+    
+                    <div className='event-buttons-background' style={{backgroundColor: 
+                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#A1D1FE' :
+                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#59AFFF' :
+                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#59AFFF' :
+                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#267CFE' :
+                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#267CFE' :
+                      ''
+                    }}>
+                      <div className='event-buttons'>
+                        <a className="buy" href={buyLink} target="_blank" rel="noopener noreferrer">
+                          <div className="buy-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-currency-dollar" width="14" height="14" viewBox="0 0 24 24" strokeWidth="3" stroke="#7bff82" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                              <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"/>
+                              <path d="M12 3v3m0 12v3"/>
+                            </svg>
+                          </div>
+                          <div className="price-container">{price}</div>
+                        </a>
+    
+                        <button className={`going ${goingOn[name] ? 'on' : 'off'}`} onClick={() => handleGoingClick(name, goingCount[name])}>
+                          <div className={`going-box ${goingOn[name] ? 'on' : 'off'}`}>{goingCount[name]}</div>
+                          <div className='going-container'>going</div>
+                        </button>
+    
+                      </div>
+                    </div>
+    
+                    {hasMatchingResults = true}
+                    
+                </li>
+                );
+              })
+            }
+             {!hasMatchingResults && <div id='no-events'>More events coming soon</div>}
+          </ul>
+
+
+
+
+
+
+
+{/*          
           <ul className='scrolling-wrapper'>
             {filteredLocations.length === 0 ? (
               <div id='no-results'>No matching results</div>
@@ -920,7 +1079,7 @@ function MainPage(props) {
               </li>
             ))}
              {!hasMatchingResults && <div id='no-events'>More events coming soon</div>}
-          </ul>
+          </ul> */}
         
 
           <div id='locations-subtitle'>locations</div>
@@ -942,18 +1101,42 @@ function MainPage(props) {
                     <div className='card-left'>
                       <div className='bar-name-container'>
                         <div className='bar-name'>{location.name}</div>
-                          {location.event && new Date(location.end) > new Date() && (
-                            <div className='event-banner'>
-                              {new Date(location.start).toDateString() === new Date().toDateString() ||
-                              new Date(location.end).toDateString() === new Date().toDateString() ? (
-                                <div>
-                                  {formatStartTime(new Date(location.start))} - {formatEndTime(new Date(location.end))}
-                                </div>
-                              ) : (
-                                <div>{formatDate(new Date(location.start))}</div>
-                              )}
-                            </div>
-                          )}
+                        {location.event && (
+                          <>
+                            {location.end.some((endTimestamp) => new Date(endTimestamp) > new Date()) && (
+                              <div className='event-banner'>
+                                {location.end
+                                  .map((endTimestamp, index) => {
+                                    const startTimestamp = location.start[index];
+
+                                    const isEndUpcoming = new Date(endTimestamp) > new Date();
+
+                                    if (isEndUpcoming) {
+                                      const isStartDateToday = new Date(startTimestamp).toDateString() === new Date().toDateString();
+                                      const isEndDateToday = new Date(endTimestamp).toDateString() === new Date().toDateString();
+
+                                      return (
+                                        <div key={index}>
+                                          {isStartDateToday || isEndDateToday ? (
+                                            <div>
+                                              {formatStartTime(new Date(startTimestamp))} - {formatEndTime(new Date(endTimestamp))}
+                                            </div>
+                                          ) : (
+                                            <div>{formatDate(new Date(startTimestamp))}</div>
+                                          )}
+                                        </div>
+                                      );
+                                    }
+
+                                    return null; // Skip rendering if end timestamp is not upcoming
+                                  })
+                                  .filter(Boolean)[0]} {/* Get the first truthy element (upcoming timestamp) */}
+                              </div>
+                            )}
+                          </>
+                        )}
+
+
                       </div>
                       
                       <div className='bar-addy'>{location.addy}</div>
