@@ -938,18 +938,18 @@ function MainPage(props) {
                     <div className='card-left'>
                       <div className='bar-name-container'>
                         <div className='bar-name'>{location.name}</div>
-                        {location.event && (
-                          <div className='event-banner'>
-                            {new Date(location.start).toDateString() === new Date().toDateString() ||
-                            new Date(location.end).toDateString() === new Date().toDateString() ? (
-                              <div>
-                                {formatStartTime(new Date(location.start))} - {formatEndTime(new Date(location.end))}
-                              </div>
-                            ) : (
-                              <div>{formatDate(new Date(location.start))}</div>
-                            )}
-                          </div>
-                        )}
+                          {location.event && new Date(location.end) > new Date() && (
+                            <div className='event-banner'>
+                              {new Date(location.start).toDateString() === new Date().toDateString() ||
+                              new Date(location.end).toDateString() === new Date().toDateString() ? (
+                                <div>
+                                  {formatStartTime(new Date(location.start))} - {formatEndTime(new Date(location.end))}
+                                </div>
+                              ) : (
+                                <div>{formatDate(new Date(location.start))}</div>
+                              )}
+                            </div>
+                          )}
                       </div>
                       
                       <div className='bar-addy'>{location.addy}</div>
