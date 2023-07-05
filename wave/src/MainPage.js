@@ -657,6 +657,8 @@ function MainPage(props) {
     return `${month} ${day}`;
   }
 
+  let hasMatchingResults = false;
+
 
   return (
     <div id='main-page'>
@@ -913,9 +915,11 @@ function MainPage(props) {
                   </div>
                 </div>
 
+                {hasMatchingResults = true}
                 
               </li>
             ))}
+             {!hasMatchingResults && <div id='no-events'>More events coming soon</div>}
           </ul>
         
 

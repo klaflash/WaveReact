@@ -1473,3 +1473,11 @@ input[type="range"] {
   color: #151515;
   font-weight: 500;
 }
+
+#no-events {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4d4d4d;
+  height: 153px;
+}
