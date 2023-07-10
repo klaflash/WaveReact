@@ -1481,3 +1481,24 @@ input[type="range"] {
   color: #4d4d4d;
   height: 153px;
 }
+
+#mini-logo {
+  display: flex;
+  gap: 2px;
+  margin-left: -6px;
+  height: 100%;
+  margin-top: auto;
+  padding-bottom: 0.5rem;
+}
+
+#mini-logo-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 13px;
+  height: 13px;
+  background-color: #d6d455;
+  color: #151515;
+  font-size: 11px;
+  font-weight: 800;
+}

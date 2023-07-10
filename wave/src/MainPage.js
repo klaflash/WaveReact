@@ -742,6 +742,12 @@ function MainPage(props) {
                 </defs>
               </svg>
             </div>
+            
+            <div id='mini-logo'>
+              <div id='mini-logo-inner'>4</div>
+              <div id='mini-logo-inner'>1</div>
+              <div id='mini-logo-inner'>1</div>
+            </div>
 
             <button id='mute-button' onClick={handleClick}>
               {muted ? (
