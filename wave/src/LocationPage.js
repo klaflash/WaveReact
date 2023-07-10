@@ -7,6 +7,10 @@ import { useNavigate } from 'react-router-dom';
 
 import logo from './waveLogo.png';
 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 //const supabaseUrl = process.env.REACT_APP_PROJECT_URL
 //const supabaseKey = process.env.REACT_APP_API_KEY
 
@@ -1225,6 +1229,16 @@ function LocationPage(props) {
       setImageUrls([]);
     }
   }, []);
+
+  const storySettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    draggable: false,
+    swipe: false,
+  };
   
 
   
@@ -1642,11 +1656,15 @@ function LocationPage(props) {
         </div>
       </div>
 
+
       <div id='story-container'>
-        {imageUrls.map((url, index) => (
-          <img className='story-section' key={index} src={url} alt={`Supabase Image ${index}`} />
-        ))}
+        <Slider {...storySettings} className='story'>
+          {imageUrls.map((url, index) => (
+            <img key={index} src={url} alt={`Supabase Image ${index}`} />
+          ))}
+        </Slider>
       </div>
+      
 
 
     </div>

@@ -1504,23 +1504,24 @@ input[type="range"] {
 }
 
 #story-container {
-  -webkit-overflow-scrolling: touch;
   display: flex;
-  height: 100vh;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
+  justify-content: center;
+}
+
+.story {
+  width: 70vw;
 }
 
 #story-container::-webkit-scrollbar {
   display: none;
 }
 
-.story-section {
-  height: 100vh;
-  width: 100vw;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+
+.slick-next {
+  background-color: blue;
+  height: 100%;
 }
+
 
 
 
