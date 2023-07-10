@@ -15,7 +15,6 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-
 let loading = false;
 
 const MyResponsiveBar = ({ data /* see data tab */ }) => (
@@ -1198,6 +1197,34 @@ function LocationPage(props) {
       return `${weeks}w`;
     }
   }
+
+  const [imageUrls, setImageUrls] = useState([]);
+
+  useEffect(() => {
+    const locationObject = locations.find(location => location.name === currentLocation);
+    if (locationObject && locationObject.event) {
+      const fetchedImageUrls = [];
+
+      const fetchImages = async () => {
+        for (const filename of locationObject.eventName) {
+          const { data, error } = await supabase.storage.from('public').download(`stories/${currentLocation}/${filename}`);
+          if (error) {
+            console.error('Error fetching image:', error);
+          } else {
+            console.log(data)
+            const url = URL.createObjectURL(data);
+            fetchedImageUrls.push(url);
+          }
+        }
+
+        setImageUrls(fetchedImageUrls);
+      };
+
+      fetchImages();
+    } else {
+      setImageUrls([]);
+    }
+  }, []);
   
 
   
@@ -1613,6 +1640,12 @@ function LocationPage(props) {
 
         
         </div>
+      </div>
+
+      <div id='story-container'>
+        {imageUrls.map((url, index) => (
+          <img className='story-section' key={index} src={url} alt={`Supabase Image ${index}`} />
+        ))}
       </div>
 
 
