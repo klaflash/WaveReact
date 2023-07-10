@@ -490,35 +490,51 @@ function MainPage(props) {
     localStorage.setItem('eventFilter', button);
   };
 
+  const existingNames = new Set();
+
   const insertLocationNames = async () => {
+  
     for (const location of locations) {
-      const { data: existingData, error: existingError } = await supabase
-        .from('Events')
-        .select('name')
-        .eq('name', location.name)
-        .limit(1);
+      if (location.event) {
+        for (const eventName of location.eventName) {
+          const key = `${location.name}-${eventName}`;
   
-      if (existingError) {
-        console.error('Error checking existing name:', existingError.message);
-        continue;
-      }
+          if (existingNames.has(key)) {
+            console.log('Location name already exists:', location.name, eventName);
+            continue;
+          }
   
-      if (existingData.length === 0) {
-        const { data: insertedData, error: insertError } = await supabase
-          .from('Events')
-          .insert({ name: location.name, going: 0 });
+          existingNames.add(key);
   
-        if (insertError) {
-          console.error('Error inserting location name:', insertError.message);
-          continue;
+          const { data: existingData, error: existingError } = await supabase
+            .from('Events')
+            .select('name')
+            .eq('name', location.name)
+            .eq('event_name', eventName)
+            .limit(1);
+  
+          if (existingError) {
+            console.error('Error checking existing name:', existingError.message);
+            continue;
+          }
+  
+          if (existingData.length === 0) {
+            const { data: insertedData, error: insertError } = await supabase
+              .from('Events')
+              .insert({ name: location.name, event_name: eventName, going: 0 });
+  
+            if (insertError) {
+              console.error('Error inserting location name:', insertError.message);
+              continue;
+            }
+  
+            console.log('Location name inserted:', insertedData);
+          }
         }
-  
-        console.log('Location name inserted:', insertedData);
-      } else {
-        console.log('Location name already exists:', location.name);
       }
     }
   };
+  
   
   
   // Call the function to insert the location names
@@ -526,10 +542,6 @@ function MainPage(props) {
   useEffect(() => {
     insertLocationNames();
     fetchGoingCountData();
-  }, []);
-
-
-  useEffect(() => {
 
     const Events = supabase.channel('custom-all-channel')
     .on(
@@ -542,6 +554,9 @@ function MainPage(props) {
     )
     .subscribe()
 
+    return () => {
+      Events.unsubscribe();
+    };
   }, []);
   
 
@@ -552,10 +567,15 @@ function MainPage(props) {
     } else {
       const initialGoingOn = {};
       locations.forEach((location) => {
-        initialGoingOn[location.name] = false;
+        initialGoingOn[location.name] = {};
+        if (location.event && Array.isArray(location.eventName)) {
+          location.eventName.forEach((eventName) => {
+            initialGoingOn[location.name][eventName] = false;
+          });
+        }
       });
       return initialGoingOn;
-    }
+    }    
   });
   
   useEffect(() => {
@@ -567,7 +587,7 @@ function MainPage(props) {
   const [goingCount, setGoingCount] = useState({})
   
   const fetchGoingCountData = async () => {
-    const { data, error } = await supabase.from('Events').select('name, going');
+    const { data, error } = await supabase.from('Events').select('name, event_name, going');
   
     if (error) {
       console.error('Error fetching data:', error.message);
@@ -575,9 +595,14 @@ function MainPage(props) {
     }
   
     const updatedGoingCount = {};
+    console.log(data)
     data.forEach((row) => {
-      updatedGoingCount[row.name] = row.going;
+      if (!updatedGoingCount.hasOwnProperty(row.name)) {
+        updatedGoingCount[row.name] = {};
+      }
+      updatedGoingCount[row.name][row.event_name] = row.going;
     });
+
 
     console.log("hYh")
     console.log(updatedGoingCount)
@@ -586,7 +611,7 @@ function MainPage(props) {
   };
   
 
-  const handleGoingClick = async (location, current) => {
+  const handleGoingClick = async (location, event, current) => {
 
     console.log(goingOn)
 
@@ -594,27 +619,34 @@ function MainPage(props) {
       const updatedGoingOn = { ...prevState }; // Create a copy of the previous state
     
       // Toggle the value of a specific location key
-      updatedGoingOn[location] = !prevState[location];
+      updatedGoingOn[location] = {
+        ...prevState[location],
+        [event]: !prevState[location][event]
+      };
     
       return updatedGoingOn;
     });
+    
 
     console.log(goingOn)
     
 
     let updatedGoing;
 
-    if (goingOn[location] === false) {
+    if (goingOn[location][event] === false) {
       //increment
       updatedGoing = current + 1
-    } else if (goingOn[location] === true) {
+    } else if (goingOn[location][event] === true) {
       //decrement
       updatedGoing = current - 1
     }
 
     setGoingCount(prevGoingCount => ({
       ...prevGoingCount,
-      [location]: updatedGoing
+      [location]: {
+        ...prevGoingCount[location],
+        [event]: updatedGoing
+      }
     }));
     
 
@@ -623,7 +655,7 @@ function MainPage(props) {
     .from('Events')
     .update({ going: updatedGoing })
     .eq('name', location)
-
+    .eq('event_name', event);
   
     if (error) {
       console.error('Error updating going count:', error);
@@ -863,7 +895,7 @@ function MainPage(props) {
   
                 return (
                   <li
-                    key={name}
+                    key={`${name}-${eventName}`}
                     className={`card${index === array.length - 1 ? ' last-item' : ''}`}
                   >
                     <Link className='event-button-link' to={`/location/${name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[name]))}`} onClick={() => handleLocationClick(name)} style={{backgroundColor: 
@@ -937,10 +969,21 @@ function MainPage(props) {
                           <div className="price-container">{price}</div>
                         </a>
     
-                        <button className={`going ${goingOn[name] ? 'on' : 'off'}`} onClick={() => handleGoingClick(name, goingCount[name])}>
-                          <div className={`going-box ${goingOn[name] ? 'on' : 'off'}`}>{goingCount[name]}</div>
+                        {/* <button className={`going ${goingOn[name][eventName] ? 'on' : 'off'}`} onClick={() => handleGoingClick(name, eventName, goingCount[name][eventName])}>
+                          <div className={`going-box ${goingOn[name][eventName] ? 'on' : 'off'}`}>{goingCount[name][eventName]}</div>
+                          <div className='going-container'>going</div>
+                        </button> */}
+
+                        <button
+                          className={`going ${goingOn[name]?.[eventName] ? 'on' : 'off'}`}
+                          onClick={() => handleGoingClick(name, eventName, goingCount[name]?.[eventName])}
+                        >
+                          <div className={`going-box ${goingOn[name]?.[eventName] ? 'on' : 'off'}`}>
+                            {goingCount[name]?.[eventName]}
+                          </div>
                           <div className='going-container'>going</div>
                         </button>
+
     
                       </div>
                     </div>
