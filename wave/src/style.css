@@ -1504,23 +1504,43 @@ input[type="range"] {
 }
 
 #story-container {
-  display: flex;
-  justify-content: center;
+  position: relative;
+  width: 100vw;
 }
 
-.story {
-  width: 70vw;
+.image-container {
+  position: relative;
+  display: inline-block;
 }
 
-#story-container::-webkit-scrollbar {
-  display: none;
+.story-photo {
+  width: 100vw;
+  height: 90vh;
+  border-radius: 10px;
 }
 
-
-.slick-next {
-  background-color: blue;
+.prev-button,
+.next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0);
+  width: 30vw;
+  border: none;
+  cursor: pointer;
   height: 100%;
 }
+
+.prev-button {
+  left: 0;
+}
+
+.next-button {
+  right: 0;
+}
+
+
+
 
 
 

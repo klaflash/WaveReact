@@ -1238,7 +1238,10 @@ function LocationPage(props) {
     slidesToScroll: 1,
     draggable: false,
     swipe: false,
+    arrows: false,
   };
+
+  const slider = React.useRef(null);
   
 
   
@@ -1658,12 +1661,18 @@ function LocationPage(props) {
 
 
       <div id='story-container'>
-        <Slider {...storySettings} className='story'>
-          {imageUrls.map((url, index) => (
-            <img key={index} src={url} alt={`Supabase Image ${index}`} />
-          ))}
-        </Slider>
-      </div>
+          <Slider ref={slider} {...storySettings} className='story'>
+            {imageUrls.map((url, index) => (
+              <div key={index} className='image-container'>
+                <img className='story-photo' src={url} alt={`Supabase Image ${index}`} />
+                <button className='prev-button' onClick={() => slider?.current?.slickPrev()}></button>
+                <button className='next-button' onClick={() => slider?.current?.slickNext()}></button>
+              </div>
+            ))}
+          </Slider>
+        </div>
+              
+      
       
 
 
