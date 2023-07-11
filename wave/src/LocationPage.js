@@ -1244,6 +1244,7 @@ function LocationPage(props) {
   const slider = React.useRef(null);
 
   const [isStoryVisible, setIsStoryVisible] = useState(false);
+  const touchStartY = React.useRef(0);
 
   const toggleStoryVisibility = () => {
     setIsStoryVisible(!isStoryVisible);
@@ -1257,6 +1258,20 @@ function LocationPage(props) {
       setIsStoryVisible(false);
     } else {
       slider?.current?.slickNext();
+    }
+  };
+
+  const handleTouchStart = (event) => {
+    touchStartY.current = event.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (event) => {
+    const touchEndY = event.changedTouches[0].clientY;
+    const touchDistance = touchEndY - touchStartY.current;
+    const minDistanceToClose = 100; // Adjust as needed
+
+    if (touchDistance > minDistanceToClose) {
+      setIsStoryVisible(false);
     }
   };
   
@@ -1684,7 +1699,11 @@ function LocationPage(props) {
         </div>
 
         {isStoryVisible && (
-          <div id='story-container'>
+          <div
+            id='story-container'
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             <Slider ref={slider} {...storySettings} className='story'>
               {imageUrls.map((url, index) => (
                 <div key={index} className='image-container'>
