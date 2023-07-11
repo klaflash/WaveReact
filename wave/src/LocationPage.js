@@ -1736,6 +1736,11 @@ function LocationPage(props) {
               {imageUrls.map((url, index) => (
                 <div key={index} className='image-container'>
                   <img className='story-photo' src={url} alt={`Supabase Image ${index}`} />
+                  <div className='story-timestamp'>Tomorrow 12pm</div>
+                  <div className='story-info'>
+                    <div className='story-title'>Event Title</div>
+                    <div className='story-desciption'>A short description of the event descibing theme, dresscode, or other information</div>
+                  </div>
                   <button className='prev-button' onClick={() => slider?.current?.slickPrev()}></button>
                   {index === imageUrls.length - 1 ? (
                     <button className='next-button' onClick={closeStoryContainer}></button>

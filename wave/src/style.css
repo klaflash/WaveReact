@@ -1510,18 +1510,58 @@ input[type="range"] {
   top: 0;
   left: 0;
   width: 100vw;
-  z-index: 5;
+  z-index: 450;
 }
 
 .image-container {
   position: relative;
-  display: inline-block;
+  width: 100vw;
+  height: 100vh;
+  background-color: #151515;
 }
 
 .story-photo {
-  width: 100vw;
-  height: 100vh;
-  border-radius: 10px;
+  width: 93vw;
+  height: 80vh;
+  border-radius: 25px;
+  position: absolute; 
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-top: 1rem;
+}
+
+.story-timestamp {
+  position: absolute;
+  width: 200px;
+  height: 40px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 16vh;
+  background-color: #151515;
+  border-radius: 20px;
+  color: #aaaaaa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-info {
+  position: absolute;
+  left: 7%;
+  bottom: 8vh;
+}
+
+.story-title {
+  color: #CBCBCB;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.story-desciption {
+  color: #aaaaaa;
+  font-size: 15px;
 }
 
 .prev-button,
@@ -1530,7 +1570,7 @@ input[type="range"] {
   top: 50%;
   transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0);
-  width: 30vw;
+  width: 20vw;
   border: none;
   cursor: pointer;
   height: 100%;
