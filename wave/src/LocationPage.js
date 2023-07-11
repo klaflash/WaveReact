@@ -1242,8 +1242,24 @@ function LocationPage(props) {
   };
 
   const slider = React.useRef(null);
-  
 
+  const [isStoryVisible, setIsStoryVisible] = useState(false);
+
+  const toggleStoryVisibility = () => {
+    setIsStoryVisible(!isStoryVisible);
+  };
+
+  const handleNextButtonClick = () => {
+    const currentSlide = slider?.current?.slickCurrentSlide;
+    const totalSlides = imageUrls.length;
+
+    if (currentSlide === totalSlides - 1) {
+      setIsStoryVisible(false);
+    } else {
+      slider?.current?.slickNext();
+    }
+  };
+  
   
   return (
     <div id="main-location-container">
@@ -1660,17 +1676,31 @@ function LocationPage(props) {
       </div>
 
 
-      <div id='story-container'>
-          <Slider ref={slider} {...storySettings} className='story'>
-            {imageUrls.map((url, index) => (
-              <div key={index} className='image-container'>
-                <img className='story-photo' src={url} alt={`Supabase Image ${index}`} />
-                <button className='prev-button' onClick={() => slider?.current?.slickPrev()}></button>
-                <button className='next-button' onClick={() => slider?.current?.slickNext()}></button>
-              </div>
-            ))}
-          </Slider>
+      <div>
+        <div className='story-small' onClick={toggleStoryVisibility}>
+          {imageUrls.length > 0 && (
+            <img className="story-preview" src={imageUrls[0]} alt="Supabase Image 0" />
+          )}
         </div>
+
+        {isStoryVisible && (
+          <div id='story-container'>
+            <Slider ref={slider} {...storySettings} className='story'>
+              {imageUrls.map((url, index) => (
+                <div key={index} className='image-container'>
+                  <img className='story-photo' src={url} alt={`Supabase Image ${index}`} />
+                  <button className='prev-button' onClick={() => slider?.current?.slickPrev()}></button>
+                  {index === imageUrls.length - 1 ? (
+                    <button className='next-button' onClick={() => setIsStoryVisible(false)}></button>
+                  ) : (
+                    <button className='next-button' onClick={handleNextButtonClick}></button>
+                  )}
+                </div>
+              ))}
+            </Slider>
+          </div>
+        )}
+      </div>
               
       
       
