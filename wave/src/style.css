@@ -426,7 +426,7 @@ input[type="range"] {
 
 #location-header {
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
   padding: 15px;
   padding-left: 25px;
   padding-right: 25px;
@@ -451,6 +451,7 @@ input[type="range"] {
   justify-content: center;
   align-items: center;
   color: #EBEBEB;
+  margin-left: auto;
 }
   
 #graph-container {

@@ -1321,8 +1321,15 @@ function LocationPage(props) {
         <div id='location-header'>
           <div id='location-header-left'>
             <div id='location-name'>{currentLocation}</div>
-            <div id='location-subtext'>Past 2 hours - {averages && averages[currentLocation] ? averages[currentLocation]['count'] : '0'} ratings</div>
+            <div id='location-subtext'>Past 2h - {averages && averages[currentLocation] ? averages[currentLocation]['count'] : '0'} ratings</div>
           </div>
+
+          <div className='story-small' onClick={toggleStoryVisibility}>
+            {imageUrls.length > 0 && (
+              <img className="story-preview" src={imageUrls[0]} alt="Supabase Image 0" />
+            )}
+          </div>
+          
           {Object.keys(averages).length !== 0 && (
             <div id='location-header-right'>{averages && averages[currentLocation] ? averages[currentLocation]['averageScore'] : ''}</div>
           )}
@@ -1717,12 +1724,6 @@ function LocationPage(props) {
 
 
       <div>
-        <div className='story-small' onClick={toggleStoryVisibility}>
-          {imageUrls.length > 0 && (
-            <img className="story-preview" src={imageUrls[0]} alt="Supabase Image 0" />
-          )}
-        </div>
-
         {isStoryVisible && (
           <div
             id='story-container'
