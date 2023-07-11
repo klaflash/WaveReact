@@ -1244,6 +1244,8 @@ function LocationPage(props) {
   const slider = React.useRef(null);
 
   const [isStoryVisible, setIsStoryVisible] = useState(false);
+  const [containerPosition, setContainerPosition] = useState(0);
+  const [containerOpacity, setContainerOpacity] = useState(1);
   const touchStartY = React.useRef(0);
 
   const toggleStoryVisibility = () => {
@@ -1255,14 +1257,29 @@ function LocationPage(props) {
     const totalSlides = imageUrls.length;
 
     if (currentSlide === totalSlides - 1) {
-      setIsStoryVisible(false);
+      closeStoryContainer();
     } else {
       slider?.current?.slickNext();
     }
   };
 
+  const closeStoryContainer = () => {
+    setContainerOpacity(0);
+    setTimeout(() => {
+      setIsStoryVisible(false);
+      setContainerOpacity(1);
+      setContainerPosition(0);
+    }, 500); // Adjust the duration as needed
+  };
+
   const handleTouchStart = (event) => {
     touchStartY.current = event.touches[0].clientY;
+  };
+
+  const handleTouchMove = (event) => {
+    const touchY = event.touches[0].clientY;
+    const touchDistance = touchY - touchStartY.current;
+    setContainerPosition(touchDistance);
   };
 
   const handleTouchEnd = (event) => {
@@ -1271,8 +1288,16 @@ function LocationPage(props) {
     const minDistanceToClose = 100; // Adjust as needed
 
     if (touchDistance > minDistanceToClose) {
-      setIsStoryVisible(false);
+      closeStoryContainer();
+    } else {
+      setContainerPosition(0);
     }
+  };
+
+  const containerStyle = {
+    transform: `translateY(${containerPosition}px)`,
+    opacity: containerOpacity,
+    transition: 'transform 0.3s, opacity 0.3s',
   };
   
   
@@ -1701,7 +1726,9 @@ function LocationPage(props) {
         {isStoryVisible && (
           <div
             id='story-container'
+            style={containerStyle}
             onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
             <Slider ref={slider} {...storySettings} className='story'>
@@ -1710,7 +1737,7 @@ function LocationPage(props) {
                   <img className='story-photo' src={url} alt={`Supabase Image ${index}`} />
                   <button className='prev-button' onClick={() => slider?.current?.slickPrev()}></button>
                   {index === imageUrls.length - 1 ? (
-                    <button className='next-button' onClick={() => setIsStoryVisible(false)}></button>
+                    <button className='next-button' onClick={closeStoryContainer}></button>
                   ) : (
                     <button className='next-button' onClick={handleNextButtonClick}></button>
                   )}
