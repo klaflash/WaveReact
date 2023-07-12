@@ -1,7 +1,7 @@
 //RULES
 //1. start[x] -> end[x] -> eventName[x] -> price[x] -> buyLink[x]
 //2. Events must be entered in chronological order (start[0] is before start[1]...)
-//3. If an eent is edited its row must be deleted from the Events database
+//3. If an event is edited its row must be deleted from the Events database
 
 const locations = [
     {
