@@ -1210,19 +1210,29 @@ function LocationPage(props) {
       const fetchedImageUrls = [];
 
       const fetchImages = async () => {
-        for (const filename of locationObject.eventName) {
-          const { data, error } = await supabase.storage.from('public').download(`stories/${currentLocation}/${filename}`);
+        for (let i = 0; i < locationObject.eventName.length; i++) {
+          const filename = locationObject.eventName[i];
+          const endTimestamp = locationObject['end'][i];
+      
+          if (endTimestamp && new Date(endTimestamp) < new Date()) {
+            continue; // Skip retrieving image if the 'end' timestamp has already passed
+          }
+      
+          const { data, error } = await supabase.storage
+            .from('public')
+            .download(`stories/${currentLocation}/${filename}`);
+      
           if (error) {
             console.error('Error fetching image:', error);
           } else {
-            console.log(data)
             const url = URL.createObjectURL(data);
             fetchedImageUrls.push(url);
           }
         }
-
+      
         setImageUrls(fetchedImageUrls);
       };
+      
 
       fetchImages();
     } else {
