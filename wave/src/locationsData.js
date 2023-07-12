@@ -1,6 +1,7 @@
 //RULES
 //1. start[x] -> end[x] -> eventName[x] -> price[x] -> buyLink[x]
 //2. Events must be entered in chronological order (start[0] is before start[1]...)
+//3. If an eent is edited its row must be deleted from the Events database
 
 const locations = [
     {
@@ -43,8 +44,8 @@ const locations = [
         "longitude": -71.872295,
         "addy": "123 Random St",
         "event": true,
-        "start": ["2023-07-11T22:00-04:00", "2023-07-12T19:00-04:00"],
-        "end": ["2023-07-11T01:00-04:00", "2023-07-12T22:00-04:00"],
+        "start": ["2023-07-13T22:00-04:00", "2023-07-14T19:00-04:00"],
+        "end": ["2023-07-14T01:00-04:00", "2023-07-14T22:00-04:00"],
         "eventName": ["Basketball vs IU", 'Fireworks'],
         "price": ["2", 'Free'],
         "buyLink": ["https://seatgeek.com/indiana-hoosiers-at-purdue-boilermakers-football-tickets/ncaa-football/2023-11-25-3-30-am/5853585", 'https://www.google.com']
