@@ -1594,4 +1594,9 @@ input[type="range"] {
 .story-small {
   width: 50px;
   height: 50px;
+  transition: all 0.2s ease-in-out;
+}
+
+.story-small:active {
+  transform: scale(0.85);
 }

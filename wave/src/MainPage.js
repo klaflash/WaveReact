@@ -497,6 +497,7 @@ function MainPage(props) {
     for (const location of locations) {
       if (location.event) {
         for (const eventName of location.eventName) {
+          const index = location.eventName.indexOf(eventName);
           const key = `${location.name}-${eventName}`;
   
           if (existingNames.has(key)) {
@@ -521,7 +522,7 @@ function MainPage(props) {
           if (existingData.length === 0) {
             const { data: insertedData, error: insertError } = await supabase
               .from('Events')
-              .insert({ name: location.name, event_name: eventName, going: 0 });
+              .insert({ name: location.name, event_name: eventName, going: 0, end: location['end'][index]});
   
             if (insertError) {
               console.error('Error inserting location name:', insertError.message);

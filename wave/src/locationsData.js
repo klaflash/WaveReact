@@ -1,3 +1,7 @@
+//RULES
+//1. start[x] -> end[x] -> eventName[x] -> price[x] -> buyLink[x]
+//2. Events must be entered in chronological order (start[0] is before start[1]...)
+
 const locations = [
     {
         "name": "Nova",

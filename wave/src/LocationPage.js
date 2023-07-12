@@ -1250,6 +1250,7 @@ function LocationPage(props) {
 
   const toggleStoryVisibility = () => {
     setIsStoryVisible(!isStoryVisible);
+    incrementStoryViews(currentLocation)
   };
 
   const handleNextButtonClick = () => {
@@ -1298,6 +1299,38 @@ function LocationPage(props) {
     transform: `translateY(${containerPosition}px)`,
     opacity: containerOpacity,
     transition: 'transform 0.3s, opacity 0.3s',
+  };
+
+  const incrementStoryViews = async (name) => {
+    // Retrieve rows that match the given name
+    const { data, error } = await supabase
+      .from('Events')
+      .select('id, story_views, end')
+      .eq('name', name);
+  
+    if (error) {
+      console.error('Error retrieving rows:', error);
+      return;
+    }
+  
+    // Increment the story_views value by one for each row that has not ended
+    for (const row of data) {
+      if (row.end && new Date(row.end) < new Date()) {
+        continue; // Skip incrementing for rows with an 'end' timestamp that has already passed
+      }
+  
+      const updatedViews = row.story_views ? row.story_views + 1 : 1;
+      const { error: updateError } = await supabase
+        .from('Events')
+        .update({ story_views: updatedViews })
+        .eq('id', row.id);
+  
+      if (updateError) {
+        console.error('Error updating row:', updateError);
+      }
+    }
+  
+    console.log('Story views updated successfully.');
   };
   
   
