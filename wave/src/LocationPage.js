@@ -1203,11 +1203,13 @@ function LocationPage(props) {
   }
 
   const [imageUrls, setImageUrls] = useState([]);
+  const [imageEventNames, setImageEventNames] = useState([]);
 
   useEffect(() => {
     const locationObject = locations.find(location => location.name === currentLocation);
     if (locationObject && locationObject.event) {
       const fetchedImageUrls = [];
+      const matchingEventNames = [];
 
       const fetchImages = async () => {
         for (let i = 0; i < locationObject.eventName.length; i++) {
@@ -1227,10 +1229,12 @@ function LocationPage(props) {
           } else {
             const url = URL.createObjectURL(data);
             fetchedImageUrls.push(url);
+            matchingEventNames.push(filename)
           }
         }
       
         setImageUrls(fetchedImageUrls);
+        setImageEventNames(matchingEventNames)
       };
       
 
@@ -1342,6 +1346,7 @@ function LocationPage(props) {
   
     console.log('Story views updated successfully.');
   };
+
   
   
   return (
@@ -1779,9 +1784,47 @@ function LocationPage(props) {
               {imageUrls.map((url, index) => (
                 <div key={index} className='image-container'>
                   <img className='story-photo' src={url} alt={`Supabase Image ${index}`} />
-                  <div className='story-timestamp'>Tomorrow 12pm</div>
+
+                  {locations && (
+                    <div>
+                      {locations.map((location) => {
+                        const locationObject = location.name === currentLocation ? location : null;
+                        
+                        if (locationObject) {
+                          const imageEventIndex = locationObject['eventName'].indexOf(imageEventNames[index])
+                          const startTimestamp = locationObject.start[imageEventIndex];
+                          const endTimestamp = locationObject.end[imageEventIndex];
+
+                          const startTime = new Date(startTimestamp);
+                          const endTime = new Date(endTimestamp);
+
+                          const dayOfWeek = startTime.toLocaleDateString('en-US', { weekday: 'long' });
+
+                          const startHour = startTime.getHours() % 12 || 12;
+                          const endHour = endTime.getHours() % 12 || 12;
+
+                          const startPeriod = startTime.getHours() >= 12 ? 'pm' : 'am';
+                          const endPeriod = endTime.getHours() >= 12 ? 'pm' : 'am';
+
+                          const formattedDate = startTime.toLocaleString('en-US', {
+                            day: 'numeric',
+                            month: 'short'
+                          });
+
+                          return (
+                            <div className="story-timestamp">
+                              <div>{dayOfWeek}, {formattedDate}</div>
+                              <div className='circle'></div>
+                              <div>{startHour} - {endHour}{endPeriod}</div>
+                            </div>
+                          )
+                        }
+                      })}
+                    </div>
+                  )}
+                  
                   <div className='story-info'>
-                    <div className='story-title'>Event Title</div>
+                    <div className='story-title'>{imageEventNames[index]}</div>
                     <div className='story-desciption'>A short description of the event descibing theme, dresscode, or other information</div>
                   </div>
                   <button className='prev-button' onClick={() => slider?.current?.slickPrev()}></button>

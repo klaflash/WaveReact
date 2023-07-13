@@ -2,6 +2,7 @@
 //1. start[x] -> end[x] -> eventName[x] -> price[x] -> buyLink[x]
 //2. Events must be entered in chronological order (start[0] is before start[1]...)
 //3. If an event is edited its row must be deleted from the Events database
+//4. name and eventName combined must be unique
 
 const locations = [
     {

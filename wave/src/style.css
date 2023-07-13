@@ -1517,34 +1517,35 @@ input[type="range"] {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: #151515;
+  background-color: #090909;
 }
 
 .story-photo {
-  width: 93vw;
+  width: 96vw;
   height: 80vh;
   border-radius: 25px;
   position: absolute; 
   left: 50%;
   transform: translate(-50%, 0);
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .story-timestamp {
   position: absolute;
-  width: 200px;
+  width: 250px;
   height: 40px;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  bottom: 16vh;
-  background-color: #151515;
+  bottom: 16.5vh;
+  background-color: #090909;
   border-radius: 20px;
   color: #aaaaaa;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 }
 
 .story-info {
