@@ -1522,7 +1522,7 @@ input[type="range"] {
 
 .story-photo {
   width: 96vw;
-  height: 80vh;
+  height: 79vh;
   border-radius: 25px;
   position: absolute; 
   left: 50%;
@@ -1538,7 +1538,7 @@ input[type="range"] {
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  bottom: 16.5vh;
+  bottom: 17.5vh;
   background-color: #090909;
   border-radius: 20px;
   color: #aaaaaa;
@@ -1560,7 +1560,7 @@ input[type="range"] {
 
 .story-title {
   color: #CBCBCB;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 600;
 }
 
