@@ -1821,7 +1821,7 @@ function LocationPage(props) {
 
                               <div className='story-info'>
                                 <div className='story-title'>{imageEventNames[index]}</div>
-                                <div className='story-desciption'>A short description of the event descibing theme, dresscode, or other information</div>
+                                <div className='story-desciption'>{locationObject['description'][imageEventIndex]}</div>
                               </div>
                             </div>
                           )

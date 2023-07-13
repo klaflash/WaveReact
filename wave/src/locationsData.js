@@ -49,7 +49,8 @@ const locations = [
         "end": ["2023-07-14T01:00-04:00", "2023-07-14T22:00-04:00"],
         "eventName": ["Basketball vs IU", 'Fireworks'],
         "price": ["2", 'Free'],
-        "buyLink": ["https://seatgeek.com/indiana-hoosiers-at-purdue-boilermakers-football-tickets/ncaa-football/2023-11-25-3-30-am/5853585", 'https://www.google.com']
+        "buyLink": ["https://seatgeek.com/indiana-hoosiers-at-purdue-boilermakers-football-tickets/ncaa-football/2023-11-25-3-30-am/5853585", 'https://www.google.com'],
+        "description": ['Watch Zach Edey and Purdue take on rivals IU', 'What a great way to celebrate the summer']
     },
     {
         "name": "Test2",
