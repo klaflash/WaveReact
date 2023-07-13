@@ -926,9 +926,8 @@ function MainPage(props) {
                               {(() => {
                                 const startTime = new Date(start);
                                 const endTime = new Date(end);
-    
-                                console.log(startTime)
-                                console.log(endTime)
+
+                                const dayOfWeek = startTime.toLocaleDateString('en-US', { weekday: 'short' });
     
                                 const startHour = startTime.getHours() % 12 || 12;
                                 const endHour = endTime.getHours() % 12 || 12;
@@ -937,11 +936,11 @@ function MainPage(props) {
                                 const endPeriod = endTime.getHours() >= 12 ? 'pm' : 'am';
     
                                 const formattedDate = startTime.toLocaleString('en-US', {
-                                  month: 'short',
-                                  day: 'numeric'
+                                  day: 'numeric',
+                                  month: 'short'
                                 });
     
-                                return `${startHour} - ${endHour}${endPeriod} ${formattedDate}`;
+                                return `${dayOfWeek}, ${formattedDate}, ${startHour} - ${endHour}${endPeriod}`;
                               })()}
                             </div>
     

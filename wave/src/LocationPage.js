@@ -1812,10 +1812,17 @@ function LocationPage(props) {
                           });
 
                           return (
-                            <div className="story-timestamp">
-                              <div>{dayOfWeek}, {formattedDate}</div>
-                              <div className='circle'></div>
-                              <div>{startHour} - {endHour}{endPeriod}</div>
+                            <div>
+                              <div className="story-timestamp">
+                                <div>{dayOfWeek}, {formattedDate}</div>
+                                <div className='circle'></div>
+                                <div>{startHour} - {endHour}{endPeriod}</div>
+                              </div>
+
+                              <div className='story-info'>
+                                <div className='story-title'>{imageEventNames[index]}</div>
+                                <div className='story-desciption'>A short description of the event descibing theme, dresscode, or other information</div>
+                              </div>
                             </div>
                           )
                         }
@@ -1823,10 +1830,7 @@ function LocationPage(props) {
                     </div>
                   )}
                   
-                  <div className='story-info'>
-                    <div className='story-title'>{imageEventNames[index]}</div>
-                    <div className='story-desciption'>A short description of the event descibing theme, dresscode, or other information</div>
-                  </div>
+                  
                   <button className='prev-button' onClick={() => slider?.current?.slickPrev()}></button>
                   {index === imageUrls.length - 1 ? (
                     <button className='next-button' onClick={closeStoryContainer}></button>
