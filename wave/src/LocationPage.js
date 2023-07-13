@@ -1245,7 +1245,7 @@ function LocationPage(props) {
   }, []);
 
   const storySettings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
@@ -1345,6 +1345,133 @@ function LocationPage(props) {
     }
   
     console.log('Story views updated successfully.');
+  };
+
+
+
+  useEffect(() => {
+    fetchGoingCountData();
+
+    const Events = supabase.channel('custom-all-channel')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'Events' },
+      (payload) => {
+        console.log('Change received!', payload)
+        fetchGoingCountData()
+      }
+    )
+    .subscribe()
+
+    return () => {
+      Events.unsubscribe();
+    };
+  }, []);
+  
+
+  const [goingOn, setGoingOn] = useState(() => {
+    const storedGoingToEvent = localStorage.getItem('goingToEvent');
+    if (storedGoingToEvent) {
+      return JSON.parse(storedGoingToEvent);
+    } else {
+      const initialGoingOn = {};
+      locations.forEach((location) => {
+        initialGoingOn[location.name] = {};
+        if (location.event && Array.isArray(location.eventName)) {
+          location.eventName.forEach((eventName) => {
+            initialGoingOn[location.name][eventName] = false;
+          });
+        }
+      });
+      return initialGoingOn;
+    }    
+  });
+  
+  useEffect(() => {
+    localStorage.setItem('goingToEvent', JSON.stringify(goingOn));
+    console.log(goingOn)
+  }, [goingOn]);
+
+  
+  const [goingCount, setGoingCount] = useState({})
+  
+  const fetchGoingCountData = async () => {
+    const { data, error } = await supabase.from('Events').select('name, event_name, going');
+  
+    if (error) {
+      console.error('Error fetching data:', error.message);
+      return;
+    }
+  
+    const updatedGoingCount = {};
+    console.log(data)
+    data.forEach((row) => {
+      if (!updatedGoingCount.hasOwnProperty(row.name)) {
+        updatedGoingCount[row.name] = {};
+      }
+      updatedGoingCount[row.name][row.event_name] = row.going;
+    });
+
+
+    console.log("hYh")
+    console.log(updatedGoingCount)
+  
+    setGoingCount(updatedGoingCount);
+  };
+  
+
+  const handleGoingClick = async (location, event, current) => {
+
+    console.log(goingOn)
+
+    setGoingOn(prevState => {
+      const updatedGoingOn = { ...prevState }; // Create a copy of the previous state
+    
+      // Toggle the value of a specific location key
+      updatedGoingOn[location] = {
+        ...prevState[location],
+        [event]: !prevState[location][event]
+      };
+    
+      return updatedGoingOn;
+    });
+    
+
+    console.log(goingOn)
+    
+
+    let updatedGoing;
+
+    if (goingOn[location][event] === false) {
+      //increment
+      updatedGoing = current + 1
+    } else if (goingOn[location][event] === true) {
+      //decrement
+      updatedGoing = current - 1
+    }
+
+    setGoingCount(prevGoingCount => ({
+      ...prevGoingCount,
+      [location]: {
+        ...prevGoingCount[location],
+        [event]: updatedGoing
+      }
+    }));
+    
+
+    // Update the database here
+    const { data, error } = await supabase
+    .from('Events')
+    .update({ going: updatedGoing })
+    .eq('name', location)
+    .eq('event_name', event);
+  
+    if (error) {
+      console.error('Error updating going count:', error);
+    } else {
+      console.log('Going count updated successfully:', data);
+    }
+
   };
 
   
@@ -1789,6 +1916,7 @@ function LocationPage(props) {
                     <div>
                       {locations.map((location) => {
                         const locationObject = location.name === currentLocation ? location : null;
+                        const eventName = imageEventNames[index]
                         
                         if (locationObject) {
                           const imageEventIndex = locationObject['eventName'].indexOf(imageEventNames[index])
@@ -1812,7 +1940,7 @@ function LocationPage(props) {
                           });
 
                           return (
-                            <div>
+                            <div key={index}>
                               <div className="story-timestamp">
                                 <div>{dayOfWeek}, {formattedDate}</div>
                                 <div className='circle'></div>
@@ -1820,9 +1948,33 @@ function LocationPage(props) {
                               </div>
 
                               <div className='story-info'>
-                                <div className='story-title'>{imageEventNames[index]}</div>
+                                <div className='story-title'>{eventName}</div>
                                 <div className='story-desciption'>{locationObject['description'][imageEventIndex]}</div>
+
+                                <div className='event-buttons-story'>
+                                  <a className="buy" href={locationObject['buyLink'][imageEventIndex]} target="_blank" rel="noopener noreferrer">
+                                    <div className="buy-box">
+                                      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-currency-dollar" width="14" height="14" viewBox="0 0 24 24" strokeWidth="3" stroke="#7bff82" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"/>
+                                        <path d="M12 3v3m0 12v3"/>
+                                      </svg>
+                                    </div>
+                                    <div className="price-container">{locationObject['price'][imageEventIndex]}</div>
+                                  </a>
+
+                                  <button
+                                    className={`going ${goingOn[currentLocation]?.[eventName] ? 'on' : 'off'}`}
+                                    onClick={() => handleGoingClick(currentLocation, eventName, goingCount[currentLocation]?.[eventName])}
+                                  >
+                                    <div className={`going-box ${goingOn[currentLocation]?.[eventName] ? 'on' : 'off'}`}>
+                                      {goingCount[currentLocation]?.[eventName]}
+                                    </div>
+                                    <div className='going-container'>going</div>
+                                  </button>
+                                </div>
                               </div>
+
                             </div>
                           )
                         }

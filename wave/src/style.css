@@ -1431,8 +1431,8 @@ input[type="range"] {
 }
 
 .circle {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background-color:#d6d455;
 }
@@ -1549,9 +1549,13 @@ input[type="range"] {
 }
 
 .story-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
   position: absolute;
-  left: 7%;
-  bottom: 8vh;
+  left: 11%;
+  bottom: 4vh;
+  margin-right: 11%;
 }
 
 .story-title {
@@ -1563,6 +1567,8 @@ input[type="range"] {
 .story-desciption {
   color: #aaaaaa;
   font-size: 15px;
+  height: 40px;
+  overflow: wrap;
 }
 
 .prev-button,
@@ -1579,10 +1585,12 @@ input[type="range"] {
 
 .prev-button {
   left: 0;
+  width: 10vw;
 }
 
 .next-button {
   right: 0;
+  width: 50vw;
 }
 
 .story-preview {
@@ -1600,4 +1608,9 @@ input[type="range"] {
 
 .story-small:active {
   transform: scale(0.85);
+}
+
+.event-buttons-story{
+  display: flex;
+  gap: 10px;
 }
