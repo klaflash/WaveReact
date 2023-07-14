@@ -1532,8 +1532,8 @@ function LocationPage(props) {
               </div>
           </div>
           <div id='graph-x-index'>
-            <div>2</div>
-            <div>1</div>
+            <div>2h</div>
+            <div>1h</div>
             <div>Now</div>
           </div>
           <div className="switch-button">
@@ -1584,7 +1584,7 @@ function LocationPage(props) {
             {Object.keys(averages).length !== 0 && (
               <div id='people-stack'>
                 <div className='idkyet'>{averages && averages[currentLocation] ? averages[currentLocation]['averageL'] : ''}</div>
-                <div id='people-text'>People</div>
+                <div id='people-text'>In line</div>
               </div>
             )}
           </div>
