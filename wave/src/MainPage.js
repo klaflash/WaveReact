@@ -96,51 +96,50 @@ function MainPage(props) {
     getAverages();
   }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const Ratings = supabase.channel('custom-all-channel')
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'Ratings' },
-      async (payload) => {
-        console.log('Change received!', payload)
-        const newAverages = await updateAverages();
-        setAverages(newAverages[0]);
-        setMostRecent(newAverages[1])
-        const result = {};
+  //   const Ratings = supabase.channel('custom-all-channel')
+  //   .on(
+  //     'postgres_changes',
+  //     { event: '*', schema: 'public', table: 'Ratings' },
+  //     async (payload) => {
+  //       console.log('Change received!', payload)
+  //       const newAverages = await updateAverages();
+  //       setAverages(newAverages[0]);
+  //       setMostRecent(newAverages[1])
+  //       const result = {};
 
-        for (const location in newAverages[0]) {
-          if (newAverages[0][location] && newAverages[2][location]) {
-            const averageScore1 = newAverages[0][location].averageScore;
-            const averageScore2 = newAverages[2][location].averageScore;
-            const difference = parseFloat((averageScore1 - averageScore2).toFixed(1));
-            result[location] = difference;
-          }
-        }
+  //       for (const location in newAverages[0]) {
+  //         if (newAverages[0][location] && newAverages[2][location]) {
+  //           const averageScore1 = newAverages[0][location].averageScore;
+  //           const averageScore2 = newAverages[2][location].averageScore;
+  //           const difference = parseFloat((averageScore1 - averageScore2).toFixed(1));
+  //           result[location] = difference;
+  //         }
+  //       }
+        
+  //       setTrending(result)
 
-        console.log(result);
-        setTrending(result)
-
-      }
-    )
-    .subscribe()
+  //     }
+  //   )
+  //   .subscribe()
 
 
-    // Cleanup subscription on component unmount
-    return () => {
-      Ratings.unsubscribe();
-    };
+  //   // Cleanup subscription on component unmount
+  //   return () => {
+  //     Ratings.unsubscribe();
+  //   };
     
-    // const intervalId = setInterval(async () => {
-    //   const newAverages = await updateAverages();
-    //   setAverages(newAverages[0]);
-    //   setMostRecent(newAverages[1])
-    // }, 10000);
+  //   // const intervalId = setInterval(async () => {
+  //   //   const newAverages = await updateAverages();
+  //   //   setAverages(newAverages[0]);
+  //   //   setMostRecent(newAverages[1])
+  //   // }, 10000);
   
-    // return () => {
-    //   clearInterval(intervalId);
-    // };
-  }, []);
+  //   // return () => {
+  //   //   clearInterval(intervalId);
+  //   // };
+  // }, []);
 
   console.log(averages)
   console.log(mostRecent)
@@ -544,13 +543,36 @@ function MainPage(props) {
     insertLocationNames();
     fetchGoingCountData();
 
+
     const Events = supabase.channel('custom-all-channel')
     .on(
       'postgres_changes',
-      { event: '*', schema: 'public', table: 'Events' },
-      (payload) => {
+      { event: '*', schema: 'public', tables: ['Ratings','Events'] },
+      async (payload) => {
         console.log('Change received!', payload)
-        fetchGoingCountData()
+
+        if (payload.table === 'Events') {
+          fetchGoingCountData()
+
+        } else if (payload.table === 'Ratings') {
+          const newAverages = await updateAverages();
+          setAverages(newAverages[0]);
+          setMostRecent(newAverages[1])
+          const result = {};
+
+          for (const location in newAverages[0]) {
+            if (newAverages[0][location] && newAverages[2][location]) {
+              const averageScore1 = newAverages[0][location].averageScore;
+              const averageScore2 = newAverages[2][location].averageScore;
+              const difference = parseFloat((averageScore1 - averageScore2).toFixed(1));
+              result[location] = difference;
+            }
+          }
+          
+          setTrending(result)
+
+        }
+        
       }
     )
     .subscribe()
@@ -1203,7 +1225,7 @@ function MainPage(props) {
                               {trending[location.name] > 0 ? (
                                 <span className='trending-container up'>
                                   <div className='trending-up'>{trending[location.name]}</div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trending-up" width="18" height="18" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#7bbeff" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-up" width="18" height="18" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#7bbeff" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M3 17l6 -6l4 4l8 -8"/>
                                     <path d="M14 7l7 0l0 7"/>
@@ -1212,7 +1234,7 @@ function MainPage(props) {
                               ) : (
                                 <span className='trending-container down'>
                                   <div className='trending-down'>{Math.abs(trending[location.name])}</div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trending-down" width="18" height="18" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#fc7066" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-down" width="18" height="18" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#fc7066" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M3 7l6 6l4 -4l8 8"/>
                                     <path d="M21 10l0 7l-7 0"/>

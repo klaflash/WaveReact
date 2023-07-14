@@ -514,35 +514,39 @@ function LocationPage(props) {
     getAverages();
   }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const Ratings = supabase.channel('custom-all-channel')
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'Ratings' },
-      async (payload) => {
-        console.log('Change received!', payload)
-        const newAverages = await updateAverages();
-        setAverages(newAverages);
-      }
-    )
-    .subscribe()
+  //   const Ratings = supabase.channel('custom-all-channel')
+  //   .on(
+  //     'postgres_changes',
+  //     { event: '*', schema: 'public', table: 'Ratings' },
+  //     async (payload) => {
+  //       console.log('NEW RATING IN THE HOUSE')
+  //       console.log('Change received!', payload)
+  //       const newAverages = await updateAverages();
+  //       setAverages(newAverages);
+  //     }
+  //   )
+  //   .subscribe()
+
+  //   console.log('SHould be subscribed')
 
 
-    // Cleanup subscription on component unmount
-    return () => {
-      Ratings.unsubscribe();
-    };
+  //   // Cleanup subscription on component unmount
+  //   return () => {
+  //     Ratings.unsubscribe();
+  //     console.log('Goodbye')
+  //   };
 
-    // const intervalId = setInterval(async () => {
-    //   const newAverages = await updateAverages();
-    //   setAverages(newAverages);
-    // }, 10000);
+  //   // const intervalId = setInterval(async () => {
+  //   //   const newAverages = await updateAverages();
+  //   //   setAverages(newAverages);
+  //   // }, 10000);
   
-    // return () => {
-    //   clearInterval(intervalId);
-    // };
-  }, []);
+  //   // return () => {
+  //   //   clearInterval(intervalId);
+  //   // };
+  // }, []);
 
   
 
@@ -1355,10 +1359,18 @@ function LocationPage(props) {
     const Events = supabase.channel('custom-all-channel')
     .on(
       'postgres_changes',
-      { event: '*', schema: 'public', table: 'Events' },
-      (payload) => {
+      { event: '*', schema: 'public', tables: ['Ratings', 'Events'] },
+      async (payload) => {
         console.log('Change received!', payload)
-        fetchGoingCountData()
+
+        if (payload.table === 'Events') {
+          fetchGoingCountData()
+
+        } else if (payload.table === 'Ratings') {
+          const newAverages = await updateAverages();
+          setAverages(newAverages);
+        }
+        
       }
     )
     .subscribe()
