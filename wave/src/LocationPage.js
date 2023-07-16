@@ -1961,7 +1961,6 @@ function LocationPage(props) {
 
                               <div className='story-info'>
                                 <div className='story-title'>{eventName}</div>
-                                <div className='story-desciption'>{locationObject['description'][imageEventIndex]}</div>
 
                                 <div className='event-buttons-story'>
                                   <a className="buy" href={locationObject['buyLink'][imageEventIndex]} target="_blank" rel="noopener noreferrer">
@@ -1985,6 +1984,9 @@ function LocationPage(props) {
                                     <div className='going-container'>going</div>
                                   </button>
                                 </div>
+
+                                <div className='story-desciption'>{locationObject['description'][imageEventIndex]}</div>
+
                               </div>
 
                             </div>
