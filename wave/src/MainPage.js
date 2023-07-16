@@ -895,16 +895,17 @@ function MainPage(props) {
                 console.log(startDate)
 
                 if (eventFilterButton === 'today') {
+                  const today = new Date(); // Get the current date and time
                   const isSameDay = startDate.getDate() === today.getDate() &&
                     startDate.getMonth() === today.getMonth() &&
                     startDate.getFullYear() === today.getFullYear();
                   
                   const endDateTime = new Date(end);
-                  const isOngoing = startDate < today && endDateTime >= today;
-                  
-                  return isSameDay || isOngoing;
+                  const hasNotEnded = endDateTime >= today; // Check if end time has not been reached yet
+                
+                  return isSameDay && hasNotEnded;
                 }
-            
+                            
                 if (eventFilterButton === 'tomorrow') {
                   const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
                   const isNextDay = startDate.getDate() === tomorrow.getDate() &&
