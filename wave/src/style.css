@@ -541,32 +541,32 @@ input[type="range"] {
 }
 
 .normal-button {
-  background-color: #090909;
+  background-color: #151515;
   border: 1px solid #494949;
-  border-radius: 15px;
-  width: 85px;
-  height: 27px;
+  border-radius: 8px;
+  width: 75px;
+  height: 30px;
   color: #CBCBCB;
   font-size: 13px;
 }
 
 .blue-button {
-  background-color: #F9F9F9;
-  border: 1px solid #494949;
-  border-radius: 15px;
-  width: 85px;
-  height: 27px;
-  color: #141414;
+  background-color: #2587ff73;
+  color: #7bbeff;
+  border: 1px solid #2587ff;
+  border-radius: 8px;
+  width: 75px;
+  height: 30px;
   font-size: 13px;
 }
 
 #distance-select {
   -webkit-appearance: none;
-  background-color: #090909;
+  background-color: #151515;
   border: 1px solid #494949;
-  border-radius: 15px;
-  width: 85px;
-  height: 27px;
+  border-radius: 8px;
+  width: 75px;
+  height: 30px;
   color: #CBCBCB;
   font-size: 13px;
   padding-left: 12px;
@@ -595,18 +595,17 @@ input[type="range"] {
 }
   
 #search-input {
-  border: 1px solid #494949;
-  border-radius: 15px;
-  background-color: #090909;
+  border-radius: 8px;
+  background-color: #151515;
   color: #666666;
   width: 90%;
-  height: 40px;
+  height: 30px;
   padding-left: 50px;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #aaaaaa;
+  color: #666666;
   opacity: 1; /* Firefox */
   font-size: 15px;
 }
