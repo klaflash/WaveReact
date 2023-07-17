@@ -1618,7 +1618,7 @@ function LocationPage(props) {
             <div className='music-type'>Hip-hop/Rap</div>
             <div className='music-type'>EDM</div>
             <div className='music-type'>Rock</div>
-            <div className='music-type'>Country</div>
+            <div className='music-type last-item'>Country</div>
           </div>
 
 
