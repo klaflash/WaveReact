@@ -1551,6 +1551,7 @@ input[type="range"] {
   margin-top: 0.3rem;
 }
 
+
 .story-timestamp {
   position: absolute;
   width: 250px;
@@ -1559,7 +1560,7 @@ input[type="range"] {
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  bottom: 16dvh;
+  bottom: 130px;
   background-color: #090909;
   border-radius: 20px;
   color: #aaaaaa;
@@ -1581,9 +1582,9 @@ input[type="range"] {
   padding-right: 11%;
   background-color: #090909;
   width: 100%;
-  padding-bottom: 2dvh;
+  padding-bottom: 1rem;
   padding-left: 11vw;
-  padding-top: 2.5dvh;
+  padding-top: 1.5rem;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }

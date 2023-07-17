@@ -1953,13 +1953,15 @@ function LocationPage(props) {
 
                           return (
                             <div key={index}>
+
                               <div className="story-timestamp">
                                 <div>{dayOfWeek}, {formattedDate}</div>
                                 <div className='circle'></div>
                                 <div>{startHour} - {endHour}{endPeriod}</div>
                               </div>
-
+                             
                               <div className='story-info'>
+
                                 <div className='story-title'>{eventName}</div>
 
                                 <div className='event-buttons-story'>
