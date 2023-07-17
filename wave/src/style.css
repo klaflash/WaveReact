@@ -1507,7 +1507,7 @@ input[type="range"] {
 
 #mini-logo {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 3px;
   margin-top: -3px;
   margin-right: 3px;
@@ -1537,13 +1537,13 @@ input[type="range"] {
 .image-container {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background-color: #090909;
 }
 
 .story-photo {
   width: 100vw;
-  height: 82.5vh;
+  height: 82.5dvh;
   border-radius: 20px;
   position: absolute; 
   left: 50%;
@@ -1559,7 +1559,7 @@ input[type="range"] {
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  bottom: 15.5vh;
+  bottom: 16dvh;
   background-color: #090909;
   border-radius: 20px;
   color: #aaaaaa;
@@ -1578,12 +1578,12 @@ input[type="range"] {
   position: absolute;
   left: 0;
   bottom: 0;
-  margin-right: 11%;
+  padding-right: 11%;
   background-color: #090909;
   width: 100%;
-  padding-bottom: 2vh;
+  padding-bottom: 2dvh;
   padding-left: 11vw;
-  padding-top: 2.5vh;
+  padding-top: 2.5dvh;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
