@@ -1644,3 +1644,29 @@ input[type="range"] {
   display: flex;
   gap: 10px;
 }
+
+.music-type-container {
+  -webkit-overflow-scrolling: touch;
+  padding: 0 15px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 10px;
+}
+
+.music-type-container:-webkit-scrollbar {
+  display: none;
+}
+
+.music-type {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #151515;
+  border-radius: 8px;
+  height: 30px;
+  padding: 0 10px;
+  color: #aaaaaa;
+  font-size: 13px;
+}
