@@ -545,9 +545,9 @@ input[type="range"] {
   border: 1px solid #494949;
   border-radius: 8px;
   width: 75px;
-  height: 30px;
+  height: 27px;
   color: #CBCBCB;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .blue-button {
@@ -556,7 +556,7 @@ input[type="range"] {
   border: 1px solid #2587ff;
   border-radius: 8px;
   width: 75px;
-  height: 30px;
+  height: 27px;
   font-size: 13px;
 }
 
@@ -566,7 +566,7 @@ input[type="range"] {
   border: 1px solid #494949;
   border-radius: 8px;
   width: 75px;
-  height: 30px;
+  height: 27px;
   color: #CBCBCB;
   font-size: 13px;
   padding-left: 12px;
@@ -1654,7 +1654,7 @@ input[type="range"] {
   gap: 10px;
 }
 
-.music-type-container:-webkit-scrollbar {
+.music-type-container::-webkit-scrollbar {
   display: none;
 }
 

@@ -1486,6 +1486,45 @@ function LocationPage(props) {
 
   };
 
+
+
+  
+  const baseStyle = {
+    backgroundColor: '#151515',
+    color: '#aaaaaa'
+  };
+
+  const [selectedMusicType, setSelectedMusicType] = useState(null);
+
+  const handleMusicTypeClick = (index) => {
+    if (selectedMusicType === index) {
+      // Deselect the music type
+      setSelectedMusicType(null);
+      // Perform database update with the deselected music type
+      updateDatabase(null);
+    } else {
+      // Select the music type
+      setSelectedMusicType(index);
+      // Perform database update with the selected music type
+      updateDatabase(musicTypes[index]);
+    }
+  };
+
+  const updateDatabase = (musicType) => {
+    // Implement the logic to update the database with the selected music type
+    console.log(`Updating database with ${musicType}`);
+  };
+
+  const musicTypes = [
+    { name: 'Pop', backgroundColor: 'lightpink', color: 'black' },
+    { name: 'Techno/House', backgroundColor: 'lightgreen', color: 'black' },
+    { name: 'Latin', backgroundColor: 'orange', color: 'black' },
+    { name: 'Hip-hop/Rap', backgroundColor: 'lightblue', color: 'black' },
+    { name: 'EDM', backgroundColor: 'yellow', color: 'black'},
+    { name: 'Rock', backgroundColor: 'red', color: 'black'},
+    { name: 'Country', backgroundColor: 'tan', color: 'black' }
+  ];
+
   
   
   return (
@@ -1612,13 +1651,16 @@ function LocationPage(props) {
         <div>
 
           <div className='music-type-container'>
-            <div className='music-type'>Pop</div>
-            <div className='music-type'>Techno/House</div>
-            <div className='music-type'>Latin</div>
-            <div className='music-type'>Hip-hop/Rap</div>
-            <div className='music-type'>EDM</div>
-            <div className='music-type'>Rock</div>
-            <div className='music-type last-item'>Country</div>
+            {musicTypes.map((musicType, index) => (
+              <div
+                key={index}
+                className='music-type'
+                style={selectedMusicType === index ? musicType : baseStyle}
+                onClick={() => handleMusicTypeClick(index)}
+              >
+                {musicType.name}
+              </div>
+            ))}
           </div>
 
 
