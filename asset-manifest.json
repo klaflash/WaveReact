@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/WaveReact/static/css/main.e323f916.css",
-    "main.js": "/WaveReact/static/js/main.5ca0c65e.js",
+    "main.css": "/WaveReact/static/css/main.b5774ef7.css",
+    "main.js": "/WaveReact/static/js/main.a44e29d1.js",
     "static/js/787.a4241258.chunk.js": "/WaveReact/static/js/787.a4241258.chunk.js",
     "static/media/slick.svg": "/WaveReact/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/WaveReact/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/WaveReact/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/WaveReact/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/WaveReact/index.html",
-    "main.e323f916.css.map": "/WaveReact/static/css/main.e323f916.css.map",
-    "main.5ca0c65e.js.map": "/WaveReact/static/js/main.5ca0c65e.js.map",
+    "main.b5774ef7.css.map": "/WaveReact/static/css/main.b5774ef7.css.map",
+    "main.a44e29d1.js.map": "/WaveReact/static/js/main.a44e29d1.js.map",
     "787.a4241258.chunk.js.map": "/WaveReact/static/js/787.a4241258.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e323f916.css",
-    "static/js/main.5ca0c65e.js"
+    "static/css/main.b5774ef7.css",
+    "static/js/main.a44e29d1.js"
   ]
 }
