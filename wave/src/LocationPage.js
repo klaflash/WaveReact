@@ -1517,11 +1517,11 @@ function LocationPage(props) {
 
   const musicTypes = [
     { name: 'Pop', backgroundColor: 'lightpink', color: 'black' },
-    { name: 'Techno/House', backgroundColor: 'lightgreen', color: 'black' },
-    { name: 'Latin', backgroundColor: 'orange', color: 'black' },
-    { name: 'Hip-hop/Rap', backgroundColor: 'lightblue', color: 'black' },
-    { name: 'EDM', backgroundColor: 'yellow', color: 'black'},
-    { name: 'Rock', backgroundColor: 'red', color: 'black'},
+    { name: 'Techno/House', backgroundColor: '#27cea1', color: 'black' },
+    { name: 'Latin', backgroundColor: '#FFB84C', color: 'black' },
+    { name: 'Hip-hop/Rap', backgroundColor: '#39B5E0', color: 'black' },
+    { name: 'EDM', backgroundColor: '#9575DE', color: 'black'},
+    { name: 'Rock', backgroundColor: '#EF6262', color: 'black'},
     { name: 'Country', backgroundColor: 'tan', color: 'black' }
   ];
 

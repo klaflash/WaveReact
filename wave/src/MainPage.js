@@ -1157,7 +1157,7 @@ function MainPage(props) {
           </ul> */}
         
 
-          <div id='locations-subtitle'>Locations</div>
+          <div id='locations-subtitle'>All Locations</div>
 
           <ul className='un-ordered-list'>
             {filteredLocations.length === 0 ? (

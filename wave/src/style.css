@@ -548,16 +548,18 @@ input[type="range"] {
   height: 27px;
   color: #CBCBCB;
   font-size: 12px;
+  padding: 2px 2px;
 }
 
 .blue-button {
-  background-color: #2587ff73;
-  color: #7bbeff;
-  border: 1px solid #2587ff;
+  background-color: #CBCBCB;
+  color: #151515;
+  border: 1px solid #EBEBEB;
   border-radius: 8px;
   width: 75px;
   height: 27px;
   font-size: 13px;
+  padding: 2px 2px;
 }
 
 #distance-select {
