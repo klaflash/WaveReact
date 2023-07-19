@@ -1638,7 +1638,7 @@ function LocationPage(props) {
             <span>Sorry you must be closer to rate or comment on this location. If you belive you are in range,</span>  
             <button id='go-home' onClick={goHome}>refresh the homepage</button>
             <span>, select allow, and make sure</span>
-            <a id='precise-location' href="https://www.google.com/search?client=safari&rls=en&q=how+to+turn+on+precise+location&ie=UTF-8&oe=UTF-8" target="_blank" rel="noopener noreferrer">precise location</a>
+            <a id='precise-location' href="https://youtu.be/QAegIFTkYBU?t=12" target="_blank" rel="noopener noreferrer">precise location</a>
             <span>is turned on in settings.</span>
           </div>
         </div>
