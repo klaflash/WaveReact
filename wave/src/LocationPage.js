@@ -1494,6 +1494,11 @@ function LocationPage(props) {
     color: '#aaaaaa'
   };
 
+  const cantSelect = {
+    backgroundColor: '#141414',
+    color: '#2c2c2c'
+  }
+
   const [selectedMusicType, setSelectedMusicType] = useState(JSON.parse(localStorage.getItem('selectedMusicType')) || null)
 
   useEffect(() => {
@@ -1660,19 +1665,33 @@ function LocationPage(props) {
       {isLocationInRange === "true" && (
         <div>
 
-          <div className='music-type-container'>
-            {musicTypes.map((musicType, index) => (
-              <div
-                key={index}
-                className='music-type'
-                style={selectedMusicType === index ? musicType : baseStyle}
-                onClick={() => handleMusicTypeClick(index)}
-              >
-                {musicType.name}
-              </div>
-            ))}
-          </div>
-
+          {newRatingIdObj[currentLocation] && (
+            <div className='music-type-container'>
+              {musicTypes.map((musicType, index) => (
+                <div
+                  key={index}
+                  className='music-type'
+                  style={selectedMusicType === index ? musicType : baseStyle}
+                  onClick={() => handleMusicTypeClick(index)}
+                >
+                  {musicType.name}
+                </div>
+              ))}
+            </div>
+          )}
+           {!newRatingIdObj[currentLocation] && (
+            <div className='music-type-container'>
+              {musicTypes.map((musicType, index) => (
+                <div
+                  key={index}
+                  className='music-type'
+                  style={cantSelect}
+                >
+                  {musicType.name}
+                </div>
+              ))}
+            </div>
+          )}
 
           <div id="rating">
             <div className='slider-container'>
