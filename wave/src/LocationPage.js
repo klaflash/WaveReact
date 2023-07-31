@@ -1494,7 +1494,11 @@ function LocationPage(props) {
     color: '#aaaaaa'
   };
 
-  const [selectedMusicType, setSelectedMusicType] = useState(null);
+  const [selectedMusicType, setSelectedMusicType] = useState(JSON.parse(localStorage.getItem('selectedMusicType')) || null)
+
+  useEffect(() => {
+    setSelectedMusicType(JSON.parse(localStorage.getItem('selectedMusicType')));
+  }, [])
 
   const handleMusicTypeClick = (index) => {
     if (selectedMusicType === index) {
@@ -1502,11 +1506,17 @@ function LocationPage(props) {
       setSelectedMusicType(null);
       // Perform database update with the deselected music type
       updateDatabase(null);
+      // Storing the value in Local Storage
+      localStorage.setItem('selectedMusicType', JSON.stringify(null));
+
     } else {
       // Select the music type
       setSelectedMusicType(index);
       // Perform database update with the selected music type
-      updateDatabase(musicTypes[index]);
+      updateDatabase(musicTypes[index]['name']);
+      // Storing the value in Local Storage
+      localStorage.setItem('selectedMusicType', JSON.stringify(index));
+
     }
   };
 
