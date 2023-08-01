@@ -1499,33 +1499,52 @@ function LocationPage(props) {
     color: '#2c2c2c'
   }
 
-  const [selectedMusicType, setSelectedMusicType] = useState(JSON.parse(localStorage.getItem('selectedMusicType')) || null)
+  const [selectedMusicType, setSelectedMusicType] = useState(JSON.parse(localStorage.getItem('selectedMusicType')) || {})
 
   useEffect(() => {
     setSelectedMusicType(JSON.parse(localStorage.getItem('selectedMusicType')));
   }, [])
 
   const handleMusicTypeClick = (index) => {
-    if (selectedMusicType === index) {
-      // Deselect the music type
-      setSelectedMusicType(null);
-      // Perform database update with the deselected music type
-      updateDatabase(null);
+    if (selectedMusicType[currentLocation] === index) {
       // Storing the value in Local Storage
-      localStorage.setItem('selectedMusicType', JSON.stringify(null));
+      const temp = selectedMusicType === null ? {} : selectedMusicType;
+      const temp2 = {
+        ...temp,
+        [currentLocation]: null,
+      };
+    
+      setSelectedMusicType(temp2)
+      localStorage.setItem('selectedMusicType', JSON.stringify(temp2));
+      updateDatabase(null);
 
     } else {
-      // Select the music type
-      setSelectedMusicType(index);
-      // Perform database update with the selected music type
-      updateDatabase(musicTypes[index]['name']);
       // Storing the value in Local Storage
-      localStorage.setItem('selectedMusicType', JSON.stringify(index));
-
+      const temp = selectedMusicType === null ? {} : selectedMusicType;
+      const temp2 = {
+        ...temp,
+        [currentLocation]: index,
+      };
+      setSelectedMusicType(temp2)
+      localStorage.setItem('selectedMusicType', JSON.stringify(temp2));
+      updateDatabase(index);
     }
   };
 
-  const updateDatabase = (musicType) => {
+  const updateDatabase = async (musicType) => {
+
+    const music_type = musicType
+    
+    const { data: updatedRating, error } = await supabase
+          .from('Ratings')
+          .update({ music_type })
+          .eq('id', newRatingIdObj[currentLocation])
+          .single();
+  
+        if (error) {
+          console.log('Error updating Ratings table:', error.message);
+          return;
+        }
     // Implement the logic to update the database with the selected music type
     console.log(`Updating database with ${musicType}`);
   };
@@ -1671,7 +1690,7 @@ function LocationPage(props) {
                 <div
                   key={index}
                   className='music-type'
-                  style={selectedMusicType === index ? musicType : baseStyle}
+                  style={selectedMusicType[currentLocation] === index ? musicType : baseStyle}
                   onClick={() => handleMusicTypeClick(index)}
                 >
                   {musicType.name}
