@@ -1672,3 +1672,12 @@ input[type="range"] {
   color: #aaaaaa;
   font-size: 13px;
 }
+
+.genre-banner {
+  padding: 4px 8px;
+  background-color: #6B6B6B;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #151515;
+  font-weight: 500;
+}

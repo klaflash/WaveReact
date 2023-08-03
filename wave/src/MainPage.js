@@ -213,6 +213,17 @@ function MainPage(props) {
 
   }, [locations, props.setInRange, threshold]);
 
+  const musicTypes = [
+    { name: 'Pop', backgroundColor: 'lightpink', color: 'black' },
+    { name: 'Techno/House', backgroundColor: '#27cea1', color: 'black' },
+    { name: 'Latin', backgroundColor: '#FFB84C', color: 'black' },
+    { name: 'Hip-hop/Rap', backgroundColor: '#39B5E0', color: 'black' },
+    { name: 'EDM', backgroundColor: '#9575DE', color: 'black'},
+    { name: 'Rock', backgroundColor: '#EF6262', color: 'black'},
+    { name: 'Country', backgroundColor: 'tan', color: 'black' }
+  ];
+
+  const [mostPopularMusic, setMostPopularMusic] = useState({})
 
   async function updateAverages() {
     const { data: ratings, error } = await supabase
@@ -271,6 +282,7 @@ function MainPage(props) {
     const popular = findMostPopularMusicTypes(filteredRatings)
     console.log('POPULAR')
     console.log(popular)
+    setMostPopularMusic(popular)
   
     const averages = {};
     const mostRecent = {};
@@ -370,6 +382,10 @@ function MainPage(props) {
           maxCount = count;
           mostPopularMusicType = musicType;
         }
+      }
+
+      if (mostPopularMusicType != null) {
+        mostPopularMusicType = musicTypes[mostPopularMusicType]
       }
   
       mostPopularMusicTypes[location] = mostPopularMusicType;
@@ -1256,6 +1272,16 @@ function MainPage(props) {
                               </div>
                             )}
                           </>
+                        )}
+
+                        {mostPopularMusic && mostPopularMusic[location.name] != null && (
+                          <div
+                            className="genre-banner"
+                            style={{ backgroundColor: mostPopularMusic[location.name]['backgroundColor'], color: mostPopularMusic[location.name]['color'] }}
+                          >
+                            {mostPopularMusic[location.name]['name']}
+                          </div>
+                        
                         )}
 
 
