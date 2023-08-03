@@ -3,6 +3,7 @@
 //2. Events must be entered in chronological order (start[0] is before start[1]...)
 //3. If an event is edited its row must be deleted from the Events database
 //4. name and eventName combined must be unique
+//5. Must put 0's before single digit dates
 
 const locations = [
     {
@@ -24,7 +25,7 @@ const locations = [
         "addy": "111 S Salisbury St",
         "event": true,
         "start": ["2023-08-02T22:00-04:00"],
-        "end": ["2023-08-3T03:00-04:00"],
+        "end": ["2023-08-03T03:00-04:00"],
         "eventName": ["DJ whatever"],
         "price": ["20"]
     },
@@ -34,8 +35,8 @@ const locations = [
         "longitude": -86.906967,
         "addy": "134 W State St",
         "event": true,
-        "start": ["2023-08-2T22:00-04:00"],
-        "end": ["2023-08-2T23:00-04:00"],
+        "start": ["2023-08-02T22:00-04:00"],
+        "end": ["2023-08-02T23:00-04:00"],
         "eventName": ["Celebrity boxing"],
         "price": ["10"]
     },
@@ -45,8 +46,8 @@ const locations = [
         "longitude": -71.872295,
         "addy": "123 Random St",
         "event": true,
-        "start": ["2023-08-2T20:00-04:00", "2023-08-3T22:00-04:00"],
-        "end": ["2023-08-2T22:00-04:00", "2023-08-4T01:00-04:00"],
+        "start": ["2023-08-02T20:00-04:00", "2023-08-03T22:00-04:00"],
+        "end": ["2023-08-02T22:00-04:00", "2023-08-04T01:00-04:00"],
         "eventName": ["Basketball vs IU", 'Fireworks'],
         "price": ["2", 'Free'],
         "buyLink": ["https://seatgeek.com/indiana-hoosiers-at-purdue-boilermakers-football-tickets/ncaa-football/2023-11-25-3-30-am/5853585", 'https://www.google.com'],
