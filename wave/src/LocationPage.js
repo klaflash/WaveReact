@@ -1690,7 +1690,7 @@ function LocationPage(props) {
                 <div
                   key={index}
                   className='music-type'
-                  style={selectedMusicType[currentLocation] === index ? musicType : baseStyle}
+                  style={selectedMusicType && selectedMusicType[currentLocation] === index ? musicType : baseStyle}
                   onClick={() => handleMusicTypeClick(index)}
                 >
                   {musicType.name}
