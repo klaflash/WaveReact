@@ -233,7 +233,8 @@ function MainPage(props) {
           e_rating: rating.u_e_rating || rating.e_rating,
           //l_rating: rating.u_l_rating || rating.l_rating
           score: rating.u_score || rating.score,
-          location: rating.location
+          location: rating.location,
+          music_type: rating.music_type
         };
       } else {
         return {
@@ -243,7 +244,8 @@ function MainPage(props) {
           e_rating: rating.e_rating,
           //l_rating: rating.l_rating
           score: rating.score,
-          location: rating.location
+          location: rating.location,
+          music_type: rating.music_type
         };
       }
     });
@@ -265,6 +267,10 @@ function MainPage(props) {
     });
 
     //console.log(filteredRatings)
+
+    const popular = findMostPopularMusicTypes(filteredRatings)
+    console.log('POPULAR')
+    console.log(popular)
   
     const averages = {};
     const mostRecent = {};
@@ -334,6 +340,47 @@ function MainPage(props) {
   
     return results;
   }
+
+  function findMostPopularMusicTypes(ratings) {
+    const mostPopularMusicTypes = {};
+  
+    for (const rating of ratings) {
+      const { location, music_type } = rating;
+  
+      // If location already exists in mostPopularMusicTypes, update the count of music_type occurrences
+      if (mostPopularMusicTypes.hasOwnProperty(location)) {
+        const musicTypeCounts = mostPopularMusicTypes[location];
+        musicTypeCounts[music_type] = (musicTypeCounts[music_type] || 0) + 1;
+      } else {
+        // If location does not exist in mostPopularMusicTypes, add it to the object with the initial music_type count
+        mostPopularMusicTypes[location] = { [music_type]: 1 };
+      }
+    }
+  
+    // Find the most popular music_type for each location
+    for (const location in mostPopularMusicTypes) {
+      const musicTypeCounts = mostPopularMusicTypes[location];
+      let maxCount = 0;
+      let mostPopularMusicType = null;
+  
+      for (const musicType in musicTypeCounts) {
+        const count = musicTypeCounts[musicType];
+  
+        if (count > maxCount) {
+          maxCount = count;
+          mostPopularMusicType = musicType;
+        }
+      }
+  
+      mostPopularMusicTypes[location] = mostPopularMusicType;
+    }
+  
+    return mostPopularMusicTypes;
+  }
+  
+  
+
+
 
   const [sortOrder, setSortOrder] = useState(localStorage.getItem('sortOrder') || 'loc');
   const [selectedDistance, setSelectedDistance] = useState(parseInt(localStorage.getItem('selectedDistance')) || 10);

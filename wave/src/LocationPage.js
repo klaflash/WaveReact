@@ -1486,8 +1486,6 @@ function LocationPage(props) {
 
   };
 
-
-
   
   const baseStyle = {
     backgroundColor: '#151515',
@@ -1506,7 +1504,7 @@ function LocationPage(props) {
   }, [])
 
   const handleMusicTypeClick = (index) => {
-    if (selectedMusicType[currentLocation] === index) {
+    if (selectedMusicType && selectedMusicType[currentLocation] === index) {
       // Storing the value in Local Storage
       const temp = selectedMusicType === null ? {} : selectedMusicType;
       const temp2 = {
