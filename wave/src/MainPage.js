@@ -1235,56 +1235,11 @@ function MainPage(props) {
                   averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267CFE' :
                   ''
                 }}>
+                  <div className='card-outer'>
                   <div className='card-container'>
                     <div className='card-left'>
                       <div className='bar-name-container'>
                         <div className='bar-name'>{location.name}</div>
-                        {location.event && (
-                          <>
-                            {location.end.some((endTimestamp) => new Date(endTimestamp) > new Date()) && (
-                              <div className='event-banner'>
-                                {location.end
-                                  .map((endTimestamp, index) => {
-                                    const startTimestamp = location.start[index];
-
-                                    const isEndUpcoming = new Date(endTimestamp) > new Date();
-
-                                    if (isEndUpcoming) {
-                                      const isStartDateToday = new Date(startTimestamp).toDateString() === new Date().toDateString();
-                                      const isEndDateToday = new Date(endTimestamp).toDateString() === new Date().toDateString();
-
-                                      return (
-                                        <div key={index}>
-                                          {isStartDateToday || isEndDateToday ? (
-                                            <div>
-                                              {formatStartTime(new Date(startTimestamp))} - {formatEndTime(new Date(endTimestamp))}
-                                            </div>
-                                          ) : (
-                                            <div>{formatDate(new Date(startTimestamp))}</div>
-                                          )}
-                                        </div>
-                                      );
-                                    }
-
-                                    return null; // Skip rendering if end timestamp is not upcoming
-                                  })
-                                  .filter(Boolean)[0]} {/* Get the first truthy element (upcoming timestamp) */}
-                              </div>
-                            )}
-                          </>
-                        )}
-
-                        {mostPopularMusic && mostPopularMusic[location.name] != null && (
-                          <div
-                            className="genre-banner"
-                            style={{ backgroundColor: mostPopularMusic[location.name]['backgroundColor'], color: mostPopularMusic[location.name]['color'] }}
-                          >
-                            {mostPopularMusic[location.name]['name']}
-                          </div>
-                        
-                        )}
-
-
                       </div>
                       
                       <div className='bar-addy'>{location.addy}</div>
@@ -1298,38 +1253,94 @@ function MainPage(props) {
                             <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
                           </div>
                         )}
-                        <div>
-                          {trending && trending[location.name] && trending[location.name] !== 0.0 ? (
-                            <>
-                              {trending[location.name] > 0 ? (
-                                <span className='trending-container up'>
-                                  <div className='trending-up'>{trending[location.name]}</div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-up" width="18" height="18" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#7bbeff" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M3 17l6 -6l4 4l8 -8"/>
-                                    <path d="M14 7l7 0l0 7"/>
-                                  </svg>
-                                </span>
-                              ) : (
-                                <span className='trending-container down'>
-                                  <div className='trending-down'>{Math.abs(trending[location.name])}</div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-down" width="18" height="18" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#fc7066" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M3 7l6 6l4 -4l8 8"/>
-                                    <path d="M21 10l0 7l-7 0"/>
-                                  </svg>
-                                </span>
-                              )}
-                            </>
-                          ) : (
-                            ''
-                          )}
-                        </div>
                       </div>
                       {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] && (
                           <div className='timestamp'>{getTimeSince(mostRecent[location.name])}</div>
                         )}
                     </div>
+                  </div>
+
+                  <div class="grid-container">
+                    <div class="grid-item">
+                      {location.event && (
+                        <>
+                          {location.end.some((endTimestamp) => new Date(endTimestamp) > new Date()) && (
+                            <div className='event-banner'>
+                              {location.end
+                                .map((endTimestamp, index) => {
+                                  const startTimestamp = location.start[index];
+
+                                  const isEndUpcoming = new Date(endTimestamp) > new Date();
+
+                                  if (isEndUpcoming) {
+                                    const isStartDateToday = new Date(startTimestamp).toDateString() === new Date().toDateString();
+                                    const isEndDateToday = new Date(endTimestamp).toDateString() === new Date().toDateString();
+
+                                    return (
+                                      <div key={index}>
+                                        {isStartDateToday || isEndDateToday ? (
+                                          <div>
+                                            {formatStartTime(new Date(startTimestamp))} - {formatEndTime(new Date(endTimestamp))}
+                                          </div>
+                                        ) : (
+                                          <div>{formatDate(new Date(startTimestamp))}</div>
+                                        )}
+                                      </div>
+                                    );
+                                  }
+
+                                  return null; // Skip rendering if end timestamp is not upcoming
+                                })
+                                .filter(Boolean)[0]} {/* Get the first truthy element (upcoming timestamp) */}
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+
+                    <div class="grid-item">
+                      {mostPopularMusic && mostPopularMusic[location.name] != null && (
+                        <div
+                          className="genre-banner"
+                          style={{ backgroundColor: mostPopularMusic[location.name]['backgroundColor'], color: mostPopularMusic[location.name]['color'] }}
+                        >
+                          {mostPopularMusic[location.name]['name']}
+                        </div>
+                      )}
+                    </div>
+                    
+
+                    <div class="grid-item">
+                    <div>
+                      {trending && trending[location.name] && trending[location.name] !== 0.0 ? (
+                        <>
+                          {trending[location.name] > 0 ? (
+                            <span className='trending-container up'>
+                              <div className='trending-up'>{trending[location.name]}</div>
+                              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-up" width="18" height="18" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#7bbeff" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M3 17l6 -6l4 4l8 -8"/>
+                                <path d="M14 7l7 0l0 7"/>
+                              </svg>
+                            </span>
+                          ) : (
+                            <span className='trending-container down'>
+                              <div className='trending-down'>{Math.abs(trending[location.name])}</div>
+                              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-down" width="18" height="18" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#fc7066" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M3 7l6 6l4 -4l8 8"/>
+                                <path d="M21 10l0 7l-7 0"/>
+                              </svg>
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                    </div>
+                  </div>
+
                   </div>
                   
                 </Link>
