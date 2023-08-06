@@ -46,8 +46,8 @@ const locations = [
         "longitude": -71.872295,
         "addy": "123 Random St",
         "event": true,
-        "start": ["2023-08-02T20:00-04:00", "2023-08-03T22:00-04:00"],
-        "end": ["2023-08-02T22:00-04:00", "2023-08-04T01:00-04:00"],
+        "start": ["2023-08-06T20:00-04:00", "2023-08-07T22:00-04:00"],
+        "end": ["2023-08-06T22:00-04:00", "2023-08-07T01:00-04:00"],
         "eventName": ["Basketball vs IU", 'Fireworks'],
         "price": ["2", 'Free'],
         "buyLink": ["https://seatgeek.com/indiana-hoosiers-at-purdue-boilermakers-football-tickets/ncaa-football/2023-11-25-3-30-am/5853585", 'https://www.google.com'],
@@ -115,7 +115,7 @@ const locations = [
         "description": null
     },
     {
-        "name": "308onState",
+        "name": "Twammers",
         "latitude": 40.424351,
         "longitude": -86.908920,
         "addy": "308 W State St, IN",
@@ -153,6 +153,32 @@ const locations = [
         "buyLink": null,
         "description": null
     },
+    {
+        "name": "Vault",
+        "latitude": 40.419790,
+        "longitude": -86.895319,
+        "addy": "205 N 2nd St, IN",
+        "event": false,
+        "start": null,
+        "end": null,
+        "eventName": null,
+        "price": null,
+        "buyLink": null,
+        "description": null
+    },
+    {
+        "name": "WPB",
+        "latitude": 26.714334,
+        "longitude": -80.055297,
+        "addy": "Random Name St",
+        "event": true,
+        "start": ["2023-08-08T22:00-04:00"],
+        "end": ["2023-08-08T22:00-04:00"],
+        "eventName": ['Surfing By the Sea'],
+        "price": ['Free'],
+        "buyLink": null,
+        "description": null
+    }
 
 ]
 
