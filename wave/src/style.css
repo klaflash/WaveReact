@@ -134,7 +134,7 @@ li {
   width: 30%;
   justify-content: flex-end;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem;
   color: #CBCBCB;
 }
 
@@ -146,7 +146,7 @@ li {
 }
 
 .card-right {
-  font-size: 45px;
+  font-size: 40px;
   font-weight: bold;
 }
 
@@ -163,11 +163,10 @@ li {
 }
 
 .trending-container.up {
-  background-color: #2587ff73;
+  background-color: #7bbeff;
 }
 
 .trending-up {
-  color: #7bbeff;
   font-size: 13px;
   color: #666666;
   font-weight: 500;

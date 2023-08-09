@@ -1281,7 +1281,7 @@ function MainPage(props) {
                                         {isStartDateToday || isEndDateToday ? (
                                           <div className='grid-item-inner'>
                                             <div className='date-box'>
-                                              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-clock-hour-10" width="16" height="16" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-clock-hour-10" width="16" height="16" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
                                                 <path d="M12 12l-3 -2"></path>
                                                 <path d="M12 7v5"></path>
@@ -1294,7 +1294,7 @@ function MainPage(props) {
                                         ) : (
                                           <div className='grid-item-inner'>
                                             <div className='date-box'>
-                                              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 25 25" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 25 25" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                 <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
                                                 <path d="M16 3l0 4"></path>
@@ -1327,9 +1327,9 @@ function MainPage(props) {
                           style={{ backgroundColor: mostPopularMusic[location.name]['backgroundColor'] }}
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-                              <path d="M12 19.5V8.66667L22 7V17.8333" stroke={mostPopularMusic[location.name]['color']} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                              <path d="M12 19.5V8.66667L22 7V17.8333" stroke={mostPopularMusic[location.name]['color']} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
+                              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
                             </svg>
                           </div>
 
@@ -1347,18 +1347,20 @@ function MainPage(props) {
                       {trending && trending[location.name] && trending[location.name] !== 0.0 ? (
                         <>
                           {trending[location.name] > 0 ? (
-                            <span className='trending-container up'>
-                              <div className='trending-up'>{trending[location.name]}</div>
-                              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-up" width="18" height="18" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#7bbeff" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M3 17l6 -6l4 4l8 -8"/>
-                                <path d="M14 7l7 0l0 7"/>
-                              </svg>
-                            </span>
+                            <div className='grid-item-inner'>
+                              <span className='trending-container up'>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-up" width="17" height="17" viewBox="0 0 25 25" strokeWidth="1.5" stroke="#151515" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M3 17l6 -6l4 4l8 -8"/>
+                                  <path d="M14 7l7 0l0 7"/>
+                                </svg>
+                              </span>
+                              <div className='trending-up'>{Math.abs(trending[location.name])}</div>
+                            </div>
                           ) : (
                             <div className='grid-item-inner'>
                               <span className='trending-container down'>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-down" width="17" height="17" viewBox="0 0 25 25" strokeWidth="2" stroke="#151515" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-down" width="17" height="17" viewBox="0 0 25 25" strokeWidth="1.5" stroke="#151515" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                   <path d="M3 7l6 6l4 -4l8 8"/>
                                   <path d="M21 10l0 7l-7 0"/>
