@@ -280,8 +280,7 @@ function MainPage(props) {
     //console.log(filteredRatings)
 
     const popular = findMostPopularMusicTypes(filteredRatings)
-    console.log('POPULAR')
-    console.log(popular)
+    console.log('POPULAR', popular)
     setMostPopularMusic(popular)
   
     const averages = {};
@@ -358,14 +357,16 @@ function MainPage(props) {
   
     for (const rating of ratings) {
       const { location, music_type } = rating;
-  
-      // If location already exists in mostPopularMusicTypes, update the count of music_type occurrences
-      if (mostPopularMusicTypes.hasOwnProperty(location)) {
-        const musicTypeCounts = mostPopularMusicTypes[location];
-        musicTypeCounts[music_type] = (musicTypeCounts[music_type] || 0) + 1;
-      } else {
-        // If location does not exist in mostPopularMusicTypes, add it to the object with the initial music_type count
-        mostPopularMusicTypes[location] = { [music_type]: 1 };
+
+      if (music_type !== null) {
+        // If location already exists in mostPopularMusicTypes, update the count of music_type occurrences
+        if (mostPopularMusicTypes.hasOwnProperty(location)) {
+          const musicTypeCounts = mostPopularMusicTypes[location];
+          musicTypeCounts[music_type] = (musicTypeCounts[music_type] || 0) + 1;
+        } else {
+          // If location does not exist in mostPopularMusicTypes, add it to the object with the initial music_type count
+          mostPopularMusicTypes[location] = { [music_type]: 1 };
+        }
       }
     }
   
