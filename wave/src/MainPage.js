@@ -926,6 +926,9 @@ function MainPage(props) {
             >
               Upcoming
             </button>
+            <Link className='all-events' to="/events">
+              View All
+            </Link>
           </div>
 
 

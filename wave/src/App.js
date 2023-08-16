@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import MainPage from './MainPage';
 import LocationPage from './LocationPage';
+import EventsPage from './EventsPage';
 import locations from './locationsData';
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage setCurrentLocation={setCurrentLocation} setInRange={setInRange} inRange={inRange} locations={locations}/>} />
         <Route path="/location/:locationName" element={<LocationPage currentLocation={currentLocation} inRange={inRange} locations={locations}/>} />
+        <Route path="/events" element={<EventsPage locations={locations}/>} />
       </Routes>
     </Router>
   );

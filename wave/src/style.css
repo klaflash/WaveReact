@@ -1475,6 +1475,7 @@ input[type="range"] {
   display: flex;
   align-items: center;
   padding-left: 5%;
+  padding-right: 5%;
   gap: 0.5rem;
   padding-bottom: 1rem;
 }
@@ -1756,4 +1757,48 @@ input[type="range"] {
   align-items: center;
   justify-content: center;
   color: #151515;
+}
+
+.all-events {
+  margin-left: auto;
+  text-decoration: none;
+  color: #6B6B6B;
+  font-size: 14px;
+}
+
+.calendar {
+  -webkit-overflow-scrolling: touch;
+  padding: 0 5%;
+  padding-bottom: 1.5rem;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.calendar::-webkit-scrollbar {
+  display: none;
+}
+
+.day {
+  display: inline-block;
+  width: 15%;
+  margin-right: 0.5rem;
+  height: 80px;
+  background-color: #151515;
+  border-radius: 12px;
+}
+
+.day-of-month {
+  font-size: 25px;
+  color: #CBCBCB;
+  margin-bottom: 0.5rem;
+}
+
+.week-day {
+  font-size: 12px;
+  color: #858585;
+}
+
+.date {
+  color: #CBCBCB;
 }
