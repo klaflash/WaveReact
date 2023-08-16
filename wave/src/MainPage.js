@@ -1229,32 +1229,50 @@ function MainPage(props) {
             ) : filteredLocations.map((location) => (
               <li key={location.name}>
                 <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
-                  averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#A1D1FE' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#59AFFF' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#59AFFF' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#267CFE' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267CFE' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#2c2c2c' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#2c2c2c' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#2c2c2c' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#2c2c2c' :
+                  averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#2c2c2c' :
                   ''
                 }}>
                   <div className='card-outer'>
                   <div className='card-container'>
-                    <div className='card-left'>
-                      <div className='bar-name-container'>
-                        <div className='bar-name'>{location.name}</div>
+                    <div className='card-left-outer'>
+
+                      {Object.keys(averages).length !== 0 && (
+                        <div 
+                        className='score'  style={{backgroundColor: 
+                          averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#a1d1feb5' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#59afffa2' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#59afffa2' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#267cfe90' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267cfe90' :
+                          '',
+                          color:
+                          averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#A1D1FE' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#7bcbfa' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#7bcbfa' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#4896fc' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#4896fc' :
+                          ''
+                        }}>
+                          {averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}
+                        </div>
+                      )}
+
+                      <div className='card-left'>
+                        <div className='bar-name-container'>
+                          <div className='bar-name'>{location.name}</div>
+                        </div>
+                        
+                        <div className='bar-addy'>{location.addy}</div>
+                        <div></div>
                       </div>
-                      
-                      <div className='bar-addy'>{location.addy}</div>
-                      <div></div>
                     </div>
+
                     <div className='card-right-stack'>
                       
-                      <div id='card-right-substack'>
-                        {Object.keys(averages).length !== 0 && (
-                          <div className='card-right-container'>
-                            <div className='card-right'>{averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}</div>
-                          </div>
-                        )}
-                      </div>
                       {Object.keys(mostRecent).length !== 0 && mostRecent[location.name] && (
                           <div className='timestamp'>{getTimeSince(mostRecent[location.name])}</div>
                         )}
@@ -1262,6 +1280,28 @@ function MainPage(props) {
                   </div>
 
                   <div className="grid-container">
+
+                  <div className="grid-item-one">
+                      {mostPopularMusic && mostPopularMusic[location.name] != null && (
+                        <div className='grid-item-inner'>
+                          <div 
+                          className='music-box'
+                          style={{ backgroundColor: mostPopularMusic[location.name]['backgroundColor'] }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                              <path d="M12 19.5V8.66667L22 7V17.8333" stroke={mostPopularMusic[location.name]['color']} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
+                              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
+                            </svg>
+                          </div>
+
+                          <div className="genre-banner">
+                            {mostPopularMusic[location.name]['name']}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
                     <div className="grid-item">
                       {location.event && (
                         <>
@@ -1320,29 +1360,8 @@ function MainPage(props) {
                       )}
                     </div>
 
-                    <div className="grid-item">
-                      {mostPopularMusic && mostPopularMusic[location.name] != null && (
-                        <div className='grid-item-inner'>
-                          <div 
-                          className='music-box'
-                          style={{ backgroundColor: mostPopularMusic[location.name]['backgroundColor'] }}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-                              <path d="M12 19.5V8.66667L22 7V17.8333" stroke={mostPopularMusic[location.name]['color']} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
-                              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
-                            </svg>
-                          </div>
 
-                          <div className="genre-banner">
-                            {mostPopularMusic[location.name]['name']}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    
-
-                    <div className="grid-item">
+                    <div className="grid-item-three">
                     <div>
                       <div>{console.log('T', trending)}</div>
                       {trending && trending[location.name] && trending[location.name] !== 0.0 ? (
