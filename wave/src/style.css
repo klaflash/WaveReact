@@ -815,11 +815,12 @@ input[type="range"] {
 
 .user-bubble {
   background-color: #979696;
-  border-radius: 20px;
-  padding-left: 8px;
-  padding-right: 8px;
+  border-radius: 6.5px;
+  padding-left: 5px;
+  padding-right: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
+  color: #151515;
 }
 
 .liked-button {
