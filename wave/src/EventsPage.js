@@ -51,7 +51,7 @@ const EventsPage = () => {
 
   return (
     <div>
-      <h2>Calendar</h2>
+      <div className='events-title'>Events</div>
       <div className="calendar">{renderCalendar()}</div>
       {selectedDate && (
         <div className='date'>

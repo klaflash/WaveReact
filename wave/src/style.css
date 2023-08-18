@@ -621,12 +621,19 @@ input[type="range"] {
   font-size: 15px;
 }
 
+.featured-events-container {
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 0.3rem;
+}
+
 #featured-events-subtitle {
   color: #EBEBEB;
   font-size: 20px;
   font-weight: 500;
-  padding-left: 5%;
-  padding-bottom: 0.3rem;
+  
 }
 
 #locations-subtitle {
@@ -1762,8 +1769,10 @@ input[type="range"] {
 .all-events {
   margin-left: auto;
   text-decoration: none;
-  color: #6B6B6B;
+  color: #aaaaaa;
   font-size: 14px;
+  display: flex;
+  align-items: center;
 }
 
 .calendar {
@@ -1801,4 +1810,13 @@ input[type="range"] {
 
 .date {
   color: #CBCBCB;
+}
+
+.events-title {
+  color: #EBEBEB;
+  font-size: 30px;
+  font-weight: 500;
+  padding-left: 5%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
