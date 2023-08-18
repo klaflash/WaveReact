@@ -54,7 +54,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage setCurrentLocation={setCurrentLocation} setInRange={setInRange} inRange={inRange} locations={locations}/>} />
         <Route path="/location/:locationName" element={<LocationPage currentLocation={currentLocation} inRange={inRange} locations={locations}/>} />
-        <Route path="/events" element={<EventsPage locations={locations}/>} />
+        <Route path="/events" element={<EventsPage setCurrentLocation={setCurrentLocation} inRange={inRange} locations={locations}/>} />
       </Routes>
     </Router>
   );

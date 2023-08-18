@@ -778,6 +778,12 @@ function MainPage(props) {
 
   let hasMatchingResults = false;
 
+  const [serializedProp, setSerializedProp] = useState({})
+
+  useEffect(() => {
+    setSerializedProp(encodeURIComponent(JSON.stringify(averages)))
+  }, [averages])
+
 
   return (
     <div id='main-page'>
@@ -907,7 +913,7 @@ function MainPage(props) {
           
           <div className='featured-events-container'>
             <div id='featured-events-subtitle'>Featured Events</div>
-            <Link className='all-events' to="/events">
+            <Link className='all-events' to={`/events?propObject=${serializedProp}`}>
               <div>
                 View All
               </div>

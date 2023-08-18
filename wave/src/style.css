@@ -1311,7 +1311,6 @@ input[type="range"] {
   width: 100%;
   display: flex;
   flex-direction: column;
-
   gap: 5px;
 }
 
@@ -1820,4 +1819,19 @@ input[type="range"] {
   padding-left: 5%;
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+
+.event-grid {
+  padding: 2rem 3%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 20px;
+  place-items: center;
+}
+
+.card-two {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
 }
