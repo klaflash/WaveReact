@@ -1243,7 +1243,7 @@ function MainPage(props) {
                   <div className='card-container'>
                     <div className='card-left-outer'>
 
-                      {Object.keys(averages).length !== 0 && (
+                      {Object.keys(averages).length !== 0 ? (
                         <div 
                         className='score'  style={{backgroundColor: 
                           averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#a1d1feb5' :
@@ -1262,6 +1262,8 @@ function MainPage(props) {
                         }}>
                           {averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}
                         </div>
+                      ) : (
+                        <div className='score'></div>
                       )}
 
                       <div className='card-left'>
