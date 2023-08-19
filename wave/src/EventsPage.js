@@ -200,14 +200,76 @@ const EventsPage = (props) => {
 
   };
 
+
+
+  const [sortOrder, setSortOrder] = useState(localStorage.getItem('sortOrder') || 'loc');
+  const [selectedDistance, setSelectedDistance] = useState(parseInt(localStorage.getItem('selectedDistance')) || 10);
+  const [filteredLocations, setFilteredLocations] = useState([])
+
+  useEffect(() => {
+    const sortedLocations = [...locations].sort((a, b) => {
+      console.log('averages LOWER')
+      console.log(averages)
+      if (sortOrder === 'desc') {
+        if (!averages[b.name]) {
+          return -1;
+        } else if (!averages[a.name]) {
+          return 1;
+        } else {
+          return averages[b.name]['averageScore'] - averages[a.name]['averageScore'];
+        }
+      } else {
+        return a.dist - b.dist;
+      }
+    });
+
+    console.log('Now sorted')
+    console.log(sortedLocations)
+
+    const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
+    setFilteredLocations(locationsByDistance);
+
+  }, [sortOrder, selectedDistance]);
+
+  useEffect(() => {
+    localStorage.setItem('sortOrder', sortOrder);
+  }, [sortOrder]);
+
+  const handleDistanceChange = (e) => {
+    const newSelectedDistance = parseInt(e.target.value);
+    setSelectedDistance(newSelectedDistance);
+    localStorage.setItem('selectedDistance', newSelectedDistance);
+  };
+
   return (
     <div>
       <div className='events-title'>Events</div>
+      <div id='filter-options'>
+        <div>
+          <select id="distance-select" onChange={handleDistanceChange} value={selectedDistance} style={{
+            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="%23CBCBCB" stroke-linecap="round" stroke-linejoin="round"/></svg>')`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "right 12px center",
+            backgroundSize: "auto 25%",
+          }} >
+            <option value="10">10 mi</option>
+            <option value="20">25 mi</option>
+            <option value="50">50 mi</option>
+            <option value="-1">All</option>
+          </select>
+        </div>
+        <button className={sortOrder === 'desc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'desc' ? 'desc' : 'desc'); localStorage.setItem('sortOrder', 'desc')}}>
+          Top
+        </button>
+        <button className={sortOrder === 'loc' ? 'blue-button' : 'normal-button'} onClick={() => {setSortOrder(sortOrder === 'loc' ? 'loc' : 'loc'); localStorage.setItem('sortOrder', 'loc')}}>
+          Near Me
+        </button>
+      </div>
       <div className="calendar">{renderCalendar()}</div>
       <ul className='event-grid'>
-            {locations.length === 0 ? (
+            {filteredLocations.length === 0 ? (
               <div id='no-results'>No matching results</div>
-            ) : locations
+            ) : filteredLocations
               .filter((location) => location.event === true)
               .flatMap((location) => {
                 const starts = Array.isArray(location.start) ? location.start : [location.start];
