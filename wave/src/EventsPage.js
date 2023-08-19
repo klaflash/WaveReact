@@ -23,15 +23,20 @@ const EventsPage = (props) => {
   }, []);
 
   const [selectedDate, setSelectedDate] = useState(null);
+  const [shortDate, setShortDate] = useState(null)
   const currentDate = new Date();
   const daysToShow = 10;
 
   useEffect(() => {
     setSelectedDate(currentDate); // Set the default selected date to the current date
+    const temp = formatDate(currentDate);
+    setShortDate(temp)
   }, []);
 
   const handleDateSelection = (date) => {
     setSelectedDate(date);
+    const temp = formatDate(date);
+    setShortDate(temp)
   };
 
   const renderCalendar = () => {
@@ -204,6 +209,7 @@ const EventsPage = (props) => {
 
   const [sortOrder, setSortOrder] = useState(localStorage.getItem('sortOrder') || 'loc');
   const [selectedDistance, setSelectedDistance] = useState(parseInt(localStorage.getItem('selectedDistance')) || 10);
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredLocations, setFilteredLocations] = useState([])
 
   useEffect(() => {
@@ -227,9 +233,20 @@ const EventsPage = (props) => {
     console.log(sortedLocations)
 
     const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
-    setFilteredLocations(locationsByDistance);
+    
+    if (searchQuery.trim() !== '') {
+      const query = searchQuery.toLowerCase().trim();
+      const filtered = sortedLocations.filter(location => location.name.toLowerCase().includes(query) || location.addy.toLowerCase().includes(query));
+      setFilteredLocations(filtered);
+    } else {
+      setFilteredLocations(locationsByDistance);
+    }
 
-  }, [sortOrder, selectedDistance]);
+  }, [sortOrder, selectedDistance, searchQuery]);
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   useEffect(() => {
     localStorage.setItem('sortOrder', sortOrder);
@@ -241,9 +258,31 @@ const EventsPage = (props) => {
     localStorage.setItem('selectedDistance', newSelectedDistance);
   };
 
+  function formatDate(date) {
+    const options = { month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
   return (
     <div>
       <div className='events-title'>Events</div>
+
+      <div id='search-bar'>
+        <input
+          type="text"
+          id="search-input"
+          placeholder={`Search ${shortDate} Events`}
+          onChange={handleSearchChange}
+          value={searchQuery}
+          style={{
+            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none"><path d="M7 14C10.3137 14 13 11.0899 13 7.5C13 3.91015 10.3137 1 7 1C3.68629 1 1 3.91015 1 7.5C1 11.0899 3.68629 14 7 14Z" stroke="%23666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 16L12 13" stroke="%23666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>')`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "20px center",
+            backgroundSize: "auto 50%",
+          }}
+        />
+      </div>
+
       <div id='filter-options'>
         <div>
           <select id="distance-select" onChange={handleDistanceChange} value={selectedDistance} style={{
@@ -267,9 +306,7 @@ const EventsPage = (props) => {
       </div>
       <div className="calendar">{renderCalendar()}</div>
       <ul className='event-grid'>
-            {filteredLocations.length === 0 ? (
-              <div id='no-results'>No matching results</div>
-            ) : filteredLocations
+            {filteredLocations
               .filter((location) => location.event === true)
               .flatMap((location) => {
                 const starts = Array.isArray(location.start) ? location.start : [location.start];

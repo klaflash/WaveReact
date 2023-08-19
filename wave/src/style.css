@@ -1817,10 +1817,8 @@ input[type="range"] {
   font-size: 30px;
   font-weight: 500;
   padding-left: 5%;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 2rem;
 }
-
 
 .event-grid {
   padding: 2rem 3%;
