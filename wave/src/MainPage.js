@@ -428,7 +428,35 @@ function MainPage(props) {
 
     if (searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase().trim();
-      const filtered = sortedLocations.filter(location => location.name.toLowerCase().includes(query) || location.addy.toLowerCase().includes(query));
+      
+      const filtered = sortedLocations.filter(location => {
+        const lowerQuery = query.toLowerCase(); // Convert query to lowercase
+      
+        const eventNameMatches = location.eventName && location.eventName.some(item => item.toLowerCase().includes(lowerQuery));
+        const priceMatches = location.price && location.price.some(item => item.toLowerCase().includes(lowerQuery));
+      
+        const startMatches = location.start && location.start.some(item => {
+          const date = new Date(item);
+          const formattedDate = `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`;
+          return formattedDate.toLowerCase().includes(lowerQuery);
+        });
+      
+        const endMatches = location.end && location.end.some(item => {
+          const date = new Date(item);
+          const formattedDate = `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`;
+          return formattedDate.toLowerCase().includes(lowerQuery);
+        });
+      
+        return (
+          location.name.toLowerCase().includes(lowerQuery) ||
+          (location.addy && location.addy.toLowerCase().includes(lowerQuery)) ||
+          eventNameMatches ||
+          priceMatches ||
+          startMatches ||
+          endMatches
+        );
+      });
+      
       setFilteredLocations(filtered);
     } else {
       setFilteredLocations(locationsByDistance);
