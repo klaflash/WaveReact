@@ -916,7 +916,7 @@ function MainPage(props) {
 
           </div>
 
-          <div id='explore'>Find The Wave</div>
+          <div id='explore'>Find the Wave</div>
 
           <div id='search-bar'>
             <input
