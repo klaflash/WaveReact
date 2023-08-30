@@ -554,7 +554,7 @@ input[type="range"] {
   border: 1px solid #494949;
   border-radius: 8px;
   width: 75px;
-  height: 27px;
+  height: 32px;
   color: #CBCBCB;
   font-size: 12px;
   padding: 2px 2px;
@@ -566,7 +566,7 @@ input[type="range"] {
   border: 1px solid #EBEBEB;
   border-radius: 8px;
   width: 75px;
-  height: 27px;
+  height: 32px;
   font-size: 13px;
   padding: 2px 2px;
 }
@@ -577,7 +577,7 @@ input[type="range"] {
   border: 1px solid #494949;
   border-radius: 8px;
   width: 75px;
-  height: 27px;
+  height: 32px;
   color: #CBCBCB;
   font-size: 13px;
   padding-left: 12px;
