@@ -840,6 +840,7 @@ function MainPage(props) {
             src="https://lottie.host/?file=9ad3fae8-0149-4b29-8e4d-89148f8c1642/cmR1FMgxwA.json"
             width="100%" // Set the width as needed
             backgroundColor='transparent'
+            style={{ backgroundColor: 'transparent', border: 'none' }}
             allowFullScreen
           />
         </div>

@@ -651,9 +651,9 @@ input[type="range"] {
 }
 
 .color-bar-top {
-  height: 0.5rem;
+  height: 0.7rem;
   width: 100%;
-  background-color: #267cfe;
+  background-color: transparent;
 }
 
 #main-page {
@@ -1843,6 +1843,6 @@ input[type="range"] {
 
 iframe {
   position: absolute;
-  top: -65px;
+  top: -70px;
   z-index: -5;
 }
