@@ -650,6 +650,12 @@ input[type="range"] {
   background-image: linear-gradient(to right, #a1d1fe, #95cbfe, #88c5ff, #7bbeff, #6db8ff, #60b1ff, #53aaff, #45a3ff, #379aff, #2c90ff, #2586ff, #267cfe);
 }
 
+.color-bar-top {
+  height: 0.5rem;
+  width: 100%;
+  background-color: #267cfe;
+}
+
 #main-page {
   display: flex;
   flex-direction: column;
@@ -1833,4 +1839,10 @@ input[type="range"] {
   display: flex;
   flex-direction: column;
   width: 85%;
+}
+
+iframe {
+  position: absolute;
+  top: -65px;
+  z-index: -5;
 }

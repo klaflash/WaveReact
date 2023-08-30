@@ -834,7 +834,16 @@ function MainPage(props) {
       
       {/* {!isMobile ? */}
         <div id="content">
-        <div className='color-bar'></div>
+        <div>
+          <iframe
+            title="Lottie Animation"
+            src="https://lottie.host/?file=9ad3fae8-0149-4b29-8e4d-89148f8c1642/cmR1FMgxwA.json"
+            width="100%" // Set the width as needed
+            backgroundColor='transparent'
+            allowFullScreen
+          />
+        </div>
+        <div className='color-bar-top'></div>
           <div id="header">
 
             <div id='logo-container'>
