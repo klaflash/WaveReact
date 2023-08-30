@@ -1459,7 +1459,7 @@ input[type="range"] {
   border-bottom-right-radius: 20px;
   margin: 2px;
   width: 100%;
-  margin-top: 0;
+  margin-top: -0.5px;
 }
 
 .circle {
@@ -1832,5 +1832,5 @@ input[type="range"] {
 .card-two {
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 85%;
 }
