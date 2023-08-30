@@ -812,6 +812,12 @@ function MainPage(props) {
     setSerializedProp(encodeURIComponent(JSON.stringify(averages)))
   }, [averages])
 
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+
+  const handleIframeLoad = () => {
+    setIframeLoaded(true);
+  };
+
 
   return (
     <div id='main-page'>
@@ -838,12 +844,13 @@ function MainPage(props) {
           <iframe
             title="Lottie Animation"
             src="https://lottie.host/?file=9ad3fae8-0149-4b29-8e4d-89148f8c1642/cmR1FMgxwA.json"
-            width="100%" // Set the width as needed
-            backgroundColor='transparent'
-            style={{ backgroundColor: 'transparent', border: 'none' }}
+            width="100%"
             allowFullScreen
+            onLoad={handleIframeLoad}
+            style={{ visibility: iframeLoaded ? 'visible' : 'hidden' }}
           />
         </div>
+        
         <div className='color-bar-top'></div>
           <div id="header">
 
