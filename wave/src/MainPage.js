@@ -214,13 +214,13 @@ function MainPage(props) {
   }, [locations, props.setInRange, threshold]);
 
   const musicTypes = [
-    { name: 'Pop', backgroundColor: 'lightpink', color: 'black' },
-    { name: 'Techno/House', backgroundColor: '#27cea1', color: 'black' },
-    { name: 'Latin', backgroundColor: '#FFB84C', color: 'black' },
-    { name: 'Hip-hop/Rap', backgroundColor: '#39B5E0', color: 'black' },
-    { name: 'EDM', backgroundColor: '#9575DE', color: 'black'},
-    { name: 'Rock', backgroundColor: '#EF6262', color: 'black'},
-    { name: 'Country', backgroundColor: 'tan', color: 'black' }
+    { name: 'Pop', backgroundColor: 'lightpink', color: 'lightpink' },
+    { name: 'Techno/House', backgroundColor: '#27cea1', color: '#27cea1' },
+    { name: 'Latin', backgroundColor: '#FFB84C', color: '#FFB84C' },
+    { name: 'Hip-hop/Rap', backgroundColor: '#39B5E0', color: '#39B5E0' },
+    { name: 'EDM', backgroundColor: '#9575DE', color: '#9575DE'},
+    { name: 'Rock', backgroundColor: '#EF6262', color: '#EF6262'},
+    { name: 'Country', backgroundColor: 'tan', color: 'tan' }
   ];
 
   const [mostPopularMusic, setMostPopularMusic] = useState({})
@@ -1044,11 +1044,11 @@ function MainPage(props) {
                     className={`card${index === array.length - 1 ? ' last-item' : ''}`}
                   >
                     <Link className='event-button-link' to={`/location/${name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[name]))}`} onClick={() => handleLocationClick(name)} style={{backgroundColor: 
-                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#A1D1FE' :
-                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#59AFFF' :
-                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#59AFFF' :
-                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#267CFE' :
-                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#267CFE' :
+                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#aaaaaa' :
+                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#A1D1FE' :
+                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#70ebff' :
+                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#70ebff' :
+                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#64ffe3' :
                       ''
                     }}>
                       <div className='event-card-container'>
@@ -1094,11 +1094,11 @@ function MainPage(props) {
                     </Link>
     
                     <div className='event-buttons-background' style={{backgroundColor: 
-                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#A1D1FE' :
-                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#59AFFF' :
-                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#59AFFF' :
-                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#267CFE' :
-                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#267CFE' :
+                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#aaaaaa' :
+                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#a1d1fe' :
+                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#70ebff' :
+                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#70ebff' :
+                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#64ffe3' :
                       ''
                     }}>
                       <div className='event-buttons'>
@@ -1289,18 +1289,18 @@ function MainPage(props) {
                       {Object.keys(averages).length !== 0 ? (
                         <div 
                         className='score'  style={{backgroundColor: 
-                          averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#a1d1feb5' :
-                          averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#59afffa2' :
-                          averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#59afffa2' :
-                          averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#267cfe90' :
-                          averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267cfe90' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#666666' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#a1d1fe98' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#70ecffa7' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#70ecffa7' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#16e6c0ae' :
                           '',
                           color:
-                          averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#A1D1FE' :
-                          averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#7bcbfa' :
-                          averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#7bcbfa' :
-                          averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#4896fc' :
-                          averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#4896fc' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#aaaaaa' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#A1D1FE' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#70ebff' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#70ebff' :
+                          averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#64ffe3' :
                           ''
                         }}>
                           {averages && averages[location.name] ? averages[location.name]['averageScore'] : ''}
@@ -1330,25 +1330,40 @@ function MainPage(props) {
                   <div className="grid-container">
 
                   <div className="grid-item-one">
-                      {mostPopularMusic && mostPopularMusic[location.name] != null && (
-                        <div className='grid-item-inner'>
-                          <div 
-                          className='music-box'
-                          style={{ backgroundColor: mostPopularMusic[location.name]['backgroundColor'] }}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-                              <path d="M12 19.5V8.66667L22 7V17.8333" stroke={mostPopularMusic[location.name]['color']} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
-                              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
-                            </svg>
-                          </div>
-
-                          <div className="genre-banner">
-                            {mostPopularMusic[location.name]['name']}
-                          </div>
-                        </div>
+                    <div>
+                      <div>{console.log('T', trending)}</div>
+                      {trending && trending[location.name] && trending[location.name] !== 0.0 ? (
+                        <>
+                          {trending[location.name] > 0 ? (
+                            <div className='grid-item-inner'>
+                              <span className='trending-container up'>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-up" width="17" height="17" viewBox="0 0 25 25" strokeWidth="1.5" stroke="#666666" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M3 17l6 -6l4 4l8 -8"/>
+                                  <path d="M14 7l7 0l0 7"/>
+                                </svg>
+                              </span>
+                              <div className='trending-up'>{Math.abs(trending[location.name])}</div>
+                            </div>
+                          ) : (
+                            <div className='grid-item-inner'>
+                              <span className='trending-container down'>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-down" width="17" height="17" viewBox="0 0 25 25" strokeWidth="1.5" stroke="#666666" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M3 7l6 6l4 -4l8 8"/>
+                                  <path d="M21 10l0 7l-7 0"/>
+                                </svg>
+                              </span>
+                              <div className='trending-down'>{Math.abs(trending[location.name])}</div>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        ''
                       )}
                     </div>
+                  </div>
+
 
                     <div className="grid-item">
                       {location.event && (
@@ -1370,7 +1385,7 @@ function MainPage(props) {
                                         {isStartDateToday || isEndDateToday ? (
                                           <div className='grid-item-inner'>
                                             <div className='date-box'>
-                                              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-clock-hour-10" width="16" height="16" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-clock-hour-10" width="16" height="16" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#666666" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
                                                 <path d="M12 12l-3 -2"></path>
                                                 <path d="M12 7v5"></path>
@@ -1383,7 +1398,7 @@ function MainPage(props) {
                                         ) : (
                                           <div className='grid-item-inner'>
                                             <div className='date-box'>
-                                              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 25 25" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 25 25" strokeWidth="1.5" stroke="#666666" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                 <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
                                                 <path d="M16 3l0 4"></path>
@@ -1408,41 +1423,29 @@ function MainPage(props) {
                       )}
                     </div>
 
-
                     <div className="grid-item-three">
-                    <div>
-                      <div>{console.log('T', trending)}</div>
-                      {trending && trending[location.name] && trending[location.name] !== 0.0 ? (
-                        <>
-                          {trending[location.name] > 0 ? (
-                            <div className='grid-item-inner'>
-                              <span className='trending-container up'>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-up" width="17" height="17" viewBox="0 0 25 25" strokeWidth="1.5" stroke="#151515" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                  <path d="M3 17l6 -6l4 4l8 -8"/>
-                                  <path d="M14 7l7 0l0 7"/>
-                                </svg>
-                              </span>
-                              <div className='trending-up'>{Math.abs(trending[location.name])}</div>
-                            </div>
-                          ) : (
-                            <div className='grid-item-inner'>
-                              <span className='trending-container down'>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trending-down" width="17" height="17" viewBox="0 0 25 25" strokeWidth="1.5" stroke="#151515" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                  <path d="M3 7l6 6l4 -4l8 8"/>
-                                  <path d="M21 10l0 7l-7 0"/>
-                                </svg>
-                              </span>
-                              <div className='trending-down'>{Math.abs(trending[location.name])}</div>
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        ''
+                      {mostPopularMusic && mostPopularMusic[location.name] != null && (
+                        <div className='grid-item-inner'>
+                          <div 
+                          className='music-box'
+                          style={{  border: '1px solid ' + mostPopularMusic[location.name]['backgroundColor'] }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                              <path d="M12 19.5V8.66667L22 7V17.8333" stroke={mostPopularMusic[location.name]['color']} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                              <path d="M9.5 22C10.8807 22 12 20.8807 12 19.5C12 18.1193 10.8807 17 9.5 17C8.11929 17 7 18.1193 7 19.5C7 20.8807 8.11929 22 9.5 22Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
+                              <path d="M19.5 20.3333C20.8807 20.3333 22 19.214 22 17.8333C22 16.4525 20.8807 15.3333 19.5 15.3333C18.1193 15.3333 17 16.4525 17 17.8333C17 19.214 18.1193 20.3333 19.5 20.3333Z" fill={mostPopularMusic[location.name]['color']} stroke={mostPopularMusic[location.name]['color']} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"></path>
+                            </svg>
+                          </div>
+
+                          <div className="genre-banner">
+                            {mostPopularMusic[location.name]['name']}
+                          </div>
+                        </div>
                       )}
                     </div>
-                    </div>
+
+
+                    
                   </div>
 
                   </div>

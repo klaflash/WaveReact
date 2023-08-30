@@ -163,7 +163,7 @@ li {
   height: 20px;
   min-width: 20px;
   border-radius: 5px;
-  background-color:#d6d455;
+  background-color:#151515;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,7 +171,7 @@ li {
 }
 
 .trending-container.up {
-  background-color: #7bbeff;
+  border: 1px solid #666666;
 }
 
 .trending-up {
@@ -181,7 +181,7 @@ li {
 }
 
 .trending-container.down {
-  background-color: #fc7066;
+  border: 1px solid #666666;
 }
 
 .trending-down {
@@ -1327,7 +1327,7 @@ input[type="range"] {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 400;
   color: #979696;
   stroke: #979696;
@@ -1466,7 +1466,7 @@ input[type="range"] {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color:#d6d455;
+  background-color:#666666;
 }
 
 .bar-name-small-line {
@@ -1747,7 +1747,7 @@ input[type="range"] {
   height: 20px;
   min-width: 20px;
   border-radius: 5px;
-  background-color: #25ff5b73;
+  background-color: #333;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1759,7 +1759,8 @@ input[type="range"] {
   height: 20px;
   min-width: 20px;
   border-radius: 5px;
-  background-color:#d6d455;
+  background-color:#151515;
+  border: 1px solid #666666;
   display: flex;
   align-items: center;
   justify-content: center;

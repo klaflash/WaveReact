@@ -1567,7 +1567,7 @@ function LocationPage(props) {
           <img className='wave-logo' src={logo} alt="Logo" />
           <div className='noti-inner-container'>
             <div className='noti-line-one'>
-              <div className='noti-user'>User {notiContent.user_number}</div>
+              <div className='noti-user'>Streamer {notiContent.user_number}</div>
               <div className='noti-timestamp'>Now</div>
             </div>
             <div>{notiContent.comment}</div>
@@ -1776,7 +1776,7 @@ function LocationPage(props) {
               <div className='preview-comments' onClick={openPopup}>
                 <div className='comment-line-pinned'>
                   <div className='comment-line-one'>
-                    <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>User {comment.user_number}</div>
+                    <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>Streamer {comment.user_number}</div>
                     <div className='comment-timestamp'>{getTimeSince(comment.created_at)}</div>
                   </div>
 
@@ -1863,7 +1863,7 @@ function LocationPage(props) {
                   <div key={comment.id} className='pinned-comment'>
                     <div className='comment-line-pinned'>
                         <div className='comment-line-one'>
-                          <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>User {comment.user_number}</div>
+                          <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>Streamer {comment.user_number}</div>
                           <div className='comment-timestamp'>{getTimeSince(comment.created_at)}</div>
                         </div>
 
@@ -1909,7 +1909,7 @@ function LocationPage(props) {
                     {topComment[0] && comment.id !== topComment[0].id && comment.id !== topComment[1].id && comment.id !== topComment[2].id && (
                       <div className='comment-line'>
                         <div className='comment-line-one'>
-                        <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>User {comment.user_number}</div>
+                        <div className='user-bubble' style={{ backgroundColor: comment.user_color }}>Streamer {comment.user_number}</div>
                         <div className='comment-timestamp'>{getTimeSince(comment.created_at)}</div>
                         </div>
 

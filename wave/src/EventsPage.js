@@ -380,11 +380,11 @@ const EventsPage = (props) => {
                     className={`card-two`}
                   >
                     <Link className='event-button-link' to={`/location/${name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[name]))}`} onClick={() => handleLocationClick(name)} style={{backgroundColor: 
-                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#A1D1FE' :
-                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#59AFFF' :
-                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#59AFFF' :
-                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#267CFE' :
-                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#267CFE' :
+                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#aaaaaa' :
+                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#A1D1FE' :
+                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#70ebff' :
+                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#70ebff' :
+                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#64ffe3' :
                       ''
                     }}>
                       <div className='event-card-container'>
@@ -430,11 +430,11 @@ const EventsPage = (props) => {
                     </Link>
     
                     <div className='event-buttons-background' style={{backgroundColor: 
-                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#A1D1FE' :
-                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#59AFFF' :
-                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#59AFFF' :
-                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#267CFE' :
-                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#267CFE' :
+                      averages && averages[name] && averages[name]['averageScore'] >= 0 && averages[name]['averageScore'] <= 2 ? '#aaaaaa' :
+                      averages && averages[name] && averages[name]['averageScore'] > 2 && averages[name]['averageScore'] <= 4 ? '#a1d1fe' :
+                      averages && averages[name] && averages[name]['averageScore'] > 4 && averages[name]['averageScore'] <= 6 ? '#70ebff' :
+                      averages && averages[name] && averages[name]['averageScore'] > 6 && averages[name]['averageScore'] <= 8 ? '#70ebff' :
+                      averages && averages[name] && averages[name]['averageScore'] > 8 && averages[name]['averageScore'] <= 10 ? '#64ffe3' :
                       ''
                     }}>
                       <div className='event-buttons'>
