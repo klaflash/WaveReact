@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js'
 import logo from './waveLogo.png';
 import { useNavigate } from 'react-router-dom';
+import PullToRefresh from 'pulltorefreshjs';
 
 //const supabaseUrl = process.env.REACT_APP_PROJECT_URL
 //const supabaseKey = process.env.REACT_APP_API_KEY
@@ -818,9 +819,26 @@ function MainPage(props) {
     setIframeLoaded(true);
   };
 
+  useEffect(() => {
+    const container = document.querySelector('.main-page');
+
+    const pullToRefreshInstance = PullToRefresh.init({
+      mainElement: container,
+      onRefresh() {
+        // Reload the page on pull-to-refresh
+        window.location.reload();
+      },
+    });
+
+    return () => {
+      pullToRefreshInstance.destroy();
+    };
+  }, []);
+
+
 
   return (
-    <div id='main-page'>
+    <div className='main-page'>
 
         {deniedLocation && (
           <div className='noti-container-location'>
