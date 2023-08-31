@@ -1903,7 +1903,7 @@ function LocationPage(props) {
               </div>
 
               <div className='main-comments'>
-              {postedComments.map((comment) => (
+              {console.log('POsted', postedComments) && postedComments.map((comment) => (
 
                   <div key={comment.id}>
                     {topComment[0] && comment.id !== topComment[0].id && comment.id !== topComment[1].id && comment.id !== topComment[2].id && (
