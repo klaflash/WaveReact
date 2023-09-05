@@ -5,8 +5,8 @@ import logo from './waveLogo.png';
 import { useNavigate } from 'react-router-dom';
 import PullToRefresh from 'pulltorefreshjs';
 
-const supabaseUrl = process.env.SUPABASE_URL
-const supabaseKey = process.env.SUPABASE_KEY
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 

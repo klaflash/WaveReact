@@ -3,8 +3,8 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.SUPABASE_URL
-const supabaseKey = process.env.SUPABASE_KEY
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
