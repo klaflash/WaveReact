@@ -4,6 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { createClient } from '@supabase/supabase-js'
 import { ResponsiveBar } from '@nivo/bar'
 import { useNavigate } from 'react-router-dom';
+import PullToRefresh from 'pulltorefreshjs';
 
 import logo from './waveLogo.png';
 
@@ -1556,6 +1557,22 @@ function LocationPage(props) {
     { name: 'Rock', backgroundColor: '#EF6262', color: 'black'},
     { name: 'Country', backgroundColor: 'tan', color: 'black' }
   ];
+
+  useEffect(() => {
+    const container = document.querySelector('.main-location-container');
+
+    const pullToRefreshInstance = PullToRefresh.init({
+      mainElement: container,
+      onRefresh() {
+        // Reload the page on pull-to-refresh
+        window.location.reload();
+      },
+    });
+
+    return () => {
+      pullToRefreshInstance.destroy();
+    };
+  }, []);
 
   
   
