@@ -9,6 +9,26 @@ body {
     background-color: #090909;
 }
 
+/* Desktop media query with a minimum width of 768px (adjust as needed) */
+@media (min-width: 768px) {
+  /* Apply styles to elements with class names .class1 and .class2 */
+  .main-page,
+  .main-events-container,
+  #main-location-container {
+    max-width: 400px; /* Set the maximum width as needed */
+    margin: 0 auto;   /* Center the content horizontally */
+    /* Add other styles as needed */
+  }
+
+  iframe {
+    position: absolute;
+    top: -70px;
+    left: 50% - 250px;
+    width: 400px;
+    z-index: -5;
+  }
+}
+
 #not-mobile {
     display: none;
 }

@@ -293,7 +293,7 @@ const EventsPage = (props) => {
   }
 
   return (
-    <div>
+    <div className='main-events-container'>
       <div className='events-title'>Events</div>
 
       <div id='search-bar'>
