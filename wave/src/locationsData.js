@@ -115,19 +115,6 @@ const locations = [
         "description": null
     },
     {
-        "name": "Twammers",
-        "latitude": 40.424351,
-        "longitude": -86.908920,
-        "addy": "308 W State St, IN",
-        "event": false,
-        "start": null,
-        "end": null,
-        "eventName": null,
-        "price": null,
-        "buyLink": null,
-        "description": null
-    },
-    {
         "name": "Neon Cactus",
         "latitude": 40.423453,
         "longitude": -86.900469,
