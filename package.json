@@ -1,7 +1,6 @@
 {
   "name": "wave",
   "version": "0.1.0",
-  "homepage": "https://klaflash.github.io/WaveReact",
   "private": false,
   "dependencies": {
     "@nivo/bar": "^0.80.0",
