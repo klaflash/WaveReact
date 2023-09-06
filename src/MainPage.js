@@ -971,7 +971,7 @@ function MainPage(props) {
             </button>
           </div>
           
-          <div className='featured-events-container'>
+          {/* <div className='featured-events-container'>
             <div id='featured-events-subtitle'>Featured Events</div>
             <Link className='all-events' to={`/events?propObject=${serializedProp}`}>
               <div>
@@ -1145,10 +1145,6 @@ function MainPage(props) {
                           <div className="price-container">{price}</div>
                         </a>
     
-                        {/* <button className={`going ${goingOn[name][eventName] ? 'on' : 'off'}`} onClick={() => handleGoingClick(name, eventName, goingCount[name][eventName])}>
-                          <div className={`going-box ${goingOn[name][eventName] ? 'on' : 'off'}`}>{goingCount[name][eventName]}</div>
-                          <div className='going-container'>going</div>
-                        </button> */}
 
                         <button
                           className={`going ${goingOn[name]?.[eventName] ? 'on' : 'off'}`}
@@ -1171,133 +1167,8 @@ function MainPage(props) {
               })
             }
              {!hasMatchingResults && <div id='no-events'>More events coming soon</div>}
-          </ul>
-
-
-{/*          
-          <ul className='scrolling-wrapper'>
-            {filteredLocations.length === 0 ? (
-              <div id='no-results'>No matching results</div>
-            ) : filteredLocations
-            .filter((location) => location.event === true)
-            .filter((location) => {
-              const today = new Date();
-              const start = new Date(location.start);
-
-              if (eventFilterButton === 'today') {
-                const isSameDay = start.getDate() === today.getDate() &&
-                  start.getMonth() === today.getMonth() &&
-                  start.getFullYear() === today.getFullYear();
-                
-                const endDateTime = new Date(location.end);
-                const isOngoing = start < today && endDateTime >= today;
-                
-                return isSameDay || isOngoing;
-              }
-          
-              if (eventFilterButton === 'tomorrow') {
-                const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-                const isNextDay = start.getDate() === tomorrow.getDate() &&
-                  start.getMonth() === tomorrow.getMonth() &&
-                  start.getFullYear() === tomorrow.getFullYear();
-                return isNextDay;
-              }
-          
-              if (eventFilterButton === 'upcoming') {
-                const dayAfterTomorrow = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
-                return start > dayAfterTomorrow;
-              }
-          
-              return true; // If eventFilterButton is not 'today', 'tomorrow', or 'upcoming', include all locations
-            })
-                .map((location, index) => (
-              <li className={`card${index === filteredLocations.length - 1 ? ' last-item' : ''}`} key={location.name}>
-                <Link className='event-button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
-                  averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#A1D1FE' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#59AFFF' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#59AFFF' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#267CFE' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267CFE' :
-                  ''
-                }}>
-                  <div className='event-card-container'>
-                    <div className='event-card-inner'>
-                      <div className='event-time'>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-clock-hour-10" width="16" height="16" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                          <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
-                          <path d="M12 12l-3 -2"/>
-                          <path d="M12 7v5"/>
-                        </svg>
-                        <div>
-                          {(() => {
-                            const startTime = new Date(location.start);
-                            const endTime = new Date(location.end);
-
-                            console.log(startTime)
-                            console.log(endTime)
-
-                            const startHour = startTime.getHours() % 12 || 12;
-                            const endHour = endTime.getHours() % 12 || 12;
-
-                            const startPeriod = startTime.getHours() >= 12 ? 'pm' : 'am';
-                            const endPeriod = endTime.getHours() >= 12 ? 'pm' : 'am';
-
-                            const formattedDate = startTime.toLocaleString('en-US', {
-                              month: 'short',
-                              day: 'numeric'
-                            });
-
-                            return `${startHour} - ${endHour}${endPeriod} ${formattedDate}`;
-                          })()}
-                        </div>
-
-                      </div>
-                      <div className='bar-name-small-line'>
-                        <div className="circle"></div>
-                        <div className='bar-name-small'>{location.name}</div>
-                      </div>
-                      <div className='event-name'>{location.eventName}</div>
-                    </div>
-
-                  </div>
-                </Link>
-
-                <div className='event-buttons-background' style={{backgroundColor: 
-                  averages && averages[location.name] && averages[location.name]['averageScore'] >= 0 && averages[location.name]['averageScore'] <= 2 ? '#A1D1FE' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 2 && averages[location.name]['averageScore'] <= 4 ? '#59AFFF' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 4 && averages[location.name]['averageScore'] <= 6 ? '#59AFFF' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 6 && averages[location.name]['averageScore'] <= 8 ? '#267CFE' :
-                  averages && averages[location.name] && averages[location.name]['averageScore'] > 8 && averages[location.name]['averageScore'] <= 10 ? '#267CFE' :
-                  ''
-                }}>
-                  <div className='event-buttons'>
-                    <a className="buy" href={location.buyLink} target="_blank" rel="noopener noreferrer">
-                      <div className="buy-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-currency-dollar" width="14" height="14" viewBox="0 0 24 24" strokeWidth="3" stroke="#7bff82" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                          <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"/>
-                          <path d="M12 3v3m0 12v3"/>
-                        </svg>
-                      </div>
-                      <div className="price-container">{location.price}</div>
-                    </a>
-
-                    <button className={`going ${goingOn[location.name] ? 'on' : 'off'}`} onClick={() => handleGoingClick(location.name, goingCount[location.name])}>
-                      <div className={`going-box ${goingOn[location.name] ? 'on' : 'off'}`}>{goingCount[location.name]}</div>
-                      <div className='going-container'>going</div>
-                    </button>
-
-                  </div>
-                </div>
-
-                {hasMatchingResults = true}
-                
-              </li>
-            ))}
-             {!hasMatchingResults && <div id='no-events'>More events coming soon</div>}
           </ul> */}
-        
+
 
           <div id='locations-subtitle'>All Locations</div>
 
