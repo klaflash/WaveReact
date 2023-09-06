@@ -50,7 +50,9 @@ function App() {
 
   }
 
-  const isPwa = navigator.userAgent.includes('PWA');
+  const isPwa = window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: minimal-ui)').matches || (window.navigator.standalone) || document.referrer.includes('android-app://');
+ 
+
 
   return (
     <Router>
