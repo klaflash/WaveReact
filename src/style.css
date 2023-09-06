@@ -1867,3 +1867,56 @@ iframe {
   top: -70px;
   z-index: -5;
 }
+
+.browser-popup {
+  /* Common styles for both PWA and browser popups */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: #858585;
+  font-size: 16px;
+}
+
+.browser-container {
+  background-color: #151515;
+  padding: 2rem 2rem;
+  border-radius: 25px;
+  padding-top: 0px;
+  padding-bottom: 3rem;
+}
+
+.instructions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.i-title {
+  font-size: 20px;
+  color: #CBCBCB;
+  padding-bottom: 10px;
+}
+
+.i-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+strong {
+  color: #aaaaaa;
+}
+
+.pop-up-logo {
+  width: 150px;
+  margin-bottom: -30px;
+}

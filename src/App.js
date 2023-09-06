@@ -4,6 +4,7 @@ import MainPage from './MainPage';
 import LocationPage from './LocationPage';
 import EventsPage from './EventsPage';
 import locations from './locationsData';
+import PopupMessage from './PopupMessage';
 
 function App() {
   const [currentLocation, setCurrentLocation] = useState('');
@@ -49,8 +50,12 @@ function App() {
 
   }
 
+  const isPwa = navigator.userAgent.includes('PWA');
+
   return (
     <Router>
+      {!isPwa && <PopupMessage isPwa={isPwa} />}
+
       <Routes>
         <Route path="/" element={<MainPage setCurrentLocation={setCurrentLocation} setInRange={setInRange} inRange={inRange} locations={locations}/>} />
         <Route path="/location/:locationName" element={<LocationPage currentLocation={currentLocation} inRange={inRange} locations={locations}/>} />

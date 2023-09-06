@@ -834,7 +834,6 @@ function MainPage(props) {
   }, []);
 
 
-
   return (
     <div className='main-page'>
 
