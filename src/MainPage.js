@@ -53,7 +53,7 @@ function MainPage(props) {
   const [isMobile, setIsMobile] = useState(false);
   
   //const threshold = 0.09;
-  const threshold = 100;
+  const threshold = 1;
 
   const handleLocationClick = useCallback((locationName) => {
     props.setCurrentLocation(locationName);
