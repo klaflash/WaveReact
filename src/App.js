@@ -5,6 +5,7 @@ import LocationPage from './LocationPage';
 import EventsPage from './EventsPage';
 import locations from './locationsData';
 import PopupMessage from './PopupMessage';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [currentLocation, setCurrentLocation] = useState('');
@@ -63,6 +64,7 @@ function App() {
         <Route path="/location/:locationName" element={<LocationPage currentLocation={currentLocation} inRange={inRange} locations={locations}/>} />
         <Route path="/events" element={<EventsPage setCurrentLocation={setCurrentLocation} inRange={inRange} locations={locations}/>} />
       </Routes>
+      <Analytics />
     </Router>
   );
 }
