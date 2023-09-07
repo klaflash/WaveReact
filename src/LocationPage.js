@@ -1571,6 +1571,10 @@ function LocationPage(props) {
     };
   }, []);
 
+  const goBack = () => {
+    window.history.back(); // Go back in the browser's history
+  };
+
   
   
   return (
@@ -1591,6 +1595,10 @@ function LocationPage(props) {
 
       <div id='location-card-1'>
         <div id='location-header'>
+          <button className='back-button' onClick={goBack}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+
           <div id='location-header-left'>
             <div id='location-name'>{currentLocation}</div>
             <div id='location-subtext'>Past 2h - {averages && averages[currentLocation] ? averages[currentLocation]['count'] : '0'} ratings</div>

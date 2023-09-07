@@ -463,9 +463,11 @@ input[type="range"] {
 }
 
 #location-name {
-  font-size: 32px;
+  font-size: 25px;
   font-weight: bold;
   color: #EBEBEB;
+  text-align: center;
+  white-space: nowrap;
 }
 
 #location-subtext {
@@ -1919,4 +1921,16 @@ strong {
 .pop-up-logo {
   width: 150px;
   margin-bottom: -30px;
+}
+
+.back-button {
+  display: flex;
+  background-color: #292929;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  color: #141414;
+  padding: 1px;
+  margin-left: -10px;
+  margin-top: -10px;
 }
