@@ -277,10 +277,18 @@ function LocationPage(props) {
   console.log(inRange)
   //const [isLocationInRange, setIsLocationInRange] = useState(inRange[props.currentLocation] || false);
   const [isLocationInRange, setIsLocationInRange] = useState(inRange);
-  const [musicRating, setMusicRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_music_rating`)) || 5);
-  const [serviceRating, setServiceRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_service_rating`)) || 5);
-  const [energyRating, setEnergyRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_energy_rating`)) || 5);
-  const [lineRating, setLineRating] = useState(parseInt(localStorage.getItem(`${currentLocation}_line_rating`)) || 50);
+  
+  const musicTemp = parseInt(localStorage.getItem(`${currentLocation}_music_rating`))
+  const [musicRating, setMusicRating] = useState((musicTemp >= 0) ? musicTemp : 5);
+
+  const serviceTemp = parseInt(localStorage.getItem(`${currentLocation}_service_rating`))
+  const [serviceRating, setServiceRating] = useState((serviceTemp >= 0) ? serviceTemp : 5);
+
+  const energyTemp = parseInt(localStorage.getItem(`${currentLocation}_energy_rating`))
+  const [energyRating, setEnergyRating] = useState((energyTemp >= 0) ? energyTemp : 5);
+
+  const lineTemp = parseInt(localStorage.getItem(`${currentLocation}_line_rating`))
+  const [lineRating, setLineRating] = useState((lineTemp >= 0) ? lineTemp : 5)
 
   console.log("Location in range")
   console.log(isLocationInRange)
@@ -566,7 +574,7 @@ function LocationPage(props) {
           s_rating: rating.u_s_rating || rating.s_rating,
           e_rating: rating.u_e_rating || rating.e_rating,
           l_rating: rating.u_l_rating || rating.l_rating,
-          score: rating.u_score || rating.score,
+          score: rating.u_score >= 0 ? rating.u_score : rating.score,
           location: rating.location
         };
       } else {

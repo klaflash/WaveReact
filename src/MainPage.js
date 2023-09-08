@@ -186,7 +186,7 @@ function MainPage(props) {
           s_rating: rating.u_s_rating || rating.s_rating,
           e_rating: rating.u_e_rating || rating.e_rating,
           //l_rating: rating.u_l_rating || rating.l_rating
-          score: rating.u_score || rating.score,
+          score: rating.u_score !== null ? rating.u_score : rating.score,
           location: rating.location,
           music_type: rating.music_type
         };
