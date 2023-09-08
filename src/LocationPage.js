@@ -274,7 +274,7 @@ function LocationPage(props) {
 
   //const inRange = props.inRange;
   console.log("IN RANGE")
-  console.log(inRange)
+  console.log(inRange, locationName);
   //const [isLocationInRange, setIsLocationInRange] = useState(inRange[props.currentLocation] || false);
   const [isLocationInRange, setIsLocationInRange] = useState(inRange);
   
@@ -1694,7 +1694,7 @@ function LocationPage(props) {
       </div>
       
       
-      {isLocationInRange === "false"&& (
+      {isLocationInRange === "false" && (
         <div id='range-message'>
           <div id='range-message-container'>
             <div className='range-message-title'>You Must Be Closer to Rate</div>
@@ -1723,7 +1723,31 @@ function LocationPage(props) {
         
       )}
       {isLocationInRange === "undefined" && (
-        <div id="range-message">You must allow wave to use your location in order to rate or comment.</div>
+        <div id='range-message'>
+          <div id='range-message-container'>
+            <div className='range-message-title'>You Must Be Closer to Rate</div>
+            <div className='range-subtitle'>In Range?</div>
+            <div className='range-line-container'>
+              <div className='range-line'>
+                <svg xmlns="http://www.w3.org/2000/svg" height="25" viewBox="0 -960 960 960" width="25" fill='#aaaaaa'><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg>
+                <button id='go-home' onClick={goHome}>Refresh the homepage</button>
+              </div>
+              
+              <div className='range-line'>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill='#aaaaaa'><path d="M516-120 402-402 120-516v-56l720-268-268 720h-56Zm26-148 162-436-436 162 196 78 78 196Zm-78-196Z"/></svg>
+                <div>Allow your location</div>
+              </div>
+
+              <div className='range-line'>
+                <svg xmlns="http://www.w3.org/2000/svg" height="25" viewBox="0 -960 960 960" width="25" fill='#aaaaaa'><path d="M280-240q-100 0-170-70T40-480q0-100 70-170t170-70h400q100 0 170 70t70 170q0 100-70 170t-170 70H280Zm0-80h400q66 0 113-47t47-113q0-66-47-113t-113-47H280q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-40q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm200-120Z"/></svg>
+
+                <div>Turn on
+                  <a id='precise-location' href="https://youtu.be/QAegIFTkYBU?t=12" target="_blank" rel="noopener noreferrer">precise location</a>
+                  in settings</div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
       {isLocationInRange === "true" && (
         <div>
