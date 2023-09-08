@@ -572,6 +572,29 @@ input[type="range"] {
   
 }
 
+.range-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.range-line-container {
+  padding-left: 1rem;
+}
+
+.range-message-title {
+  font-size: 18px;
+  color: #CBCBCB;
+  padding-bottom: 0.5rem;
+}
+
+.range-subtitle {
+  display: flex;
+  justify-content: center;
+  color: #aaaaaa;
+  font-size: 17px;
+}
+
 .normal-button {
   background-color: #151515;
   border: 1px solid #494949;
@@ -1242,30 +1265,23 @@ input[type="range"] {
 
 #go-home {
   display: inline;
-  background-color: #2586ff;
-  color: black;
-  padding: 0.2rem 0.5rem;
-  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid #6db8ff;
+  color: #858585;
   cursor: pointer;
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
-  border-radius: 5px;
   font-size: inherit;
   text-align: center;
+  padding: 0;
 }
 
 #precise-location {
   display: inline;
-  background-color: #2586ff;
-  color: black;
+  border-bottom: 1px solid #6db8ff;
+  color: #858585;
   text-decoration: none;
-  padding: 0.2rem 0.5rem;
-  border: none;
   cursor: pointer;
   margin-left: 0.25rem;
   margin-right: 0.25rem;
-  border-radius: 5px;
-  font-size: inherit;
   text-align: center;
 }
 
