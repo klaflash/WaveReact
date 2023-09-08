@@ -842,13 +842,10 @@ function MainPage(props) {
             <img className='wave-logo' src={logo} alt="Logo" />
             <div className='noti-inner-container'>
               <div className='noti-line-one'>
-                <div className='noti-user'>Wave Team</div>
+                <div className='wave-team'>Wave Team</div>
                 <div className='noti-timestamp'>Now</div>
               </div>
-              <div id='allow-location-container'>
-                <button onClick={goHome} id='allow-location'>Allow your location</button>
-                <span>to use all of wave's features</span>
-              </div>
+              <div id='allow-location-container'>Allow your browser's location services to use wave's features. Refresh or check settings.</div>
             </div>
           </div>
         )}
@@ -1174,7 +1171,20 @@ function MainPage(props) {
 
           <ul className='un-ordered-list'>
             {filteredLocations.length === 0 ? (
-              <div id='no-results'>No matching results</div>
+              <div>
+                <div className='why'>
+                <div id='no-results'>No Matching Results</div>
+                  <div className='why-inner'>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 -960 960 960" width="28" fill='#aaaaaa'><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+                    You searched for a location that does not exist</div>
+                  <div className='why-inner'>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill='#aaaaaa'><path d="M516-120 402-402 120-516v-56l195-73-203-203 57-57 736 736-57 57-203-203-73 195h-56Zm191-361-63-63 60-160-160 60-63-63 359-133-133 359ZM542-268l41-109-206-206-109 41 196 78 78 196Zm52-326ZM480-480Z"/></svg>
+                    You selected deny for the location popup</div>
+                  <div className='why-inner'>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30" fill='#aaaaaa'><path d="M280-240q-100 0-170-70T40-480q0-100 70-170t170-70h400q100 0 170 70t70 170q0 100-70 170t-170 70H280Zm0-80h400q66 0 113-47t47-113q0-66-47-113t-113-47H280q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-40q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm200-120Z"/></svg>
+                    Your browser's location services are turned off in settings</div>
+                </div>
+              </div>
             ) : filteredLocations.map((location) => (
               <li key={location.name}>
                 <Link className='button-link' to={`/location/${location.name}?inRange=${encodeURIComponent(JSON.stringify(props.inRange[location.name]))}`} onClick={() => handleLocationClick(location.name)} style={{backgroundColor: 
