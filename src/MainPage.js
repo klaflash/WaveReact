@@ -11,42 +11,6 @@ const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 
-// const updateAverages = async () => {
-//   const { data: ratings, error } = await supabase.from('Ratings').select('*');
-
-//   if (error) {
-//     console.error('Error fetching ratings:', error.message);
-//     return {};
-//   }
-
-//   const averages = {};
-
-//   ratings.forEach((rating) => {
-//     if (averages[rating.location]) {
-//       averages[rating.location].totalScore += rating.score;
-//       averages[rating.location].count += 1;
-//     } else {
-//       averages[rating.location] = { totalScore: rating.score, count: 1 };
-//     }
-//   });
-
-//   Object.keys(averages).forEach((location) => {
-//     averages[location] = averages[location].totalScore / averages[location].count;
-//   });
-
-//   return averages;
-// };
-
-// const getFilteredLocations = (locations, selectedDistance, searchQuery) => {
-//   const filteredLocations = selectedDistance >= 0 ? locations.filter((location) => location.dist * 0.621371 <= selectedDistance) : locations;
-//   if (searchQuery.trim() !== '') {
-//     const query = searchQuery.toLowerCase().trim();
-//     return filteredLocations.filter(location => location.name.toLowerCase().includes(query) || location.addy.toLowerCase().includes(query));
-//   }
-//   return filteredLocations;
-// }
-
-
 function MainPage(props) {
   const locations = useMemo(() => props.locations, []);
 
@@ -169,27 +133,6 @@ function MainPage(props) {
         }
       }
       props.setInRange(newInRange);
-
-      //const sortedLocations = locations.sort((a, b) => a.dist - b.dist);
-      console.log(averages)
-      console.log(sortOrder)
-      const sortedLocations = [...locations].sort((a, b) => {
-        if (sortOrder === 'desc') {
-          if (!averages[b.name]) {
-            return -1;
-          } else if (!averages[a.name]) {
-            return 1;
-          } else {
-            return averages[b.name]['averageScore'] - averages[a.name]['averageScore'];
-          }
-        } else {
-          return a.dist - b.dist;
-        }
-      });
-
-      const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
-      setFilteredLocations(locationsByDistance);
-      //props.setLocations(sortedLocations)
     };
 
     const errorCallback = (error) => {
@@ -210,7 +153,8 @@ function MainPage(props) {
 
     runLocationUpdate()
 
-  }, [locations, props.setInRange, threshold, averages]);
+  }, [locations, props.setInRange, threshold]);
+
 
   const musicTypes = [
     { name: 'Pop', backgroundColor: 'lightpink', color: 'lightpink' },
@@ -402,6 +346,7 @@ function MainPage(props) {
   const [selectedDistance, setSelectedDistance] = useState(parseInt(localStorage.getItem('selectedDistance')) || 10);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredLocations, setFilteredLocations] = useState([])
+  // const [distance, setDistance] = useState(0);
 
   useEffect(() => {
     const sortedLocations = [...locations].sort((a, b) => {
@@ -419,11 +364,14 @@ function MainPage(props) {
         return a.dist - b.dist;
       }
     });
+    
+    let locationsByDistance
 
-    console.log('Now sorted')
-    console.log(sortedLocations)
-
-    const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
+    if (Object.keys(sortedLocations[0]).includes('dist')) {
+      locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
+    } else {
+      locationsByDistance = sortedLocations
+    }
 
     if (searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase().trim();
@@ -455,59 +403,17 @@ function MainPage(props) {
           endMatches
         );
       });
+
+      console.log("filtered",filtered)
       
-      setFilteredLocations(filtered);
+      setFilteredLocations(filtered ? filtered : '0');
     } else {
-      setFilteredLocations(locationsByDistance);
+      console.log('by dist', locationsByDistance)
+      setFilteredLocations(locationsByDistance ? locationsByDistance : '0');
     }
   
-    //setFilteredLocations(locationsByDistance);
-  }, [sortOrder, selectedDistance, searchQuery]);
-  
-  
+  }, [sortOrder, selectedDistance, searchQuery, averages]);
 
-  // useEffect(() => {
-  //   // This code will run once when the component mounts
-  //   console.log("IS IT EVEN RUNNING")
-  //   const locationsByDistance = [...locations].sort((a, b) => {
-  //     if (sortOrder === 'desc') {
-  //       return (averages && averages[b.name] && averages[b.name]['averageScore']) - (averages && averages[a.name] && averages[a.name]['averageScore']);
-  //     } else {
-  //       return (a.dist - b.dist);
-  //     }
-  //   });
-  //   setFilteredLocations(locationsByDistance);    
-  //   console.log(locationsByDistance)
-  //   console.log("DONE RUNNING")
-  // }, [locations, averages, sortOrder]);
-
-
-  // const sortedLocations = useMemo(() => {
-  //   return [...locations].sort((a, b) => {
-  //     if (sortOrder === 'desc') {
-  //       return (averages && averages[b.name] && averages[b.name]['averageScore']) - (averages && averages[a.name] && averages[a.name]['averageScore']);
-  //     } else {
-  //       return (a.dist - b.dist);
-  //     }
-  //   });
-  // }, [locations, averages, sortOrder]);
-
-  // useEffect(() => {
-  //   const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
-  //   setFilteredLocations(locationsByDistance);
-  // }, [sortedLocations, selectedDistance]);
-
-  // useEffect(() => {
-  //   const locationsByDistance = selectedDistance >= 0 ? sortedLocations.filter((location) => location.dist * 0.621371 <= selectedDistance) : sortedLocations;
-
-    // if (searchQuery.trim() !== '') {
-    //   const query = searchQuery.toLowerCase().trim();
-    //   const filtered = locationsByDistance.filter(location => location.name.toLowerCase().includes(query) || location.addy.toLowerCase().includes(query));
-    //   setFilteredLocations(filtered);
-    // } else {
-    //   setFilteredLocations(locationsByDistance);
-    // }
-  // }, [sortedLocations, selectedDistance, searchQuery]);
 
   useEffect(() => {
     localStorage.setItem('sortOrder', sortOrder);
@@ -550,9 +456,6 @@ function MainPage(props) {
   };
 
   function getTimeSince(seconds) {
-    //const seconds = Math.floor((Date.now() - timestamp) / 1000);
-    // const createdAt = new Date(timestamp);
-    // const seconds = Math.floor((Date.now() - createdAt) / 1000);
 
     const rounded = Math.ceil(seconds)
     
@@ -625,8 +528,6 @@ function MainPage(props) {
       }
     }
   };
-  
-  
   
   // Call the function to insert the location names
 
