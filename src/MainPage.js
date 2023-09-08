@@ -210,7 +210,7 @@ function MainPage(props) {
 
     runLocationUpdate()
 
-  }, [locations, props.setInRange, threshold]);
+  }, [locations, props.setInRange, threshold, averages]);
 
   const musicTypes = [
     { name: 'Pop', backgroundColor: 'lightpink', color: 'lightpink' },
