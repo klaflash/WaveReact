@@ -575,11 +575,15 @@ input[type="range"] {
 .range-line {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  font-size: 14px;
 }
 
 .range-line-container {
   padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .range-message-title {
