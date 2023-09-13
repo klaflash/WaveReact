@@ -869,7 +869,7 @@ function MainPage(props) {
             </button>
           </div>
           
-          {/* <div className='featured-events-container'>
+          <div className='featured-events-container'>
             <div id='featured-events-subtitle'>Featured Events</div>
             <Link className='all-events' to={`/events?propObject=${serializedProp}`}>
               <div>
@@ -1065,7 +1065,7 @@ function MainPage(props) {
               })
             }
              {!hasMatchingResults && <div id='no-events'>More events coming soon</div>}
-          </ul> */}
+          </ul>
 
 
           <div id='locations-subtitle'>All Locations</div>
