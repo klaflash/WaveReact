@@ -153,6 +153,19 @@ const locations = [
         "buyLink": null,
         "description": null
     },
+    {
+        "name": "Purdue HP",
+        "latitude": 40.434670,
+        "longitude": -86.905564,
+        "addy": "TBA",
+        "event": true,
+        "start": ["2023-09-29T20:30-04:00"],
+        "end": ["2023-09-30T01:00-04:00"],
+        "eventName": ['Stop Light Party'],
+        "price": ['5'],
+        "buyLink": ['https://partiful.com/e/1G0DDzeicavy63aHZMeJ'],
+        "description": ['Large outdoor party - color coded wristbands are provided.']
+    }
     // {
     //     "name": "WPB",
     //     "latitude": 26.714334,
