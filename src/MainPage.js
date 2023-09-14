@@ -1044,7 +1044,7 @@ function MainPage(props) {
                         </a>
     
 
-                        <button
+                        {/* <button
                           className={`going ${goingOn[name]?.[eventName] ? 'on' : 'off'}`}
                           onClick={() => handleGoingClick(name, eventName, goingCount[name]?.[eventName])}
                         >
@@ -1052,7 +1052,7 @@ function MainPage(props) {
                             {goingCount[name]?.[eventName]}
                           </div>
                           <div className='going-container'>going</div>
-                        </button>
+                        </button> */}
 
     
                       </div>

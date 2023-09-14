@@ -2148,7 +2148,7 @@ function LocationPage(props) {
                                     <div className="price-container">{locationObject['price'][imageEventIndex]}</div>
                                   </a>
 
-                                  <button
+                                  {/* <button
                                     className={`going ${goingOn[currentLocation]?.[eventName] ? 'on' : 'off'}`}
                                     onClick={() => handleGoingClick(currentLocation, eventName, goingCount[currentLocation]?.[eventName])}
                                   >
@@ -2156,7 +2156,7 @@ function LocationPage(props) {
                                       {goingCount[currentLocation]?.[eventName]}
                                     </div>
                                     <div className='going-container'>going</div>
-                                  </button>
+                                  </button> */}
                                 </div>
 
                                 <div className='story-desciption'>{locationObject['description'][imageEventIndex]}</div>
