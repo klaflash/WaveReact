@@ -155,30 +155,30 @@ const locations = [
     },
     {
         "name": "Purdue HP",
-        "latitude": 40.434670,
-        "longitude": -86.905564,
+        "latitude": 40.447102,
+        "longitude": -86.918104,
         "addy": "TBA",
         "event": true,
         "start": ["2023-09-29T20:30-04:00"],
-        "end": ["2023-09-30T01:00-04:00"],
+        "end": ["2023-09-30T00:00-04:00"],
         "eventName": ['Stop Light Party'],
         "price": ['5'],
         "buyLink": ['https://partiful.com/e/1G0DDzeicavy63aHZMeJ'],
         "description": ['Large outdoor party - color coded wristbands are provided.']
+    },
+    {
+        "name": "Twammers",
+        "latitude": 40.424086,
+        "longitude": -86.908670,
+        "addy": "308 W State St",
+        "event": false,
+        "start": null,
+        "end": null,
+        "eventName": null,
+        "price": null,
+        "buyLink": null,
+        "description": null
     }
-    // {
-    //     "name": "WPB",
-    //     "latitude": 26.714334,
-    //     "longitude": -80.055297,
-    //     "addy": "Random Name St",
-    //     "event": true,
-    //     "start": ["2023-08-10T22:00-04:00"],
-    //     "end": ["2023-08-11T03:00-04:00"],
-    //     "eventName": ['Surfing By the Sea'],
-    //     "price": ['Free'],
-    //     "buyLink": null,
-    //     "description": null
-    // }
 
 ]
 
