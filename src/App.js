@@ -57,7 +57,7 @@ function App() {
 
   return (
     <Router>
-      {/* {!isPwa && <PopupMessage isPwa={isPwa} />} */}
+      {!isPwa && <PopupMessage isPwa={isPwa} />}
 
       <Routes>
         <Route path="/" element={<MainPage setCurrentLocation={setCurrentLocation} setInRange={setInRange} inRange={inRange} locations={locations}/>} />
